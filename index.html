@@ -2096,4 +2096,185 @@ const backdrop = document.getElementById('backdrop');
 const drawerBody = document.getElementById('drawerBody');
 const toast = document.getElementById('toast');
 
-let cur = 
+let cur = 0;
+const sections = [];
+
+/* Build slides */
+SLIDES.forEach((s, i) => {
+  const sec = document.createElement('section');
+  sec.className = 'slide';
+  sec.dataset.i = i;
+  sec.innerHTML = s.html;
+  stage.appendChild(sec);
+  sections.push(sec);
+});
+
+/* Build drawer */
+let lastMod = null;
+SLIDES.forEach((s, i) => {
+  if (s.mod !== lastMod) {
+    lastMod = s.mod;
+    const g = document.createElement('div');
+    g.className = 'dgroup';
+    g.innerHTML = '<h4>' + s.mod + '</h4>';
+    drawerBody.appendChild(g);
+  }
+  const btn = document.createElement('button');
+  btn.className = 'ditem';
+  btn.dataset.i = i;
+  btn.innerHTML = '<span class="n">' + String(i + 1).padStart(2, '0') + '</span><span>' + s.title + '</span>';
+  drawerBody.lastChild.appendChild(btn);
+});
+
+/* Show slide */
+function show(n) {
+  if (n < 0 || n >= SLIDES.length) return;
+  sections[cur].classList.remove('active');
+  cur = n;
+  sections[cur].classList.add('active');
+  sections[cur].scrollTop = 0;
+
+  bar.style.width = ((cur + 1) / SLIDES.length * 100) + '%';
+  meter.innerHTML = '<b>' + (cur + 1) + '</b> / ' + SLIDES.length + ' &nbsp;·&nbsp; ' + SLIDES[cur].title;
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === SLIDES.length - 1;
+
+  document.querySelectorAll('.ditem').forEach(el => {
+    el.classList.toggle('cur', Number(el.dataset.i) === cur);
+  });
+}
+
+prevBtn.addEventListener('click', () => show(cur - 1));
+nextBtn.addEventListener('click', () => show(cur + 1));
+
+/* Keyboard */
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowRight' || e.key === 'PageDown') { show(cur + 1); e.preventDefault(); }
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') { show(cur - 1); e.preventDefault(); }
+  if (e.key === 'Home') show(0);
+  if (e.key === 'End') show(SLIDES.length - 1);
+  if (e.key === 'Escape') closeDrawer();
+});
+
+/* Touch swipe */
+let tx = 0, ty = 0;
+stage.addEventListener('touchstart', e => {
+  tx = e.changedTouches[0].clientX;
+  ty = e.changedTouches[0].clientY;
+}, { passive: true });
+stage.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  const dy = e.changedTouches[0].clientY - ty;
+  if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.6) {
+    dx < 0 ? show(cur + 1) : show(cur - 1);
+  }
+}, { passive: true });
+
+/* =========================================================
+   DRAWER
+   ========================================================= */
+function openDrawer() { drawer.classList.add('open'); backdrop.classList.add('open'); }
+function closeDrawer() { drawer.classList.remove('open'); backdrop.classList.remove('open'); }
+
+document.getElementById('menuBtn').addEventListener('click', openDrawer);
+document.getElementById('closeDrawer').addEventListener('click', closeDrawer);
+backdrop.addEventListener('click', closeDrawer);
+
+drawerBody.addEventListener('click', e => {
+  const item = e.target.closest('.ditem');
+  if (!item) return;
+  show(Number(item.dataset.i));
+  closeDrawer();
+});
+
+/* Search */
+document.getElementById('searchInput').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase().trim();
+  document.querySelectorAll('.ditem').forEach(el => {
+    const txt = el.textContent.toLowerCase();
+    el.style.display = (!q || txt.includes(q)) ? '' : 'none';
+  });
+  document.querySelectorAll('.dgroup').forEach(g => {
+    const anyVisible = [...g.querySelectorAll('.ditem')].some(el => el.style.display !== 'none');
+    g.style.display = anyVisible ? '' : 'none';
+  });
+});
+
+/* =========================================================
+   THEME
+   ========================================================= */
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.addEventListener('click', () => {
+  const html = document.documentElement;
+  const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  html.dataset.theme = next;
+  themeBtn.innerHTML = (next === 'dark' ? '☀' : '🌙') + ' <span>Theme</span>';
+});
+
+/* =========================================================
+   QUIZ ENGINE
+   ========================================================= */
+const quizScores = {};
+
+stage.addEventListener('click', e => {
+  const opt = e.target.closest('.opt');
+  if (!opt || opt.disabled) return;
+
+  const q = opt.closest('.q');
+  if (!q || q.dataset.done) return;
+  q.dataset.done = '1';
+
+  const correct = q.dataset.a;
+  const chosen = opt.dataset.k;
+  const isRight = chosen === correct;
+
+  q.querySelectorAll('.opt').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.k === correct) b.classList.add('correct');
+  });
+  if (!isRight) opt.classList.add('wrong');
+
+  const ex = q.querySelector('.explain');
+  if (ex) ex.classList.add('show');
+
+  /* Update score for the quiz block */
+  const quiz = q.closest('.quiz');
+  if (quiz) {
+    if (!quiz.dataset.total) {
+      quiz.dataset.total = quiz.querySelectorAll('.q').length;
+      quiz.dataset.right = 0;
+    }
+    if (isRight) quiz.dataset.right = Number(quiz.dataset.right) + 1;
+
+    const total = Number(quiz.dataset.total);
+    const right = Number(quiz.dataset.right);
+    const sc = quiz.querySelector('.qscore b');
+    const sb = quiz.querySelector('.qscore .bar i');
+    if (sc) sc.textContent = 'Score: ' + right + ' / ' + total;
+    if (sb) sb.style.width = (right / total * 100) + '%';
+
+    if (right === total) showToast('🎉 Perfect score! All answers correct.');
+  }
+
+  showToast(isRight ? '✅ Correct!' : '❌ Not quite — see the explanation.');
+});
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+let toastTimer;
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+/* =========================================================
+   INIT
+   ========================================================= */
+show(0);
+</script>
+</body>
+</html>
