@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Microbiology Lab</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --bg: #f4f7f6;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg);
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            padding: 10px;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Bacterial Cell Styling */
+        .svg-container {
+            width: 100%;
+            text-align: center;
+        }
+
+        .interactive-part {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-part:hover {
+            fill-opacity: 0.8;
+            stroke: #e74c3c;
+            stroke-width: 3px;
+        }
+
+        #info-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: #eef2f5;
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+            min-height: 80px;
+        }
+
+        /* Staining Simulator Styling */
+        .stain-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background: var(--accent);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .microscope-view {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 8px solid #333;
+            margin: 10px auto;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .sample {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Shape Explorer */
+        .shape-selector {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+
+        .shape-display {
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .bacterium {
+            background-color: #9b59b6;
+            transition: all 0.3s ease;
+        }
+
+        .coccus { width: 40px; height: 40px; border-radius: 50%; }
+        .bacillus { width: 80px; height: 35px; border-radius: 20px; }
+        .spirillum { width: 90px; height: 15px; border-radius: 10px; transform: rotate(-15deg); }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Interactive Microbiology Basics</h1>
+        <p>Explore bacterial structures, morphology, and staining procedures</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- SECTION 1: Interactive Cell Diagram -->
+        <div class="card">
+            <h2>1. Anatomy of a Bacterium</h2>
+            <p><small>Click on any component to inspect its function.</small></p>
+            
+            <div class="svg-container">
+                <svg viewBox="0 0 500 250" width="100%" height="200">
+                    <!-- Capsule (Outer layer) -->
+                    <rect class="interactive-part" id="capsule" x="50" y="40" width="340" height="140" rx="70" fill="#e84855" />
+                    <!-- Cell Wall (Middle layer) -->
+                    <rect class="interactive-part" id="cellwall" x="65" y="55" width="310" height="110" rx="55" fill="#f9dc5c" />
+                    <!-- Cytoplasm (Inner area) -->
+                    <rect class="interactive-part" id="cytoplasm" x="80" y="70" width="280" height="80" rx="40" fill="#3185fc" />
+                    <!-- Nucleoid (DNA) -->
+                    <path class="interactive-part" id="nucleoid" d="M 120 110 Q 150 80, 180 110 T 240 110 T 300 110" fill="none" stroke="#403d39" stroke-width="6"/>
+                    <!-- Flagellum -->
+                    <path class="interactive-part" id="flagellum" d="M 390 110 Q 430 80, 450 110 T 490 110" fill="none" stroke="#e84855" stroke-width="4"/>
+                    <!-- Ribosomes -->
+                    <circle class="interactive-part" id="ribosomes" cx="110" cy="90" r="4" fill="#ffffff"/>
+                    <circle class="interactive-part" id="ribosomes" cx="140" cy="130" r="4" fill="#ffffff"/>
+                    <circle class="interactive-part" id="ribosomes" cx="320" cy="95" r="4" fill="#ffffff"/>
+                </svg>
+            </div>
+
+            <div id="info-box">
+                <strong id="info-title">Select a component</strong>
+                <p id="info-desc">Click on parts of the cell diagram above to read detailed descriptions of their biological functions.</p>
+            </div>
+        </div>
+
+        <!-- SECTION 2: Bacterial Shapes Explorer -->
+        <div class="card">
+            <h2>2. Bacterial Shapes (Morphology)</h2>
+            <p>Bacteria primarily come in three distinct shapes:</p>
+            
+            <div class="shape-selector">
+                <button onclick="showShape('coccus', 'Cocci (Singular: Coccus)', 'Spherical or round-shaped bacteria (e.g., Staphylococcus, Streptococcus).')">Coccus</button>
+                <button onclick="showShape('bacillus', 'Bacilli (Singular: Bacillus)', 'Rod-shaped bacteria (e.g., Escherichia coli, Bacillus anthracis).')">Bacillus</button>
+                <button onclick="showShape('spirillum', 'Spirilla (Singular: Spirillum)', 'Spiral or wavy-shaped bacteria (e.g., Spirillum volutans, Treponema pallidum).')">Spirillum</button>
+            </div>
+
+            <div class="shape-display">
+                <div id="bacterium-shape" class="bacterium coccus"></div>
+            </div>
+
+            <div id="shape-info" style="text-align: center; margin-top: 15px;">
+                <h4 id="shape-title">Cocci (Singular: Coccus)</h4>
+                <p id="shape-desc">Spherical or round-shaped bacteria (e.g., Staphylococcus, Streptococcus).</p>
+            </div>
+        </div>
+
+        <!-- SECTION 3: Gram Staining Simulation -->
+        <div class="card" style="grid-column: 1 / -1;">
+            <h2>3. Gram Stain Simulator</h2>
+            <p>Gram staining differentiates bacteria into two broad groups based on their cell wall structure.</p>
+
+            <div class="stain-controls">
+                <button id="btn-step1" onclick="applyStain(1)">1. Crystal Violet</button>
+                <button id="btn-step2" onclick="applyStain(2)" disabled>2. Iodine (Mordant)</button>
+                <button id="btn-step3" onclick="applyStain(3)" disabled>3. Alcohol (Decolorizer)</button>
+                <button id="btn-step4" onclick="applyStain(4)" disabled>4. Safranin (Counterstain)</button>
+                <button onclick="resetStain()" style="background: #e74c3c; margin-left: auto;">Reset</button>
+            </div>
+
+            <div class="microscope-view">
+                <div id="gram-pos" class="sample" style="background-color: #ddd; color: #333;">Gram +</div>
+                <div id="gram-neg" class="sample" style="background-color: #ddd; color: #333;">Gram -</div>
+            </div>
+
+            <div id="stain-status" style="text-align: center; font-weight: bold; margin-top: 10px;">
+                Step 0: Initial state (Unstained / Clear)
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. Cell Diagram Logic ---
+        const cellData = {
+            capsule: {
+                title: "Capsule",
+                desc: "An outer sticky layer that protects the bacterium from desiccation (drying out) and host immune system attacks."
+            },
+            cellwall: {
+                title: "Cell Wall",
+                desc: "A rigid structure made of peptidoglycan that provides shape, structural support, and protection from osmotic pressure."
+            },
+            cytoplasm: {
+                title: "Cytoplasm",
+                desc: "A gel-like fluid inside the cell membrane where cellular processes and metabolic reactions take place."
+            },
+            nucleoid: {
+                title: "Nucleoid (DNA)",
+                desc: "An irregularly-shaped region within the cell that contains all or most of the genetic material (bacterial chromosome)."
+            },
+            flagellum: {
+                title: "Flagellum",
+                desc: "A whip-like appendage that enables motility (movement) through liquid environments via rotation."
+            },
+            ribosomes: {
+                title: "Ribosomes",
+                desc: "Microscopic molecular machines responsible for protein synthesis (translating mRNA into proteins)."
+            }
+        };
+
+        document.querySelectorAll('.interactive-part').forEach(part => {
+            part.addEventListener('click', (e) => {
+                const id = e.target.id;
+                if (cellData[id]) {
+                    document.getElementById('info-title').innerText = cellData[id].title;
+                    document.getElementById('info-desc').innerText = cellData[id].desc;
+                }
+            });
+        });
+
+        // --- 2. Morphology Logic ---
+        function showShape(shapeClass, title, desc) {
+            const el = document.getElementById('bacterium-shape');
+            el.className = 'bacterium ' + shapeClass;
+            document.getElementById('shape-title').innerText = title;
+            document.getElementById('shape-desc').innerText = desc;
+        }
+
+        // --- 3. Gram Stain Logic ---
+        let stainStep = 0;
+        const posSample = document.getElementById('gram-pos');
+        const negSample = document.getElementById('gram-neg');
+        const statusText = document.getElementById('stain-status');
+
+        function applyStain(step) {
+            stainStep = step;
+            
+            // Disable/Enable appropriate step buttons
+            for(let i=1; i<=4; i++) {
+                document.getElementById(`btn-step${i}`).disabled = (i !== step + 1);
+            }
+
+            if(step === 1) {
+                posSample.style.backgroundColor = "#6a0dad"; // Purple
+                negSample.style.backgroundColor = "#6a0dad"; // Purple
+                statusText.innerText = "Step 1: Crystal Violet applied. Both bacteria stain purple.";
+            } else if(step === 2) {
+                posSample.style.backgroundColor = "#4b0082"; // Darker Purple/Indigo
+                negSample.style.backgroundColor = "#4b0082";
+                statusText.innerText = "Step 2: Iodine added. Forms CV-I complex inside cells (remains purple).";
+            } else if(step === 3) {
+                posSample.style.backgroundColor = "#4b0082"; // Stays Purple
+                negSample.style.backgroundColor = "#e0e0e0"; // Decolorized / Clear
+                negSample.style.color = "#333";
+                statusText.innerText = "Step 3: Alcohol wash. Gram-negative loses outer membrane & purple dye (becomes colorless). Thick cell wall of Gram-positive retains purple.";
+            } else if(step === 4) {
+                posSample.style.backgroundColor = "#4b0082"; // Stays Purple
+                negSample.style.backgroundColor = "#e74c3c"; // Pink/Red
+                negSample.style.color = "#fff";
+                statusText.innerText = "Step 4: Safranin counterstain applied. Gram-positive remains Purple; Gram-negative turns Pink/Red.";
+            }
+        }
+
+        function resetStain() {
+            stainStep = 0;
+            posSample.style.backgroundColor = "#ddd";
+            negSample.style.backgroundColor = "#ddd";
+            posSample.style.color = "#333";
+            negSample.style.color = "#333";
+            statusText.innerText = "Step 0: Initial state (Unstained / Clear)";
+            
+            document.getElementById('btn-step1').disabled = false;
+            document.getElementById('btn-step2').disabled = true;
+            document.getElementById('btn-step3').disabled = true;
+            document.getElementById('btn-step4').disabled = true;
+        }
+    </script>
+
+</body>
+</html>
