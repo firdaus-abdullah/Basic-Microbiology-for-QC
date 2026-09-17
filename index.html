@@ -3,330 +3,226 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pharmaceutical Microbiology — Interactive Training Deck</title>
+<title>Basic Microbiology — QC Yearly Training Plan 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 <style>
-/* ============ THEME TOKENS ============ */
 :root{
-  --bg:#eef2f6;
-  --surface:#ffffff;
-  --surface-2:#f6f9fb;
-  --ink:#0e2233;
-  --ink-2:#41607a;
-  --ink-3:#7593aa;
-  --line:#d8e3ec;
-  --brand:#0d6e6e;
-  --brand-2:#0f8b8b;
-  --brand-soft:#e2f4f3;
-  --accent:#c2410c;
-  --accent-soft:#fdece3;
-  --ok:#15803d;
-  --ok-soft:#e6f6ec;
-  --bad:#b91c1c;
-  --bad-soft:#fdeaea;
-  --warn:#a16207;
-  --warn-soft:#fdf4e3;
-  --shadow:0 10px 30px rgba(13,50,80,.10);
-  --radius:16px;
+  --bg:#eef2f6;--surface:#ffffff;--surface-2:#f6f9fb;--ink:#0e2233;--ink-2:#41607a;
+  --ink-3:#7593aa;--line:#d8e3ec;--brand:#0d6e6e;--brand-2:#0f8b8b;--brand-soft:#e2f4f3;
+  --accent:#c2410c;--accent-soft:#fdece3;--ok:#15803d;--ok-soft:#e6f6ec;--bad:#b91c1c;
+  --bad-soft:#fdeaea;--warn:#a16207;--warn-soft:#fdf4e3;--violet:#6d28d9;--violet-soft:#f3e8ff;
+  --shadow:0 10px 30px rgba(13,50,80,.10);--radius:16px;
 }
 html[data-theme="dark"]{
-  --bg:#070d14;
-  --surface:#0f1a26;
-  --surface-2:#132230;
-  --ink:#e8f1f8;
-  --ink-2:#9fb6c9;
-  --ink-3:#6b869c;
-  --line:#20364a;
-  --brand:#2dd4bf;
-  --brand-2:#5eead4;
-  --brand-soft:#10302e;
-  --accent:#fb923c;
-  --accent-soft:#2e1c0e;
-  --ok:#4ade80;
-  --ok-soft:#0e2a19;
-  --bad:#f87171;
-  --bad-soft:#2c1212;
-  --warn:#fbbf24;
-  --warn-soft:#2b2109;
+  --bg:#070d14;--surface:#0f1a26;--surface-2:#132230;--ink:#e8f1f8;--ink-2:#9fb6c9;
+  --ink-3:#6b869c;--line:#20364a;--brand:#2dd4bf;--brand-2:#5eead4;--brand-soft:#10302e;
+  --accent:#fb923c;--accent-soft:#2e1c0e;--ok:#4ade80;--ok-soft:#0e2a19;--bad:#f87171;
+  --bad-soft:#2c1212;--warn:#fbbf24;--warn-soft:#2b2109;--violet:#a78bfa;--violet-soft:#231435;
   --shadow:0 10px 30px rgba(0,0,0,.5);
 }
-
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{
-  font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
-  background:var(--bg);color:var(--ink);
-  -webkit-font-smoothing:antialiased;
-  overflow:hidden;
-}
-
-/* ============ LAYOUT ============ */
+body{font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow:hidden;cursor:pointer}
 .app{display:flex;flex-direction:column;height:100vh;height:100dvh}
 
-.topbar{
-  display:flex;align-items:center;gap:14px;
-  padding:10px 18px;background:var(--surface);
-  border-bottom:1px solid var(--line);z-index:40;
-}
+.topbar{display:flex;align-items:center;gap:14px;padding:10px 18px;background:var(--surface);
+  border-bottom:1px solid var(--line);z-index:40;cursor:default}
 .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;letter-spacing:.2px}
-.logo{
-  width:30px;height:30px;border-radius:9px;flex:0 0 auto;
+.logo{width:30px;height:30px;border-radius:9px;flex:0 0 auto;
   background:linear-gradient(135deg,var(--brand),var(--brand-2));
-  display:grid;place-items:center;color:#fff;font-size:15px;
-}
+  display:grid;place-items:center;color:#fff;font-size:15px}
 .brand small{display:block;font-weight:500;font-size:10.5px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase}
 .spacer{flex:1}
 .tools{display:flex;gap:8px;align-items:center}
-.tbtn{
-  border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);
+.tbtn{border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);
   padding:7px 12px;border-radius:10px;font-size:12.5px;font-weight:600;
-  cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:6px;
-}
+  cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:6px;font-family:inherit}
 .tbtn:hover{background:var(--brand-soft);color:var(--brand);border-color:var(--brand)}
-
-.progress{height:3px;background:var(--line);position:relative;z-index:39}
+.tbtn.dl{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border:none}
+.tbtn.dl:hover{filter:brightness(1.1)}
+.progress{height:3px;background:var(--line);position:relative;z-index:39;cursor:default}
 .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand-2));transition:width .35s ease}
-
 .stage{flex:1;position:relative;overflow:hidden}
 
-/* ============ SLIDES ============ */
-.slide{
-  position:absolute;inset:0;
-  padding:34px 46px 26px;
-  overflow-y:auto;overflow-x:hidden;
+.slide{position:absolute;inset:0;padding:34px 46px 26px;overflow-y:auto;overflow-x:hidden;
   opacity:0;visibility:hidden;transform:translateY(14px);
-  transition:opacity .32s ease, transform .32s ease, visibility .32s;
-}
+  transition:opacity .32s ease,transform .32s ease,visibility .32s;cursor:pointer}
 .slide.active{opacity:1;visibility:visible;transform:none}
 .slide::-webkit-scrollbar{width:9px}
 .slide::-webkit-scrollbar-thumb{background:var(--line);border-radius:9px}
 
-.kicker{
-  display:inline-flex;align-items:center;gap:7px;
-  font-size:11px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;
-  color:var(--brand);background:var(--brand-soft);
-  padding:5px 11px;border-radius:999px;margin-bottom:12px;
-}
+.kicker{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;
+  letter-spacing:1.3px;text-transform:uppercase;color:var(--brand);background:var(--brand-soft);
+  padding:5px 11px;border-radius:999px;margin-bottom:12px}
+.kicker.v{color:var(--violet);background:var(--violet-soft)}
 h1{font-size:clamp(26px,4vw,44px);line-height:1.12;letter-spacing:-.8px;margin-bottom:12px}
 h2{font-size:clamp(21px,2.6vw,31px);line-height:1.2;letter-spacing:-.5px;margin-bottom:16px}
 h3{font-size:15.5px;margin-bottom:9px;letter-spacing:-.1px}
 .sub{color:var(--ink-2);font-size:15px;line-height:1.6;max-width:900px}
 .rule{height:4px;width:74px;border-radius:4px;background:linear-gradient(90deg,var(--brand),var(--brand-2));margin:0 0 20px}
 
-/* ============ COMPONENTS ============ */
 .grid{display:grid;gap:14px}
 .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
 .g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
 .g4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
-
-.card{
-  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-  padding:16px 18px;box-shadow:var(--shadow);
-}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 18px;box-shadow:var(--shadow)}
 .card.tint{background:var(--surface-2);box-shadow:none}
 .card h3{display:flex;align-items:center;gap:8px}
-.card h3 .ic{
-  width:24px;height:24px;border-radius:7px;display:grid;place-items:center;
-  background:var(--brand-soft);color:var(--brand);font-size:13px;flex:0 0 auto;
-}
-.card p, .card li{font-size:13.6px;line-height:1.62;color:var(--ink-2)}
+.card h3 .ic{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;
+  background:var(--brand-soft);color:var(--brand);font-size:13px;flex:0 0 auto}
+.card p,.card li{font-size:13.6px;line-height:1.62;color:var(--ink-2)}
 .card ul{padding-left:17px;margin-top:6px}
 .card li{margin-bottom:5px}
 .card li::marker{color:var(--brand)}
 
-.stat{
-  background:var(--surface);border:1px solid var(--line);border-radius:14px;
-  padding:14px;text-align:center;box-shadow:var(--shadow);
-}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:14px;text-align:center;box-shadow:var(--shadow)}
 .stat b{display:block;font-size:22px;color:var(--brand);letter-spacing:-.5px}
 .stat span{font-size:11.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.7px;font-weight:700}
 
-table.data{
-  width:100%;border-collapse:separate;border-spacing:0;
-  background:var(--surface);border:1px solid var(--line);
-  border-radius:14px;overflow:hidden;font-size:13.3px;box-shadow:var(--shadow);
-}
-table.data th{
-  background:var(--brand);color:#fff;text-align:left;
-  padding:10px 13px;font-size:11.5px;letter-spacing:.7px;text-transform:uppercase;
-}
+table.data{width:100%;border-collapse:separate;border-spacing:0;background:var(--surface);
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:13.3px;
+  box-shadow:var(--shadow)}
+table.data th{background:var(--brand);color:#fff;text-align:left;padding:10px 13px;
+  font-size:11.5px;letter-spacing:.7px;text-transform:uppercase}
 table.data td{padding:9px 13px;border-top:1px solid var(--line);color:var(--ink-2);vertical-align:top}
 table.data tr:nth-child(even) td{background:var(--surface-2)}
 table.data td strong{color:var(--ink)}
 .tblwrap{overflow-x:auto;border-radius:14px}
 
-.pill{
-  display:inline-block;padding:3px 9px;border-radius:999px;
-  font-size:11px;font-weight:800;letter-spacing:.4px;
-  background:var(--brand-soft);color:var(--brand);
-}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:11px;
+  font-weight:800;letter-spacing:.4px;background:var(--brand-soft);color:var(--brand)}
 .pill.a{background:var(--accent-soft);color:var(--accent)}
 .pill.ok{background:var(--ok-soft);color:var(--ok)}
 .pill.w{background:var(--warn-soft);color:var(--warn)}
+.pill.v{background:var(--violet-soft);color:var(--violet)}
 
-.ref{
-  display:inline-block;margin-top:9px;font-size:11.5px;font-weight:700;
-  color:var(--brand);background:var(--brand-soft);
-  padding:4px 10px;border-radius:8px;border:1px dashed var(--brand);
-}
+.ref{display:inline-block;margin-top:9px;font-size:11.5px;font-weight:700;color:var(--brand);
+  background:var(--brand-soft);padding:4px 10px;border-radius:8px;border:1px dashed var(--brand)}
 .refrow{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
-
-.callout{
-  border-left:4px solid var(--brand);background:var(--brand-soft);
+.callout{border-left:4px solid var(--brand);background:var(--brand-soft);
   border-radius:0 12px 12px 0;padding:13px 16px;font-size:13.6px;line-height:1.6;
-  color:var(--ink);margin-top:12px;
-}
+  color:var(--ink);margin-top:12px}
 .callout.warn{border-color:var(--warn);background:var(--warn-soft)}
 .callout.danger{border-color:var(--bad);background:var(--bad-soft)}
 .callout.ok{border-color:var(--ok);background:var(--ok-soft)}
+.callout.violet{border-color:var(--violet);background:var(--violet-soft)}
 .callout b{color:var(--ink)}
 
-/* Video cards */
-.vcard{
-  display:flex;gap:12px;align-items:flex-start;
-  background:var(--surface);border:1px solid var(--line);border-radius:14px;
-  padding:13px 15px;text-decoration:none;color:inherit;
-  transition:.2s;box-shadow:var(--shadow);
-}
+/* Activity slide */
+.activity{background:linear-gradient(135deg,var(--violet-soft),var(--brand-soft));
+  border:2px dashed var(--violet);border-radius:var(--radius);padding:20px 24px;margin-top:14px}
+.activity h3{color:var(--violet);display:flex;align-items:center;gap:9px;font-size:17px;margin-bottom:12px}
+.activity h3 .ic{width:30px;height:30px;border-radius:9px;background:var(--violet);color:#fff;
+  display:grid;place-items:center;font-size:15px}
+.activity .meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.activity .meta span{background:var(--surface);padding:4px 11px;border-radius:999px;
+  font-size:11.5px;font-weight:800;color:var(--violet);border:1px solid var(--violet)}
+.activity ol,.activity ul{padding-left:20px;font-size:13.6px;line-height:1.7;color:var(--ink-2)}
+.activity li{margin-bottom:7px}
+.activity li::marker{color:var(--violet);font-weight:800}
+.activity b{color:var(--ink)}
+
+.vcard{display:flex;gap:12px;align-items:flex-start;background:var(--surface);
+  border:1px solid var(--line);border-radius:14px;padding:13px 15px;text-decoration:none;
+  color:inherit;transition:.2s;box-shadow:var(--shadow)}
 .vcard:hover{transform:translateY(-3px);border-color:var(--brand);box-shadow:0 14px 34px rgba(13,110,110,.20)}
-.vplay{
-  width:38px;height:38px;border-radius:11px;flex:0 0 auto;display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;font-size:14px;
-}
+.vplay{width:38px;height:38px;border-radius:11px;flex:0 0 auto;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;font-size:14px}
 .vcard b{display:block;font-size:13.4px;margin-bottom:3px;line-height:1.35}
 .vcard span{font-size:11.6px;color:var(--ink-3)}
 .vcard .go{margin-left:auto;color:var(--brand);font-weight:800;font-size:16px;align-self:center}
 
-/* Module divider */
-.divider{
-  height:100%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
-  max-width:820px;
-}
-.divider .big{
-  font-size:clamp(70px,14vw,150px);font-weight:900;line-height:.85;
+.divider{height:100%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;max-width:820px}
+.divider .big{font-size:clamp(70px,14vw,150px);font-weight:900;line-height:.85;
   background:linear-gradient(135deg,var(--brand),var(--brand-2));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  letter-spacing:-6px;
-}
+  -webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-6px}
 
-/* ============ QUIZ ============ */
 .quiz{display:flex;flex-direction:column;gap:14px;max-width:960px}
-.q{
-  background:var(--surface);border:1px solid var(--line);border-radius:14px;
-  padding:15px 17px;box-shadow:var(--shadow);
-}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:15px 17px;box-shadow:var(--shadow)}
 .q .qtext{font-size:14.2px;font-weight:700;line-height:1.5;margin-bottom:11px;display:flex;gap:9px}
-.q .qtext .num{
-  flex:0 0 auto;width:23px;height:23px;border-radius:7px;background:var(--brand);
-  color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800;
-}
+.q .qtext .num{flex:0 0 auto;width:23px;height:23px;border-radius:7px;background:var(--brand);
+  color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800}
 .opts{display:grid;gap:7px}
-.opt{
-  display:flex;align-items:center;gap:10px;text-align:left;width:100%;
+.opt{display:flex;align-items:center;gap:10px;text-align:left;width:100%;
   border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);
   padding:9px 12px;border-radius:10px;font-size:13.4px;cursor:pointer;
-  font-family:inherit;transition:.16s;line-height:1.4;
-}
+  font-family:inherit;transition:.16s;line-height:1.4}
 .opt:hover:not(:disabled){border-color:var(--brand);background:var(--brand-soft);color:var(--ink)}
-.opt .k{
-  flex:0 0 auto;width:22px;height:22px;border-radius:6px;display:grid;place-items:center;
-  background:var(--surface);border:1px solid var(--line);font-size:11.5px;font-weight:800;color:var(--ink-3);
-}
+.opt .k{flex:0 0 auto;width:22px;height:22px;border-radius:6px;display:grid;place-items:center;
+  background:var(--surface);border:1px solid var(--line);font-size:11.5px;font-weight:800;color:var(--ink-3)}
 .opt:disabled{cursor:default}
 .opt.correct{background:var(--ok-soft);border-color:var(--ok);color:var(--ok);font-weight:700}
 .opt.correct .k{background:var(--ok);color:#fff;border-color:var(--ok)}
 .opt.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad);font-weight:700}
 .opt.wrong .k{background:var(--bad);color:#fff;border-color:var(--bad)}
-.explain{
-  display:none;margin-top:10px;padding:10px 13px;border-radius:10px;
+.explain{display:none;margin-top:10px;padding:10px 13px;border-radius:10px;
   background:var(--brand-soft);border-left:3px solid var(--brand);
-  font-size:12.8px;line-height:1.6;color:var(--ink-2);
-}
+  font-size:12.8px;line-height:1.6;color:var(--ink-2)}
 .explain.show{display:block;animation:fade .3s}
 .explain b{color:var(--brand)}
 @keyframes fade{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
-
-.qscore{
-  display:flex;align-items:center;gap:12px;background:var(--surface);
-  border:1px solid var(--line);border-radius:14px;padding:13px 17px;box-shadow:var(--shadow);
-}
+.qscore{display:flex;align-items:center;gap:12px;background:var(--surface);
+  border:1px solid var(--line);border-radius:14px;padding:13px 17px;box-shadow:var(--shadow)}
 .qscore .bar{flex:1;height:9px;background:var(--line);border-radius:9px;overflow:hidden}
 .qscore .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand-2));transition:width .4s}
 .qscore b{font-size:14px;color:var(--brand)}
 
-/* ============ FOOTER NAV ============ */
-.nav{
-  display:flex;align-items:center;gap:12px;padding:9px 18px;
-  background:var(--surface);border-top:1px solid var(--line);z-index:40;
-}
-.nbtn{
-  border:1px solid var(--line);background:var(--surface-2);color:var(--ink);
+.nav{display:flex;align-items:center;gap:12px;padding:9px 18px;background:var(--surface);
+  border-top:1px solid var(--line);z-index:40;cursor:default}
+.nbtn{border:1px solid var(--line);background:var(--surface-2);color:var(--ink);
   padding:8px 16px;border-radius:11px;font-size:13px;font-weight:700;
-  cursor:pointer;transition:.18s;font-family:inherit;
-}
+  cursor:pointer;transition:.18s;font-family:inherit}
 .nbtn:hover:not(:disabled){background:var(--brand);color:#fff;border-color:var(--brand)}
 .nbtn:disabled{opacity:.35;cursor:not-allowed}
-.meter{
-  flex:1;text-align:center;font-size:12.4px;color:var(--ink-3);font-weight:700;
-  letter-spacing:.4px;
-}
+.meter{flex:1;text-align:center;font-size:12.4px;color:var(--ink-3);font-weight:700;letter-spacing:.4px}
 .meter b{color:var(--brand)}
+.hint{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-weight:600;font-style:italic}
 
-/* ============ DRAWER ============ */
-.backdrop{
-  position:fixed;inset:0;background:rgba(4,15,25,.55);backdrop-filter:blur(3px);
-  opacity:0;visibility:hidden;transition:.28s;z-index:60;
-}
+.backdrop{position:fixed;inset:0;background:rgba(4,15,25,.55);backdrop-filter:blur(3px);
+  opacity:0;visibility:hidden;transition:.28s;z-index:60;cursor:default}
 .backdrop.open{opacity:1;visibility:visible}
-.drawer{
-  position:fixed;top:0;right:0;height:100%;width:400px;max-width:90vw;
+.drawer{position:fixed;top:0;right:0;height:100%;width:400px;max-width:90vw;
   background:var(--surface);border-left:1px solid var(--line);
   transform:translateX(102%);transition:transform .32s cubic-bezier(.4,0,.2,1);
-  z-index:61;display:flex;flex-direction:column;
-}
+  z-index:61;display:flex;flex-direction:column;cursor:default}
 .drawer.open{transform:none}
 .dhead{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
 .dhead h3{font-size:15px;margin:0}
 .dbody{flex:1;overflow-y:auto;padding:12px 14px 26px}
 .dgroup{margin-bottom:16px}
-.dgroup > h4{
-  font-size:10.6px;letter-spacing:1.1px;text-transform:uppercase;
-  color:var(--ink-3);margin-bottom:7px;padding-left:4px;font-weight:800;
-}
-.ditem{
-  display:flex;gap:9px;align-items:center;width:100%;text-align:left;
-  border:none;background:transparent;color:var(--ink-2);
-  padding:8px 10px;border-radius:9px;font-size:13px;cursor:pointer;
-  font-family:inherit;transition:.15s;line-height:1.35;
-}
+.dgroup > h4{font-size:10.6px;letter-spacing:1.1px;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:7px;padding-left:4px;font-weight:800}
+.ditem{display:flex;gap:9px;align-items:center;width:100%;text-align:left;border:none;
+  background:transparent;color:var(--ink-2);padding:8px 10px;border-radius:9px;
+  font-size:13px;cursor:pointer;font-family:inherit;transition:.15s;line-height:1.35}
 .ditem:hover{background:var(--surface-2);color:var(--ink)}
 .ditem.cur{background:var(--brand-soft);color:var(--brand);font-weight:800}
-.ditem .n{
-  flex:0 0 auto;font-size:10.5px;font-weight:800;color:var(--ink-3);
-  min-width:22px;
-}
+.ditem .n{flex:0 0 auto;font-size:10.5px;font-weight:800;color:var(--ink-3);min-width:22px}
 .ditem.cur .n{color:var(--brand)}
-
-/* Search */
-.searchbox{
-  display:flex;align-items:center;gap:8px;margin:0 14px 12px;
-  border:1px solid var(--line);background:var(--surface-2);
-  border-radius:11px;padding:8px 12px;
-}
-.searchbox input{
-  border:none;background:transparent;outline:none;flex:1;
-  font-size:13px;color:var(--ink);font-family:inherit;
-}
-
-/* Toast */
-.toast{
-  position:fixed;left:50%;bottom:74px;transform:translate(-50%,20px);
+.searchbox{display:flex;align-items:center;gap:8px;margin:0 14px 12px;
+  border:1px solid var(--line);background:var(--surface-2);border-radius:11px;padding:8px 12px}
+.searchbox input{border:none;background:transparent;outline:none;flex:1;
+  font-size:13px;color:var(--ink);font-family:inherit;cursor:text}
+.toast{position:fixed;left:50%;bottom:74px;transform:translate(-50%,20px);
   background:var(--ink);color:var(--surface);padding:10px 20px;border-radius:11px;
   font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:.3s;z-index:70;
-  box-shadow:0 12px 30px rgba(0,0,0,.3);
-}
+  box-shadow:0 12px 30px rgba(0,0,0,.3)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
+.dlbar{position:fixed;inset:0;background:rgba(4,15,25,.75);backdrop-filter:blur(4px);
+  display:none;place-items:center;z-index:100;cursor:default}
+.dlbar.show{display:grid}
+.dlbox{background:var(--surface);border-radius:20px;padding:30px 40px;text-align:center;
+  box-shadow:0 30px 60px rgba(0,0,0,.4);max-width:420px}
+.dlbox .spin{width:44px;height:44px;border:4px solid var(--line);border-top-color:var(--brand);
+  border-radius:50%;margin:0 auto 16px;animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.dlbox h3{font-size:16px;margin-bottom:6px}
+.dlbox p{font-size:13px;color:var(--ink-3)}
 
-/* Responsive */
 @media(max-width:760px){
   .slide{padding:22px 18px 18px}
   .brand small{display:none}
@@ -334,45 +230,39 @@ table.data td strong{color:var(--ink)}
   .tbtn{padding:8px 10px}
   .nav{padding:8px 12px}
   .nbtn{padding:8px 12px;font-size:12px}
-}
-@media print{
-  body{overflow:visible}
-  .topbar,.nav,.progress,.drawer,.backdrop{display:none}
-  .slide{position:static;opacity:1;visibility:visible;transform:none;page-break-after:always}
+  .hint{display:none}
 }
 </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- TOP BAR -->
   <header class="topbar">
     <div class="brand">
       <div class="logo">🧫</div>
-      <div>Pharmaceutical Microbiology
-        <small>Interactive Training Deck</small>
+      <div>Basic Microbiology
+        <small>QC Yearly Training Plan 2026</small>
       </div>
     </div>
     <div class="spacer"></div>
     <div class="tools">
+      <button class="tbtn dl" id="dlBtn">⬇ <span>PowerPoint</span></button>
       <button class="tbtn" id="menuBtn">☰ <span>Overview</span></button>
       <button class="tbtn" id="themeBtn">🌙 <span>Theme</span></button>
     </div>
   </header>
   <div class="progress"><i id="bar"></i></div>
 
-  <!-- SLIDES -->
   <main class="stage" id="stage"></main>
 
-  <!-- FOOTER -->
   <footer class="nav">
     <button class="nbtn" id="prevBtn">← Prev</button>
     <div class="meter" id="meter"></div>
     <button class="nbtn" id="nextBtn">Next →</button>
+    <span class="hint">💡 Click anywhere to advance</span>
   </footer>
 </div>
 
-<!-- DRAWER -->
 <div class="backdrop" id="backdrop"></div>
 <aside class="drawer" id="drawer">
   <div class="dhead">
@@ -389,6 +279,14 @@ table.data td strong{color:var(--ink)}
 
 <div class="toast" id="toast"></div>
 
+<div class="dlbar" id="dlbar">
+  <div class="dlbox">
+    <div class="spin"></div>
+    <h3>Generating PowerPoint…</h3>
+    <p>Please wait while the presentation is being prepared.</p>
+  </div>
+</div>
+
 <script>
 /* =========================================================
    SLIDE DATA
@@ -400,12 +298,12 @@ const SLIDES = [
 mod:"Start", title:"Title",
 html:`
 <div class="divider">
-  <span class="kicker">🧫 Training Programme</span>
-  <h1>Pharmaceutical<br>Microbiology</h1>
+  <span class="kicker">🧫 QC Yearly Training Plan 2026</span>
+  <h1>Basic Microbiology</h1>
   <div class="rule"></div>
-  <p class="sub">Principles, Practices and Regulatory Compliance — a complete interactive
-  training module covering contamination control, aseptic technique, growth media,
-  environmental monitoring, QC testing and documentation.</p>
+  <p class="sub" style="font-size:16px;color:var(--ink);font-weight:600;margin-top:4px">
+    Prepared by <span style="color:var(--brand)">Muhammad Firdaus Abdullah</span>
+  </p>
   <div class="refrow" style="margin-top:18px">
     <span class="pill">USP &lt;51&gt;</span>
     <span class="pill">USP &lt;61&gt;</span>
@@ -417,9 +315,9 @@ html:`
     <span class="pill a">EMA Guidelines</span>
   </div>
   <div class="callout" style="margin-top:22px;max-width:760px">
-    <b>How to use this deck:</b> Use <b>← / →</b> arrow keys, the navigation buttons,
-    or swipe on touch devices. Open <b>☰ Overview</b> to jump to any slide.
-    Each module ends with an interactive knowledge check.
+    <b>How to use this deck:</b> <b>Click anywhere</b> to advance to the next slide.
+    Use <b>← / →</b> arrow keys or the navigation buttons. Open <b>☰ Overview</b> to jump
+    to any slide. Each module includes a <b>group activity</b> and an interactive quiz.
   </div>
 </div>`
 },
@@ -439,7 +337,7 @@ html:`
   <div class="card"><h3><span class="ic">5</span> Common QC Tests</h3><p>Bioburden, specified organisms, sterility testing, bacterial endotoxin test.</p></div>
   <div class="card"><h3><span class="ic">6</span> Documentation</h3><p>TNTC handling, rounding rules, trending and CAPA.</p></div>
   <div class="card"><h3><span class="ic">7</span> Summary</h3><p>Patient safety first, the analyst is the variable, media is the foundation.</p></div>
-  <div class="card tint"><h3><span class="ic">⏱</span> Duration</h3><p>Approx. 90 minutes including break and knowledge checks.</p></div>
+  <div class="card tint"><h3><span class="ic">⏱</span> Duration</h3><p>Approx. 90 minutes including group activities and knowledge checks.</p></div>
 </div>`
 },
 
@@ -467,7 +365,7 @@ html:`
 <div class="divider">
   <div class="big">01</div>
   <span class="kicker" style="margin-top:14px">Module One</span>
-  <h2>Introduction to Pharmaceutical Microbiology</h2>
+  <h2>Introduction to Microbiology</h2>
   <div class="rule"></div>
   <p class="sub">Contamination is multi-faceted — pyrogens, viable microorganisms, particulates,
   chemicals and cross-contamination. A robust Contamination Control Strategy (CCS) addresses them all.</p>
@@ -550,151 +448,63 @@ html:`
 },
 
 {
-mod:"Module 1 · Introduction", title:"Opportunistic Pathogens",
+mod:"Module 1 · Introduction", title:"Other Contamination Types",
 html:`
-<span class="kicker">1.3 · Emerging Risk</span>
-<h2>Opportunistic &amp; Multi-Drug Resistant Microbes</h2>
+<span class="kicker">1.3 · Beyond Pyrogens</span>
+<h2>Other Contamination Types</h2>
 <div class="rule"></div>
 <div class="grid g2">
   <div class="card">
-    <h3><span class="ic">🧬</span> EMA Position</h3>
+    <h3><span class="ic">🧬</span> Opportunistic &amp; MDR Microbes</h3>
     <ul>
-      <li>The <b>EMA</b> has emphasised that <b>opportunistic microbes</b> in the final formulation or <b>multi-antibiotic-resistant microbes</b> can pose a hazard for the product or the patient.</li>
-      <li>This applies to <b>both sterile and non-sterile</b> medicinal products.</li>
-      <li>Microbial contamination may pose a risk to <b>product quality</b> and <b>patient safety</b> even in non-sterile products.</li>
+      <li><b>EMA</b> emphasises that opportunistic microbes and multi-antibiotic-resistant microbes in the final formulation can pose a hazard for the product or patient.</li>
+      <li>Applies to <b>both sterile and non-sterile</b> medicinal products.</li>
+      <li>Requires facility design, validated cleaning, supplier evaluation and microbiological controls.</li>
     </ul>
     <span class="ref">EMA Guidance</span>
   </div>
   <div class="card">
-    <h3><span class="ic">🛡</span> Regulatory Response</h3>
+    <h3><span class="ic">🔬</span> Particulate Contamination</h3>
     <ul>
-      <li>Facility design and segregation</li>
-      <li>Validated cleaning and disinfection</li>
-      <li>Supplier evaluation and qualification</li>
-      <li>Microbiological controls and monitoring</li>
-      <li>Risk assessment of raw materials</li>
-    </ul>
-    <div class="callout ok" style="margin-top:12px">
-      All of the above form part of the <b>Contamination Control Strategy</b> under EU GMP Annex 1.
-    </div>
-  </div>
-</div>`
-},
-
-{
-mod:"Module 1 · Introduction", title:"Particulate Contamination",
-html:`
-<span class="kicker">1.4 · Non-Viable Risk</span>
-<h2>Particulate Contamination</h2>
-<div class="rule"></div>
-<div class="grid g2">
-  <div class="card">
-    <h3><span class="ic">🔬</span> What Are Particulates?</h3>
-    <p><b>Visible or subvisible particles</b> that may end up in the product, including:</p>
-    <ul>
-      <li>Fibres</li>
-      <li>Dust</li>
-      <li>Fragments from packaging</li>
-      <li>Fragments from people (skin, hair)</li>
-      <li>Fragments from equipment (glass, metal, rubber)</li>
+      <li>Visible or subvisible particles — fibres, dust, fragments from packaging, people or equipment.</li>
+      <li>In sterile injectables: can cause <b>embolism, inflammation or allergic reactions</b>.</li>
+      <li>Consequences: end-of-line rejection, market recall, supply chain disruption, brand trust erosion.</li>
     </ul>
     <span class="ref">EU GMP Annex 1</span>
   </div>
   <div class="card">
-    <h3><span class="ic">💉</span> Risks in Sterile Injectables</h3>
-    <ul>
-      <li><b>Embolism</b> — blockage of blood vessels</li>
-      <li><b>Inflammation</b> at injection site</li>
-      <li><b>Allergic reactions</b></li>
-    </ul>
-    <h3 style="margin-top:14px"><span class="ic">📉</span> Consequences</h3>
-    <ul>
-      <li>End-of-line quality rejection</li>
-      <li>Market recall</li>
-      <li>Supply chain disruption</li>
-      <li>Erosion of brand trust</li>
-    </ul>
-  </div>
-</div>`
-},
-
-{
-mod:"Module 1 · Introduction", title:"Chemical & Cross-Contamination",
-html:`
-<span class="kicker">1.5 · Non-Viable Risk</span>
-<h2>Chemical &amp; Cross-Contamination</h2>
-<div class="rule"></div>
-<div class="grid g2">
-  <div class="card">
     <h3><span class="ic">⚗</span> Chemical Contamination</h3>
     <ul>
-      <li>Residual solvents</li>
-      <li>Cleaning agents</li>
-      <li>Lubricants</li>
-      <li>Leachables from manufacturing equipment</li>
+      <li>Residual solvents, cleaning agents, lubricants, leachables from equipment.</li>
+      <li>Can alter <b>safety, efficacy or stability</b> of the drug product.</li>
+      <li>Unknown or unqualified impurities may trigger serious adverse events and regulatory scrutiny.</li>
     </ul>
-    <div class="callout danger" style="margin-top:12px">
-      <b>Impact:</b> can alter the <b>safety, efficacy or stability</b> of the drug product.
-      Unknown or unqualified impurities can trigger serious adverse events and regulatory scrutiny.
-    </div>
   </div>
   <div class="card">
     <h3><span class="ic">🔀</span> Cross-Contamination</h3>
     <ul>
-      <li>Occurs when traces of one product are unintentionally transferred to another</li>
-      <li>Often caused by <b>shared equipment</b> or <b>inadequate segregation</b></li>
-      <li>Especially dangerous with <b>highly potent or allergenic compounds</b></li>
+      <li>Traces of one product unintentionally transferred to another — often via shared equipment or inadequate segregation.</li>
+      <li>Especially dangerous with <b>highly potent or allergenic compounds</b>.</li>
+      <li>Consequences: GMP violations, regulatory penalties, loss of manufacturing licence.</li>
     </ul>
-    <div class="callout warn" style="margin-top:12px">
-      <b>Consequences:</b> GMP violations, regulatory penalties, loss of manufacturing licence.
-    </div>
-    <span class="ref">EU GMP Annex 1 · EMA Guidelines</span>
   </div>
-</div>`
-},
-
-{
-mod:"Module 1 · Introduction", title:"Mycoplasma",
-html:`
-<span class="kicker">1.6 · Biologics</span>
-<h2>Mycoplasma Contamination</h2>
-<div class="rule"></div>
-<div class="grid g2">
-  <div class="card">
-    <h3><span class="ic">🧪</span> Why It Is Critical</h3>
-    <ul>
-      <li>A <b>critical risk</b> for cell therapies and biologics</li>
-      <li>Mycoplasma lack a cell wall — invisible to Gram staining and resistant to many antibiotics</li>
-      <li>Can alter cell metabolism, growth and product quality without visible turbidity</li>
-    </ul>
-    <span class="ref">USP &lt;63&gt; · USP &lt;1112&gt; · EP 2.6.7</span>
-  </div>
-  <div class="card">
-    <h3><span class="ic">📋</span> Standards Mandating Testing</h3>
-    <div class="tblwrap">
-      <table class="data">
-        <tr><th>Standard</th><th>Scope</th></tr>
-        <tr><td><strong>ISO 10993</strong></td><td>Biological evaluation of medical devices</td></tr>
-        <tr><td><strong>USP &lt;63&gt;</strong></td><td>Mycoplasma tests — detection in test articles, tissues, cell cultures</td></tr>
-        <tr><td><strong>USP &lt;1112&gt;</strong></td><td>Water activity determination for non-sterile products</td></tr>
-        <tr><td><strong>EP 2.6.7</strong></td><td>European Pharmacopoeia mycoplasma test</td></tr>
-        <tr><td><strong>FDA</strong></td><td>Guidance for cell &amp; gene therapy products</td></tr>
-      </table>
-    </div>
-  </div>
+</div>
+<div class="callout danger" style="margin-top:14px">
+  <b>Mycoplasma contamination</b> is a critical risk for cell therapies and biologics — mandated by
+  <b>ISO 10993, USP &lt;63&gt;, USP &lt;1112&gt;, EP 2.6.7</b> and FDA guidance.
 </div>`
 },
 
 {
 mod:"Module 1 · Introduction", title:"Pharmacopoeias",
 html:`
-<span class="kicker">1.7 · Regulatory Framework</span>
+<span class="kicker">1.4 · Regulatory Framework</span>
 <h2>Key Pharmacopoeial References</h2>
 <div class="rule"></div>
 <div class="tblwrap">
   <table class="data">
     <tr><th>Chapter</th><th>Title</th><th>Purpose</th></tr>
-    <tr><td><strong>USP &lt;51&gt;</strong></td><td>Antimicrobial Effectiveness Testing</td><td>Tests for products containing antimicrobial preservatives</td></tr>
+    <tr><td><strong>USP &lt;51&gt;</strong></td><td>Antimicrobial Effectiveness Testing</td><td>Products containing antimicrobial preservatives</td></tr>
     <tr><td><strong>USP &lt;61&gt;</strong></td><td>Microbial Enumeration Tests</td><td>TAMC and TYMC for non-sterile products</td></tr>
     <tr><td><strong>USP &lt;62&gt;</strong></td><td>Tests for Specified Microorganisms</td><td>Detection of objectionable organisms</td></tr>
     <tr><td><strong>USP &lt;71&gt;</strong></td><td>Sterility Tests</td><td>Membrane Filtration and Direct Inoculation</td></tr>
@@ -712,7 +522,7 @@ html:`
 {
 mod:"Module 1 · Introduction", title:"Contamination Types",
 html:`
-<span class="kicker">1.8 · Summary</span>
+<span class="kicker">1.5 · Summary</span>
 <h2>Overview of Contamination Types</h2>
 <div class="rule"></div>
 <div class="tblwrap">
@@ -727,6 +537,35 @@ html:`
     <tr><td><strong>Chemical</strong></td><td>Residual solvents, cleaning agents</td><td>EU GMP Annex 1</td></tr>
     <tr><td><strong>Cross-Contamination</strong></td><td>Product-to-product transfer</td><td>EU GMP Annex 1</td></tr>
   </table>
+</div>`
+},
+
+/* --- MODULE 1 ACTIVITY --- */
+{
+mod:"Module 1 · Introduction", title:"🎯 Group Activity 1",
+html:`
+<span class="kicker v">🎯 Group Activity</span>
+<h2>Contamination Detective</h2>
+<div class="rule"></div>
+<div class="activity">
+  <h3><span class="ic">🎯</span> Activity 1 — Classify the Contamination</h3>
+  <div class="meta">
+    <span>👥 Groups of 3–4</span>
+    <span>⏱ 10 minutes</span>
+    <span>📋 Scenario cards</span>
+    <span>🎤 Group presentation</span>
+  </div>
+  <ol>
+    <li>Your facilitator will give each group <b>5 scenario cards</b> describing real-world contamination events.</li>
+    <li>For each scenario, identify the <b>type of contamination</b> (pyrogen, microbial, particulate, chemical, cross-contamination, mycoplasma).</li>
+    <li>Determine which <b>USP chapter or guideline</b> applies to each scenario.</li>
+    <li>Suggest <b>one corrective action</b> to prevent recurrence.</li>
+    <li><b>Present your findings</b> to the class — 2 minutes per group.</li>
+  </ol>
+</div>
+<div class="grid g2" style="margin-top:16px">
+  <div class="card"><h3><span class="ic">💡</span> Example Scenario</h3><p>"A patient develops a fever 30 minutes after receiving an IV injection. The product passed sterility testing. What type of contamination is most likely, and which test was likely missed?"</p></div>
+  <div class="card"><h3><span class="ic">🏆</span> Scoring</h3><p>Correct classification (3 pts) · Correct reference (2 pts) · Practical CAPA (2 pts) · Presentation clarity (3 pts). Total = 10 points.</p></div>
 </div>`
 },
 
@@ -912,6 +751,35 @@ html:`
 </div>`
 },
 
+/* --- MODULE 2 ACTIVITY --- */
+{
+mod:"Module 2 · Aseptic Technique", title:"🎯 Group Activity 2",
+html:`
+<span class="kicker v">🎯 Group Activity</span>
+<h2>Gowning Sequence Challenge</h2>
+<div class="rule"></div>
+<div class="activity">
+  <h3><span class="ic">🎯</span> Activity 2 — Sequence &amp; Spot the Error</h3>
+  <div class="meta">
+    <span>👥 Groups of 3–4</span>
+    <span>⏱ 10 minutes</span>
+    <span>🃏 Sequence cards</span>
+    <span>🎤 Debrief</span>
+  </div>
+  <ol>
+    <li>Your facilitator will provide <b>shuffled gowning step cards</b> for an aseptic gowning procedure.</li>
+    <li>Arrange the cards in the <b>correct order</b> (donning sequence — top-down approach).</li>
+    <li>Identify <b>3 common gowning errors</b> that could compromise sterility.</li>
+    <li>Explain <b>why each error matters</b> — link to EU GMP Annex 1 requirements.</li>
+    <li>Present your sequence and findings to the class — 2 minutes per group.</li>
+  </ol>
+</div>
+<div class="grid g2" style="margin-top:16px">
+  <div class="card"><h3><span class="ic">💡</span> Hint</h3><p>Remember: gowning is <b>top-down</b>. Hands are the last to be covered. Never touch the outside of sterile garments with bare hands.</p></div>
+  <div class="card"><h3><span class="ic">🏆</span> Scoring</h3><p>Correct sequence (4 pts) · 3 errors identified (3 pts) · Correct references (3 pts). Total = 10 points.</p></div>
+</div>`
+},
+
 /* --- MODULE 2 QUIZ --- */
 {
 mod:"Module 2 · Aseptic Technique", title:"Module 2 Quiz",
@@ -1077,6 +945,38 @@ html:`
     <p>Sterility testing requires incubation at <b>BOTH</b> temperature ranges for 14 days to detect both fungal and bacterial contaminants. A single temperature is insufficient.</p>
     <span class="ref">USP &lt;61&gt; · USP &lt;62&gt; · USP &lt;71&gt;</span>
   </div>
+</div>`
+},
+
+/* --- MODULE 3 ACTIVITY --- */
+{
+mod:"Module 3 · Growth Media", title:"🎯 Group Activity 3",
+html:`
+<span class="kicker v">🎯 Group Activity</span>
+<h2>Media Match &amp; GPT Design</h2>
+<div class="rule"></div>
+<div class="activity">
+  <h3><span class="ic">🎯</span> Activity 3 — Match and Design</h3>
+  <div class="meta">
+    <span>👥 Groups of 3–4</span>
+    <span>⏱ 12 minutes</span>
+    <span>🧫 Media cards</span>
+    <span>🎤 Group presentation</span>
+  </div>
+  <ol>
+    <li>Your facilitator will provide a set of <b>organism cards</b> and <b>media cards</b>.</li>
+    <li><b>Match each organism</b> to the correct selective medium (e.g., <em>E. coli</em> → MacConkey Agar).</li>
+    <li>For one assigned medium, <b>design a Growth Promotion Test protocol</b>:<br>
+      – Which challenge organisms will you use?<br>
+      – What inoculum size?<br>
+      – What incubation temperature and duration?<br>
+      – What acceptance criteria?</li>
+    <li>Present your protocol — 2 minutes per group. Other groups can challenge your rationale.</li>
+  </ol>
+</div>
+<div class="grid g2" style="margin-top:16px">
+  <div class="card"><h3><span class="ic">💡</span> Hint</h3><p>GPT per USP &lt;62&gt; uses <b>≤ 100 CFU</b> inoculum. Growth is compared against a control. Incubate for the <b>shortest</b> time that still shows growth.</p></div>
+  <div class="card"><h3><span class="ic">🏆</span> Scoring</h3><p>Correct matches (4 pts) · Complete GPT protocol (4 pts) · Reference citation (2 pts). Total = 10 points.</p></div>
 </div>`
 },
 
@@ -1302,6 +1202,38 @@ html:`
 <div class="callout ok" style="margin-top:14px">
   <b>EMA guidance:</b> Appropriate environmental monitoring ensures production premises remain
   suitable for manufacturing and that there is <b>no risk of uncontrolled contamination</b>.
+</div>`
+},
+
+/* --- MODULE 4 ACTIVITY --- */
+{
+mod:"Module 4 · Environmental Monitoring", title:"🎯 Group Activity 4",
+html:`
+<span class="kicker v">🎯 Group Activity</span>
+<h2>EM Excursion Investigation Role-Play</h2>
+<div class="rule"></div>
+<div class="activity">
+  <h3><span class="ic">🎯</span> Activity 4 — Be the Investigation Team</h3>
+  <div class="meta">
+    <span>👥 Groups of 3–4</span>
+    <span>⏱ 15 minutes</span>
+    <span>🔍 Scenario brief</span>
+    <span>🎤 Present CAPA</span>
+  </div>
+  <ol>
+    <li>Your facilitator will give a <b>realistic EM excursion scenario</b> — e.g., a settle plate in Grade A showing 5 CFU after a filling intervention.</li>
+    <li>As a team, conduct a <b>structured investigation</b>:<br>
+      – What are the possible root causes?<br>
+      – What additional data would you review?<br>
+      – What immediate actions would you take?</li>
+    <li>Propose a <b>CAPA plan</b> with a timeline and responsible persons.</li>
+    <li>Decide whether the affected batch should be <b>released, quarantined or rejected</b> — justify your decision.</li>
+    <li>Present to the class as if reporting to the QA Head — 3 minutes per group.</li>
+  </ol>
+</div>
+<div class="grid g2" style="margin-top:16px">
+  <div class="card"><h3><span class="ic">💡</span> Consider</h3><p>Personnel behaviour · HVAC status · Recent maintenance · Cleaning logs · Adjacent grade results · Batch history · Operator qualification status.</p></div>
+  <div class="card"><h3><span class="ic">🏆</span> Scoring</h3><p>Thorough investigation (4 pts) · Realistic CAPA (3 pts) · Correct batch decision with justification (3 pts). Total = 10 points.</p></div>
 </div>`
 },
 
@@ -1559,6 +1491,39 @@ html:`
 </div>`
 },
 
+/* --- MODULE 5 ACTIVITY --- */
+{
+mod:"Module 5 · QC Tests", title:"🎯 Group Activity 5",
+html:`
+<span class="kicker v">🎯 Group Activity</span>
+<h2>QC Test Selection &amp; Calculation Clinic</h2>
+<div class="rule"></div>
+<div class="activity">
+  <h3><span class="ic">🎯</span> Activity 5 — Choose the Right Test</h3>
+  <div class="meta">
+    <span>👥 Groups of 3–4</span>
+    <span>⏱ 15 minutes</span>
+    <span>🧪 Product cards</span>
+    <span>🧮 Calculation practice</span>
+  </div>
+  <ol>
+    <li>Your facilitator will give each group <b>4 product cards</b> (e.g., oral tablet, IV injection, ophthalmic drops, cell therapy).</li>
+    <li>For each product, <b>select the required QC tests</b>:
+      <br>– Bioburden (USP &lt;61&gt;)?
+      <br>– Specified organisms (USP &lt;62&gt;)?
+      <br>– Sterility (USP &lt;71&gt;)?
+      <br>– Endotoxin (USP &lt;85&gt;)?
+      <br>– Antimicrobial effectiveness (USP &lt;51&gt;)?</li>
+    <li><b>Calculation drill:</b> 25 colonies recovered from a 50 mL sample — what is the CFU/mL? What if the sample was 10 g of powder?</li>
+    <li>Present your test matrix — 2 minutes per group.</li>
+  </ol>
+</div>
+<div class="grid g2" style="margin-top:16px">
+  <div class="card"><h3><span class="ic">💡</span> Hint</h3><p>Oral solids: TAMC/TYMC + specified organisms. Parenterals: sterility + endotoxin. Preserved multi-dose: add USP &lt;51&gt;. Cell therapies: mycoplasma per USP &lt;63&gt;.</p></div>
+  <div class="card"><h3><span class="ic">🏆</span> Scoring</h3><p>Correct test matrix (5 pts) · Correct calculations (3 pts) · Reference citations (2 pts). Total = 10 points.</p></div>
+</div>`
+},
+
 /* --- MODULE 5 QUIZ --- */
 {
 mod:"Module 5 · QC Tests", title:"Module 5 Quiz",
@@ -1725,6 +1690,35 @@ html:`
     <div><b>Serial Dilutions and Plating</b><span>JoVE · Scientific Video Protocol</span></div>
     <span class="go">→</span>
   </a>
+</div>`
+},
+
+/* --- MODULE 6 ACTIVITY --- */
+{
+mod:"Module 6 · Documentation", title:"🎯 Group Activity 6",
+html:`
+<span class="kicker v">🎯 Group Activity</span>
+<h2>TNTC Case Study &amp; Rounding Practice</h2>
+<div class="rule"></div>
+<div class="activity">
+  <h3><span class="ic">🎯</span> Activity 6 — Real Data, Real Decisions</h3>
+  <div class="meta">
+    <span>👥 Groups of 3–4</span>
+    <span>⏱ 12 minutes</span>
+    <span>📊 Data sheet</span>
+    <span>🎤 Present findings</span>
+  </div>
+  <ol>
+    <li>Your facilitator will provide a <b>data sheet</b> from a bioburden test on an oral solid product showing plate counts across dilutions — some plates are TNTC, some are countable, some are TFTC.</li>
+    <li>Determine the <b>valid countable plates</b> (30–300 CFU) and calculate CFU/g.</li>
+    <li><b>Apply USP &lt;1111&gt; rounding rules</b> to your result — do you meet the acceptance criteria of ≤ 1,000 CFU/g?</li>
+    <li>If TNTC appears at the lowest dilution, what does that tell you? What would you do next?</li>
+    <li>Present your calculations and decision — 2 minutes per group.</li>
+  </ol>
+</div>
+<div class="grid g2" style="margin-top:16px">
+  <div class="card"><h3><span class="ic">💡</span> Hint</h3><p>Only count plates with <b>30–300 colonies</b>. Apply dilution factor. Round to <b>two significant figures</b>. Then compare against USP &lt;1111&gt; limits.</p></div>
+  <div class="card"><h3><span class="ic">🏆</span> Scoring</h3><p>Correct plate selection (3 pts) · Correct CFU/g calculation (3 pts) · Correct rounding (2 pts) · Investigation path (2 pts). Total = 10 points.</p></div>
 </div>`
 },
 
@@ -1928,6 +1922,40 @@ html:`
 </div>`
 },
 
+/* --- MODULE 7 ACTIVITY --- */
+{
+mod:"Module 7 · Summary", title:"🎯 Group Activity 7",
+html:`
+<span class="kicker v">🎯 Group Activity</span>
+<h2>Micro Jeopardy — Team Review</h2>
+<div class="rule"></div>
+<div class="activity">
+  <h3><span class="ic">🎯</span> Activity 7 — Team Trivia Challenge</h3>
+  <div class="meta">
+    <span>👥 Teams of 3–4</span>
+    <span>⏱ 15 minutes</span>
+    <span>🎲 Quiz board</span>
+    <span>🏆 Team winner</span>
+  </div>
+  <ol>
+    <li>Teams compete across <b>5 categories</b>:<br>
+      – Pyrogens &amp; Endotoxins<br>
+      – Aseptic Technique &amp; Gowning<br>
+      – Growth Media &amp; GPT<br>
+      – Environmental Monitoring<br>
+      – QC Tests &amp; Documentation</li>
+    <li>Each category has questions worth <b>100, 200, 300, 400 or 500 points</b>.</li>
+    <li>Team chooses a category and point value; facilitator reads the question.</li>
+    <li><b>30 seconds</b> to answer. Correct answers earn the points; incorrect answers allow the next team to "steal".</li>
+    <li>Highest-scoring team at the end wins. <b>All questions must be referenced</b> to a USP chapter or guideline.</li>
+  </ol>
+</div>
+<div class="grid g2" style="margin-top:16px">
+  <div class="card"><h3><span class="ic">💡</span> Sample 300-Point Question</h3><p>"What is the minimum recovery percentage required in USP &lt;61&gt; method suitability testing, and what does this ensure?" <br><b>Answer:</b> 50% — ensures the method can recover microorganisms even in the presence of the test article.</p></div>
+  <div class="card"><h3><span class="ic">🏆</span> Scoring</h3><p>Points awarded per correct answer. Bonus 200 points for citing the correct USP chapter. Tie-breaker: fastest correct answer in a sudden-death question.</p></div>
+</div>`
+},
+
 /* --- FINAL ASSESSMENT --- */
 {
 mod:"Module 7 · Summary", title:"Final Assessment",
@@ -2066,10 +2094,13 @@ html:`
 mod:"Resources", title:"Thank You",
 html:`
 <div class="divider">
-  <span class="kicker">🎓 End of Programme</span>
+  <span class="kicker">🎓 End of Training</span>
   <h1>Thank You</h1>
   <div class="rule"></div>
-  <p class="sub">You have completed the Pharmaceutical Microbiology interactive training deck.</p>
+  <p class="sub" style="font-size:16px;color:var(--ink);font-weight:600">
+    Prepared by <span style="color:var(--brand)">Muhammad Firdaus Abdullah</span><br>
+    <span style="font-size:14px;color:var(--ink-3);font-weight:500">QC Yearly Training Plan 2026</span>
+  </p>
   <div class="grid g3" style="margin-top:24px;width:100%;max-width:900px">
     <div class="card"><h3><span class="ic">❤</span> Patient Safety First</h3><p>Every test protects a patient.</p></div>
     <div class="card"><h3><span class="ic">👤</span> The Analyst is the Variable</h3><p>Technique and discipline determine outcomes.</p></div>
@@ -2077,7 +2108,7 @@ html:`
   </div>
   <div class="callout" style="margin-top:24px;max-width:760px">
     <b>Questions?</b> Contact your Quality Assurance or Microbiology department for further guidance.
-    Full reference list available in the slide overview panel (☰).
+    Use the <b>⬇ PowerPoint</b> button to download this deck as a .pptx file.
   </div>
 </div>`
 }
@@ -2097,9 +2128,9 @@ const drawerBody = document.getElementById('drawerBody');
 const toast = document.getElementById('toast');
 
 let cur = 0;
+let clickLock = false;
 const sections = [];
 
-/* Build slides */
 SLIDES.forEach((s, i) => {
   const sec = document.createElement('section');
   sec.className = 'slide';
@@ -2109,7 +2140,6 @@ SLIDES.forEach((s, i) => {
   sections.push(sec);
 });
 
-/* Build drawer */
 let lastMod = null;
 SLIDES.forEach((s, i) => {
   if (s.mod !== lastMod) {
@@ -2126,31 +2156,37 @@ SLIDES.forEach((s, i) => {
   drawerBody.lastChild.appendChild(btn);
 });
 
-/* Show slide */
 function show(n) {
   if (n < 0 || n >= SLIDES.length) return;
   sections[cur].classList.remove('active');
   cur = n;
   sections[cur].classList.add('active');
   sections[cur].scrollTop = 0;
-
   bar.style.width = ((cur + 1) / SLIDES.length * 100) + '%';
   meter.innerHTML = '<b>' + (cur + 1) + '</b> / ' + SLIDES.length + ' &nbsp;·&nbsp; ' + SLIDES[cur].title;
   prevBtn.disabled = cur === 0;
   nextBtn.disabled = cur === SLIDES.length - 1;
-
   document.querySelectorAll('.ditem').forEach(el => {
     el.classList.toggle('cur', Number(el.dataset.i) === cur);
   });
+  clickLock = true;
+  setTimeout(() => { clickLock = false; }, 420);
 }
 
-prevBtn.addEventListener('click', () => show(cur - 1));
-nextBtn.addEventListener('click', () => show(cur + 1));
+prevBtn.addEventListener('click', e => { e.stopPropagation(); show(cur - 1); });
+nextBtn.addEventListener('click', e => { e.stopPropagation(); show(cur + 1); });
+
+/* CLICK ANYWHERE TO ADVANCE */
+stage.addEventListener('click', e => {
+  if (clickLock) return;
+  if (e.target.closest('button, a, input, select, textarea, .quiz, .vcard, .opt, .drawer, .topbar, .nav')) return;
+  show(cur + 1);
+});
 
 /* Keyboard */
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT') return;
-  if (e.key === 'ArrowRight' || e.key === 'PageDown') { show(cur + 1); e.preventDefault(); }
+  if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { show(cur + 1); e.preventDefault(); }
   if (e.key === 'ArrowLeft' || e.key === 'PageUp') { show(cur - 1); e.preventDefault(); }
   if (e.key === 'Home') show(0);
   if (e.key === 'End') show(SLIDES.length - 1);
@@ -2176,19 +2212,15 @@ stage.addEventListener('touchend', e => {
    ========================================================= */
 function openDrawer() { drawer.classList.add('open'); backdrop.classList.add('open'); }
 function closeDrawer() { drawer.classList.remove('open'); backdrop.classList.remove('open'); }
-
-document.getElementById('menuBtn').addEventListener('click', openDrawer);
-document.getElementById('closeDrawer').addEventListener('click', closeDrawer);
+document.getElementById('menuBtn').addEventListener('click', e => { e.stopPropagation(); openDrawer(); });
+document.getElementById('closeDrawer').addEventListener('click', e => { e.stopPropagation(); closeDrawer(); });
 backdrop.addEventListener('click', closeDrawer);
-
 drawerBody.addEventListener('click', e => {
   const item = e.target.closest('.ditem');
   if (!item) return;
   show(Number(item.dataset.i));
   closeDrawer();
 });
-
-/* Search */
 document.getElementById('searchInput').addEventListener('input', e => {
   const q = e.target.value.toLowerCase().trim();
   document.querySelectorAll('.ditem').forEach(el => {
@@ -2205,7 +2237,8 @@ document.getElementById('searchInput').addEventListener('input', e => {
    THEME
    ========================================================= */
 const themeBtn = document.getElementById('themeBtn');
-themeBtn.addEventListener('click', () => {
+themeBtn.addEventListener('click', e => {
+  e.stopPropagation();
   const html = document.documentElement;
   const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
   html.dataset.theme = next;
@@ -2215,30 +2248,24 @@ themeBtn.addEventListener('click', () => {
 /* =========================================================
    QUIZ ENGINE
    ========================================================= */
-const quizScores = {};
-
 stage.addEventListener('click', e => {
   const opt = e.target.closest('.opt');
   if (!opt || opt.disabled) return;
-
+  e.stopPropagation();
   const q = opt.closest('.q');
   if (!q || q.dataset.done) return;
   q.dataset.done = '1';
-
   const correct = q.dataset.a;
   const chosen = opt.dataset.k;
   const isRight = chosen === correct;
-
   q.querySelectorAll('.opt').forEach(b => {
     b.disabled = true;
     if (b.dataset.k === correct) b.classList.add('correct');
   });
   if (!isRight) opt.classList.add('wrong');
-
   const ex = q.querySelector('.explain');
   if (ex) ex.classList.add('show');
 
-  /* Update score for the quiz block */
   const quiz = q.closest('.quiz');
   if (quiz) {
     if (!quiz.dataset.total) {
@@ -2246,17 +2273,14 @@ stage.addEventListener('click', e => {
       quiz.dataset.right = 0;
     }
     if (isRight) quiz.dataset.right = Number(quiz.dataset.right) + 1;
-
     const total = Number(quiz.dataset.total);
     const right = Number(quiz.dataset.right);
     const sc = quiz.querySelector('.qscore b');
     const sb = quiz.querySelector('.qscore .bar i');
     if (sc) sc.textContent = 'Score: ' + right + ' / ' + total;
     if (sb) sb.style.width = (right / total * 100) + '%';
-
     if (right === total) showToast('🎉 Perfect score! All answers correct.');
   }
-
   showToast(isRight ? '✅ Correct!' : '❌ Not quite — see the explanation.');
 });
 
@@ -2270,6 +2294,150 @@ function showToast(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
 }
+
+/* =========================================================
+   POWERPOINT EXPORT
+   ========================================================= */
+const dlBtn = document.getElementById('dlBtn');
+const dlbar = document.getElementById('dlbar');
+
+function stripHTML(html) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  return tmp;
+}
+
+function extractTextNodes(el) {
+  const out = [];
+  el.querySelectorAll('h1, h2, h3, h4, p, li, td, th').forEach(node => {
+    const t = node.textContent.replace(/\s+/g, ' ').trim();
+    if (t && t.length > 1) out.push({ tag: node.tagName.toLowerCase(), text: t });
+  });
+  return out;
+}
+
+dlBtn.addEventListener('click', async e => {
+  e.stopPropagation();
+  if (typeof PptxGenJS === 'undefined') {
+    showToast('⚠ PowerPoint library not loaded. Check internet connection.');
+    return;
+  }
+  dlbar.classList.add('show');
+  try {
+    const pptx = new PptxGenJS();
+    pptx.layout = 'LAYOUT_16x9';
+    pptx.author = 'Muhammad Firdaus Abdullah';
+    pptx.title = 'Basic Microbiology — QC Yearly Training Plan 2026';
+    pptx.subject = 'Basic Microbiology Training';
+
+    const BRAND = '0D6E6E';
+    const BRAND2 = '0F8B8B';
+    const VIOLET = '6D28D9';
+    const INK = '0E2233';
+    const INK2 = '41607A';
+    const LIGHT = 'F6F9FB';
+
+    /* --- TITLE SLIDE --- */
+    const ts = pptx.addSlide();
+    ts.background = { color: BRAND };
+    ts.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 10, h: 5.63, fill: { color: BRAND } });
+    ts.addShape(pptx.ShapeType.rect, { x: 0.6, y: 2.55, w: 1.2, h: 0.08, fill: { color: '5EEAD4' } });
+    ts.addText('QC Yearly Training Plan 2026', { x: 0.6, y: 1.6, w: 8.8, h: 0.4, fontSize: 14, color: '5EEAD4', bold: true, charSpacing: 2 });
+    ts.addText('Basic Microbiology', { x: 0.6, y: 1.95, w: 8.8, h: 0.7, fontSize: 40, color: 'FFFFFF', bold: true });
+    ts.addText('Prepared by Muhammad Firdaus Abdullah', { x: 0.6, y: 2.85, w: 8.8, h: 0.4, fontSize: 16, color: 'E2F4F3' });
+    ts.addText('USP <51> · <61> · <62> · <71> · <85> · <1111>   |   EU GMP Annex 1   |   EMA Guidelines', { x: 0.6, y: 5.0, w: 8.8, h: 0.3, fontSize: 10, color: 'A7D9D6' });
+
+    /* --- CONTENT SLIDES --- */
+    SLIDES.forEach((s, idx) => {
+      if (idx === 0) return; // skip title slide (already added)
+      const slide = pptx.addSlide();
+      slide.background = { color: 'FFFFFF' };
+
+      /* Header bar */
+      slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 10, h: 0.9, fill: { color: LIGHT } });
+      slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0.9, w: 10, h: 0.06, fill: { color: BRAND } });
+
+      /* Module label */
+      const isActivity = s.title.includes('Activity');
+      slide.addText(s.mod.toUpperCase(), {
+        x: 0.4, y: 0.08, w: 9.2, h: 0.28,
+        fontSize: 10, color: isActivity ? VIOLET : BRAND, bold: true, charSpacing: 1.5
+      });
+      slide.addText(s.title, {
+        x: 0.4, y: 0.34, w: 9.2, h: 0.5,
+        fontSize: 20, color: INK, bold: true
+      });
+
+      /* Body content */
+      const parsed = stripHTML(s.html);
+      const nodes = extractTextNodes(parsed);
+
+      /* Build a deduped list, skip repeats of title */
+      const titleLower = s.title.toLowerCase();
+      const lines = [];
+      const seen = new Set();
+      nodes.forEach(n => {
+        const t = n.text;
+        const key = t.toLowerCase();
+        if (key === titleLower) return;
+        if (seen.has(key)) return;
+        seen.add(key);
+        if (t.length > 180) return; // skip huge paragraphs (they duplicate)
+        lines.push(t);
+      });
+
+      /* Limit lines per slide */
+      const maxLines = 16;
+      const display = lines.slice(0, maxLines);
+
+      if (display.length > 0) {
+        const bulletObjs = display.map((t, i) => ({
+          text: t,
+          options: {
+            bullet: t.length > 3 ? true : false,
+            fontSize: i === 0 ? 13 : 11,
+            color: i === 0 ? INK : INK2,
+            bold: i === 0,
+            breakLine: true,
+            paraSpaceAfter: 4
+          }
+        }));
+        slide.addText(bulletObjs, {
+          x: 0.5, y: 1.15, w: 9.0, h: 4.15,
+          valign: 'top', fontFace: 'Segoe UI'
+        });
+      }
+
+      /* Footer */
+      slide.addShape(pptx.ShapeType.rect, { x: 0, y: 5.35, w: 10, h: 0.28, fill: { color: LIGHT } });
+      slide.addText('Basic Microbiology — QC Yearly Training Plan 2026  |  Prepared by Muhammad Firdaus Abdullah', {
+        x: 0.4, y: 5.38, w: 7, h: 0.22, fontSize: 8, color: '7593AA'
+      });
+      slide.addText(String(idx + 1) + ' / ' + SLIDES.length, {
+        x: 8.6, y: 5.38, w: 1, h: 0.22, fontSize: 8, color: '7593AA', align: 'right'
+      });
+    });
+
+    /* --- THANK YOU SLIDE --- */
+    const th = pptx.addSlide();
+    th.background = { color: BRAND };
+    th.addText('Thank You', { x: 0.6, y: 1.8, w: 8.8, h: 0.9, fontSize: 44, color: 'FFFFFF', bold: true });
+    th.addShape(pptx.ShapeType.rect, { x: 0.6, y: 2.8, w: 1.2, h: 0.08, fill: { color: '5EEAD4' } });
+    th.addText('Prepared by Muhammad Firdaus Abdullah', { x: 0.6, y: 3.1, w: 8.8, h: 0.4, fontSize: 16, color: 'E2F4F3' });
+    th.addText('QC Yearly Training Plan 2026', { x: 0.6, y: 3.5, w: 8.8, h: 0.35, fontSize: 13, color: 'A7D9D6' });
+    th.addText('Patient Safety First  ·  The Analyst is the Variable  ·  Media is the Foundation', {
+      x: 0.6, y: 4.5, w: 8.8, h: 0.3, fontSize: 11, color: '5EEAD4', bold: true
+    });
+
+    await pptx.writeFile({ fileName: 'Basic-Microbiology-QC-Training-2026.pptx' });
+    showToast('✅ PowerPoint downloaded successfully!');
+  } catch (err) {
+    console.error(err);
+    showToast('⚠ Failed to generate PowerPoint: ' + err.message);
+  } finally {
+    dlbar.classList.remove('show');
+  }
+});
 
 /* =========================================================
    INIT
