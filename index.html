@@ -56,6 +56,8 @@ body{font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-
   letter-spacing:1.3px;text-transform:uppercase;color:var(--brand);background:var(--brand-soft);
   padding:5px 11px;border-radius:999px;margin-bottom:12px}
 .kicker.v{color:var(--violet);background:var(--violet-soft)}
+.kicker.ok{color:var(--ok);background:var(--ok-soft)}
+.kicker.w{color:var(--warn);background:var(--warn-soft)}
 h1{font-size:clamp(26px,4vw,44px);line-height:1.12;letter-spacing:-.8px;margin-bottom:12px}
 h2{font-size:clamp(21px,2.6vw,31px);line-height:1.2;letter-spacing:-.5px;margin-bottom:16px}
 h3{font-size:15.5px;margin-bottom:9px;letter-spacing:-.1px}
@@ -322,7 +324,61 @@ html:`
 </div>`
 },
 
-/* ---------- 1 : AGENDA ---------- */
+/* ---------- 1 : ATTENDANCE ---------- */
+{
+mod:"Start", title:"Attendance",
+html:`
+<span class="kicker">📋 Attendance</span>
+<h2>QC Yearly Training Plan 2026</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">📷</span> Scan to Mark Attendance</h3>
+    <p>Please scan the QR code to record your attendance for this training session.</p>
+    <p style="margin-top:10px; font-size:12px; color:var(--ink-3);">
+      * Replace the placeholder image with your actual QR code.
+    </p>
+    <div class="callout ok" style="margin-top:16px;">
+      <b>Note:</b> Please ensure your full name and department are correctly registered.
+    </div>
+  </div>
+  <div class="card" style="display:flex; justify-content:center; align-items:center; padding:20px; background:var(--surface-2);">
+    <!-- REPLACE THE SRC BELOW WITH YOUR ATTENDANCE QR CODE IMAGE -->
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=Attendance-QC-Training-2026" 
+         alt="Attendance QR Code" 
+         style="width:100%; max-width:250px; height:auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+  </div>
+</div>`
+},
+
+/* ---------- 2 : PRE-ASSESSMENT ---------- */
+{
+mod:"Start", title:"Pre-Assessment",
+html:`
+<span class="kicker">📝 Pre-Assessment</span>
+<h2>QC Yearly Training Plan 2026</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">📝</span> Baseline Knowledge Check</h3>
+    <p>Please scan the QR code to complete the short pre-assessment before we begin.</p>
+    <p style="margin-top:10px; font-size:12px; color:var(--ink-3);">
+      * Replace the placeholder image with your actual QR code.
+    </p>
+    <div class="callout" style="margin-top:16px;">
+      <b>Note:</b> This helps us gauge the current understanding of the group and tailor the session accordingly.
+    </div>
+  </div>
+  <div class="card" style="display:flex; justify-content:center; align-items:center; padding:20px; background:var(--surface-2);">
+    <!-- REPLACE THE SRC BELOW WITH YOUR PRE-ASSESSMENT QR CODE IMAGE -->
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=Pre-Assessment-QC-Training-2026" 
+         alt="Pre-Assessment QR Code" 
+         style="width:100%; max-width:250px; height:auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+  </div>
+</div>`
+},
+
+/* ---------- 3 : AGENDA ---------- */
 {
 mod:"Start", title:"Agenda",
 html:`
@@ -341,7 +397,7 @@ html:`
 </div>`
 },
 
-/* ---------- 2 : OBJECTIVES ---------- */
+/* ---------- 4 : OBJECTIVES ---------- */
 {
 mod:"Start", title:"Learning Objectives",
 html:`
@@ -868,7 +924,7 @@ html:`
       <table class="data">
         <tr><th>Organism</th><th>Selective Agar</th></tr>
         <tr><td><em>E. coli</em></td><td>MacConkey Agar</td></tr>
-        <tr><td><em>S. aureus</em></td><td>Baird-Parker Agar</td></tr>
+        <tr><td><em>S. aureus</em></td><td>Mannitol Salt Agar</td></tr>
         <tr><td><em>Salmonella</em></td><td>XLD Agar</td></tr>
         <tr><td><em>P. aeruginosa</em></td><td>Cetrimide Agar</td></tr>
         <tr><td><em>C. albicans</em></td><td>Sabouraud + antibiotics</td></tr>
@@ -2089,6 +2145,60 @@ html:`
 </div>`
 },
 
+/* ---------- POST-ASSESSMENT ---------- */
+{
+mod:"Resources", title:"Post-Assessment",
+html:`
+<span class="kicker ok">📝 Post-Assessment</span>
+<h2>QC Yearly Training Plan 2026</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">✅</span> End-of-Session Knowledge Check</h3>
+    <p>Please scan the QR code to complete the post-assessment. Your feedback helps us measure the effectiveness of this training session.</p>
+    <p style="margin-top:10px; font-size:12px; color:var(--ink-3);">
+      * Replace the placeholder image with your actual QR code.
+    </p>
+    <div class="callout ok" style="margin-top:16px;">
+      <b>Thank you!</b> Your responses will help us continuously improve the QC Yearly Training Plan.
+    </div>
+  </div>
+  <div class="card" style="display:flex; justify-content:center; align-items:center; padding:20px; background:var(--surface-2);">
+    <!-- REPLACE THE SRC BELOW WITH YOUR POST-ASSESSMENT QR CODE IMAGE -->
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=Post-Assessment-QC-Training-2026" 
+         alt="Post-Assessment QR Code" 
+         style="width:100%; max-width:250px; height:auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+  </div>
+</div>`
+},
+
+/* ---------- TRAINING EVALUATION (NEW - ADDED AFTER POST-ASSESSMENT) ---------- */
+{
+mod:"Resources", title:"Training Evaluation",
+html:`
+<span class="kicker w">⭐ Training Evaluation</span>
+<h2>QC Yearly Training Plan 2026</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">⭐</span> Share Your Feedback</h3>
+    <p>Please scan the QR code to complete the training evaluation form. Your honest feedback is valuable for improving future sessions.</p>
+    <p style="margin-top:10px; font-size:12px; color:var(--ink-3);">
+      * Replace the placeholder image with your actual QR code.
+    </p>
+    <div class="callout warn" style="margin-top:16px;">
+      <b>Your input matters!</b> Evaluation responses are anonymous and help shape the next training cycle.
+    </div>
+  </div>
+  <div class="card" style="display:flex; justify-content:center; align-items:center; padding:20px; background:var(--surface-2);">
+    <!-- REPLACE THE SRC BELOW WITH YOUR TRAINING EVALUATION QR CODE IMAGE -->
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=Training-Evaluation-QC-2026" 
+         alt="Training Evaluation QR Code" 
+         style="width:100%; max-width:250px; height:auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+  </div>
+</div>`
+},
+
 /* ---------- THANK YOU ---------- */
 {
 mod:"Resources", title:"Thank You",
@@ -2179,7 +2289,7 @@ nextBtn.addEventListener('click', e => { e.stopPropagation(); show(cur + 1); });
 /* CLICK ANYWHERE TO ADVANCE */
 stage.addEventListener('click', e => {
   if (clickLock) return;
-  if (e.target.closest('button, a, input, select, textarea, .quiz, .vcard, .opt, .drawer, .topbar, .nav')) return;
+  if (e.target.closest('button, a, input, select, textarea, .quiz, .vcard, .opt, .drawer, .topbar, .nav, img')) return;
   show(cur + 1);
 });
 
@@ -2331,7 +2441,6 @@ dlBtn.addEventListener('click', async e => {
     pptx.subject = 'Basic Microbiology Training';
 
     const BRAND = '0D6E6E';
-    const BRAND2 = '0F8B8B';
     const VIOLET = '6D28D9';
     const INK = '0E2233';
     const INK2 = '41607A';
@@ -2372,7 +2481,6 @@ dlBtn.addEventListener('click', async e => {
       const parsed = stripHTML(s.html);
       const nodes = extractTextNodes(parsed);
 
-      /* Build a deduped list, skip repeats of title */
       const titleLower = s.title.toLowerCase();
       const lines = [];
       const seen = new Set();
@@ -2382,11 +2490,10 @@ dlBtn.addEventListener('click', async e => {
         if (key === titleLower) return;
         if (seen.has(key)) return;
         seen.add(key);
-        if (t.length > 180) return; // skip huge paragraphs (they duplicate)
+        if (t.length > 180) return;
         lines.push(t);
       });
 
-      /* Limit lines per slide */
       const maxLines = 16;
       const display = lines.slice(0, maxLines);
 
@@ -2405,6 +2512,32 @@ dlBtn.addEventListener('click', async e => {
         slide.addText(bulletObjs, {
           x: 0.5, y: 1.15, w: 9.0, h: 4.15,
           valign: 'top', fontFace: 'Segoe UI'
+        });
+      }
+
+      /* Special cases for QR code slides */
+      if (s.title === "Attendance") {
+        slide.addText('[ATTENDANCE QR CODE PLACEHOLDER - Insert your QR code here]', {
+          x: 0.5, y: 4.2, w: 9.0, h: 0.4,
+          fontSize: 12, color: 'C2410C', bold: true, align: 'center'
+        });
+      }
+      if (s.title === "Pre-Assessment") {
+        slide.addText('[PRE-ASSESSMENT QR CODE PLACEHOLDER - Insert your QR code here]', {
+          x: 0.5, y: 4.2, w: 9.0, h: 0.4,
+          fontSize: 12, color: 'C2410C', bold: true, align: 'center'
+        });
+      }
+      if (s.title === "Post-Assessment") {
+        slide.addText('[POST-ASSESSMENT QR CODE PLACEHOLDER - Insert your QR code here]', {
+          x: 0.5, y: 4.2, w: 9.0, h: 0.4,
+          fontSize: 12, color: '15803D', bold: true, align: 'center'
+        });
+      }
+      if (s.title === "Training Evaluation") {
+        slide.addText('[TRAINING EVALUATION QR CODE PLACEHOLDER - Insert your QR code here]', {
+          x: 0.5, y: 4.2, w: 9.0, h: 0.4,
+          fontSize: 12, color: 'A16207', bold: true, align: 'center'
         });
       }
 
