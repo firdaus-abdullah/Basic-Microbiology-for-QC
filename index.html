@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pharmaceutical Microbiology — Interactive Training Deck</title>
+<style>
+/* ============ THEME TOKENS ============ */
+:root{
+  --bg:#eef2f6;
+  --surface:#ffffff;
+  --surface-2:#f6f9fb;
+  --ink:#0e2233;
+  --ink-2:#41607a;
+  --ink-3:#7593aa;
+  --line:#d8e3ec;
+  --brand:#0d6e6e;
+  --brand-2:#0f8b8b;
+  --brand-soft:#e2f4f3;
+  --accent:#c2410c;
+  --accent-soft:#fdece3;
+  --ok:#15803d;
+  --ok-soft:#e6f6ec;
+  --bad:#b91c1c;
+  --bad-soft:#fdeaea;
+  --warn:#a16207;
+  --warn-soft:#fdf4e3;
+  --shadow:0 10px 30px rgba(13,50,80,.10);
+  --radius:16px;
+}
+html[data-theme="dark"]{
+  --bg:#070d14;
+  --surface:#0f1a26;
+  --surface-2:#132230;
+  --ink:#e8f1f8;
+  --ink-2:#9fb6c9;
+  --ink-3:#6b869c;
+  --line:#20364a;
+  --brand:#2dd4bf;
+  --brand-2:#5eead4;
+  --brand-soft:#10302e;
+  --accent:#fb923c;
+  --accent-soft:#2e1c0e;
+  --ok:#4ade80;
+  --ok-soft:#0e2a19;
+  --bad:#f87171;
+  --bad-soft:#2c1212;
+  --warn:#fbbf24;
+  --warn-soft:#2b2109;
+  --shadow:0 10px 30px rgba(0,0,0,.5);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  background:var(--bg);color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+
+/* ============ LAYOUT ============ */
+.app{display:flex;flex-direction:column;height:100vh;height:100dvh}
+
+.topbar{
+  display:flex;align-items:center;gap:14px;
+  padding:10px 18px;background:var(--surface);
+  border-bottom:1px solid var(--line);z-index:40;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;letter-spacing:.2px}
+.logo{
+  width:30px;height:30px;border-radius:9px;flex:0 0 auto;
+  background:linear-gradient(135deg,var(--brand),var(--brand-2));
+  display:grid;place-items:center;color:#fff;font-size:15px;
+}
+.brand small{display:block;font-weight:500;font-size:10.5px;color:var(--ink-3);letter-spacing:.6px;text-transform:uppercase}
+.spacer{flex:1}
+.tools{display:flex;gap:8px;align-items:center}
+.tbtn{
+  border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);
+  padding:7px 12px;border-radius:10px;font-size:12.5px;font-weight:600;
+  cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:6px;
+}
+.tbtn:hover{background:var(--brand-soft);color:var(--brand);border-color:var(--brand)}
+
+.progress{height:3px;background:var(--line);position:relative;z-index:39}
+.progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand-2));transition:width .35s ease}
+
+.stage{flex:1;position:relative;overflow:hidden}
+
+/* ============ SLIDES ============ */
+.slide{
+  position:absolute;inset:0;
+  padding:34px 46px 26px;
+  overflow-y:auto;overflow-x:hidden;
+  opacity:0;visibility:hidden;transform:translateY(14px);
+  transition:opacity .32s ease, transform .32s ease, visibility .32s;
+}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.slide::-webkit-scrollbar{width:9px}
+.slide::-webkit-scrollbar-thumb{background:var(--line);border-radius:9px}
+
+.kicker{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;
+  color:var(--brand);background:var(--brand-soft);
+  padding:5px 11px;border-radius:999px;margin-bottom:12px;
+}
+h1{font-size:clamp(26px,4vw,44px);line-height:1.12;letter-spacing:-.8px;margin-bottom:12px}
+h2{font-size:clamp(21px,2.6vw,31px);line-height:1.2;letter-spacing:-.5px;margin-bottom:16px}
+h3{font-size:15.5px;margin-bottom:9px;letter-spacing:-.1px}
+.sub{color:var(--ink-2);font-size:15px;line-height:1.6;max-width:900px}
+.rule{height:4px;width:74px;border-radius:4px;background:linear-gradient(90deg,var(--brand),var(--brand-2));margin:0 0 20px}
+
+/* ============ COMPONENTS ============ */
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 18px;box-shadow:var(--shadow);
+}
+.card.tint{background:var(--surface-2);box-shadow:none}
+.card h3{display:flex;align-items:center;gap:8px}
+.card h3 .ic{
+  width:24px;height:24px;border-radius:7px;display:grid;place-items:center;
+  background:var(--brand-soft);color:var(--brand);font-size:13px;flex:0 0 auto;
+}
+.card p, .card li{font-size:13.6px;line-height:1.62;color:var(--ink-2)}
+.card ul{padding-left:17px;margin-top:6px}
+.card li{margin-bottom:5px}
+.card li::marker{color:var(--brand)}
+
+.stat{
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:14px;text-align:center;box-shadow:var(--shadow);
+}
+.stat b{display:block;font-size:22px;color:var(--brand);letter-spacing:-.5px}
+.stat span{font-size:11.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.7px;font-weight:700}
+
+table.data{
+  width:100%;border-collapse:separate;border-spacing:0;
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;font-size:13.3px;box-shadow:var(--shadow);
+}
+table.data th{
+  background:var(--brand);color:#fff;text-align:left;
+  padding:10px 13px;font-size:11.5px;letter-spacing:.7px;text-transform:uppercase;
+}
+table.data td{padding:9px 13px;border-top:1px solid var(--line);color:var(--ink-2);vertical-align:top}
+table.data tr:nth-child(even) td{background:var(--surface-2)}
+table.data td strong{color:var(--ink)}
+.tblwrap{overflow-x:auto;border-radius:14px}
+
+.pill{
+  display:inline-block;padding:3px 9px;border-radius:999px;
+  font-size:11px;font-weight:800;letter-spacing:.4px;
+  background:var(--brand-soft);color:var(--brand);
+}
+.pill.a{background:var(--accent-soft);color:var(--accent)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.w{background:var(--warn-soft);color:var(--warn)}
+
+.ref{
+  display:inline-block;margin-top:9px;font-size:11.5px;font-weight:700;
+  color:var(--brand);background:var(--brand-soft);
+  padding:4px 10px;border-radius:8px;border:1px dashed var(--brand);
+}
+.refrow{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+
+.callout{
+  border-left:4px solid var(--brand);background:var(--brand-soft);
+  border-radius:0 12px 12px 0;padding:13px 16px;font-size:13.6px;line-height:1.6;
+  color:var(--ink);margin-top:12px;
+}
+.callout.warn{border-color:var(--warn);background:var(--warn-soft)}
+.callout.danger{border-color:var(--bad);background:var(--bad-soft)}
+.callout.ok{border-color:var(--ok);background:var(--ok-soft)}
+.callout b{color:var(--ink)}
+
+/* Video cards */
+.vcard{
+  display:flex;gap:12px;align-items:flex-start;
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:13px 15px;text-decoration:none;color:inherit;
+  transition:.2s;box-shadow:var(--shadow);
+}
+.vcard:hover{transform:translateY(-3px);border-color:var(--brand);box-shadow:0 14px 34px rgba(13,110,110,.20)}
+.vplay{
+  width:38px;height:38px;border-radius:11px;flex:0 0 auto;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;font-size:14px;
+}
+.vcard b{display:block;font-size:13.4px;margin-bottom:3px;line-height:1.35}
+.vcard span{font-size:11.6px;color:var(--ink-3)}
+.vcard .go{margin-left:auto;color:var(--brand);font-weight:800;font-size:16px;align-self:center}
+
+/* Module divider */
+.divider{
+  height:100%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  max-width:820px;
+}
+.divider .big{
+  font-size:clamp(70px,14vw,150px);font-weight:900;line-height:.85;
+  background:linear-gradient(135deg,var(--brand),var(--brand-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  letter-spacing:-6px;
+}
+
+/* ============ QUIZ ============ */
+.quiz{display:flex;flex-direction:column;gap:14px;max-width:960px}
+.q{
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:15px 17px;box-shadow:var(--shadow);
+}
+.q .qtext{font-size:14.2px;font-weight:700;line-height:1.5;margin-bottom:11px;display:flex;gap:9px}
+.q .qtext .num{
+  flex:0 0 auto;width:23px;height:23px;border-radius:7px;background:var(--brand);
+  color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800;
+}
+.opts{display:grid;gap:7px}
+.opt{
+  display:flex;align-items:center;gap:10px;text-align:left;width:100%;
+  border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);
+  padding:9px 12px;border-radius:10px;font-size:13.4px;cursor:pointer;
+  font-family:inherit;transition:.16s;line-height:1.4;
+}
+.opt:hover:not(:disabled){border-color:var(--brand);background:var(--brand-soft);color:var(--ink)}
+.opt .k{
+  flex:0 0 auto;width:22px;height:22px;border-radius:6px;display:grid;place-items:center;
+  background:var(--surface);border:1px solid var(--line);font-size:11.5px;font-weight:800;color:var(--ink-3);
+}
+.opt:disabled{cursor:default}
+.opt.correct{background:var(--ok-soft);border-color:var(--ok);color:var(--ok);font-weight:700}
+.opt.correct .k{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad);font-weight:700}
+.opt.wrong .k{background:var(--bad);color:#fff;border-color:var(--bad)}
+.explain{
+  display:none;margin-top:10px;padding:10px 13px;border-radius:10px;
+  background:var(--brand-soft);border-left:3px solid var(--brand);
+  font-size:12.8px;line-height:1.6;color:var(--ink-2);
+}
+.explain.show{display:block;animation:fade .3s}
+.explain b{color:var(--brand)}
+@keyframes fade{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+
+.qscore{
+  display:flex;align-items:center;gap:12px;background:var(--surface);
+  border:1px solid var(--line);border-radius:14px;padding:13px 17px;box-shadow:var(--shadow);
+}
+.qscore .bar{flex:1;height:9px;background:var(--line);border-radius:9px;overflow:hidden}
+.qscore .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand-2));transition:width .4s}
+.qscore b{font-size:14px;color:var(--brand)}
+
+/* ============ FOOTER NAV ============ */
+.nav{
+  display:flex;align-items:center;gap:12px;padding:9px 18px;
+  background:var(--surface);border-top:1px solid var(--line);z-index:40;
+}
+.nbtn{
+  border:1px solid var(--line);background:var(--surface-2);color:var(--ink);
+  padding:8px 16px;border-radius:11px;font-size:13px;font-weight:700;
+  cursor:pointer;transition:.18s;font-family:inherit;
+}
+.nbtn:hover:not(:disabled){background:var(--brand);color:#fff;border-color:var(--brand)}
+.nbtn:disabled{opacity:.35;cursor:not-allowed}
+.meter{
+  flex:1;text-align:center;font-size:12.4px;color:var(--ink-3);font-weight:700;
+  letter-spacing:.4px;
+}
+.meter b{color:var(--brand)}
+
+/* ============ DRAWER ============ */
+.backdrop{
+  position:fixed;inset:0;background:rgba(4,15,25,.55);backdrop-filter:blur(3px);
+  opacity:0;visibility:hidden;transition:.28s;z-index:60;
+}
+.backdrop.open{opacity:1;visibility:visible}
+.drawer{
+  position:fixed;top:0;right:0;height:100%;width:400px;max-width:90vw;
+  background:var(--surface);border-left:1px solid var(--line);
+  transform:translateX(102%);transition:transform .32s cubic-bezier(.4,0,.2,1);
+  z-index:61;display:flex;flex-direction:column;
+}
+.drawer.open{transform:none}
+.dhead{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.dhead h3{font-size:15px;margin:0}
+.dbody{flex:1;overflow-y:auto;padding:12px 14px 26px}
+.dgroup{margin-bottom:16px}
+.dgroup > h4{
+  font-size:10.6px;letter-spacing:1.1px;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:7px;padding-left:4px;font-weight:800;
+}
+.ditem{
+  display:flex;gap:9px;align-items:center;width:100%;text-align:left;
+  border:none;background:transparent;color:var(--ink-2);
+  padding:8px 10px;border-radius:9px;font-size:13px;cursor:pointer;
+  font-family:inherit;transition:.15s;line-height:1.35;
+}
+.ditem:hover{background:var(--surface-2);color:var(--ink)}
+.ditem.cur{background:var(--brand-soft);color:var(--brand);font-weight:800}
+.ditem .n{
+  flex:0 0 auto;font-size:10.5px;font-weight:800;color:var(--ink-3);
+  min-width:22px;
+}
+.ditem.cur .n{color:var(--brand)}
+
+/* Search */
+.searchbox{
+  display:flex;align-items:center;gap:8px;margin:0 14px 12px;
+  border:1px solid var(--line);background:var(--surface-2);
+  border-radius:11px;padding:8px 12px;
+}
+.searchbox input{
+  border:none;background:transparent;outline:none;flex:1;
+  font-size:13px;color:var(--ink);font-family:inherit;
+}
+
+/* Toast */
+.toast{
+  position:fixed;left:50%;bottom:74px;transform:translate(-50%,20px);
+  background:var(--ink);color:var(--surface);padding:10px 20px;border-radius:11px;
+  font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:.3s;z-index:70;
+  box-shadow:0 12px 30px rgba(0,0,0,.3);
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* Responsive */
+@media(max-width:760px){
+  .slide{padding:22px 18px 18px}
+  .brand small{display:none}
+  .tbtn span{display:none}
+  .tbtn{padding:8px 10px}
+  .nav{padding:8px 12px}
+  .nbtn{padding:8px 12px;font-size:12px}
+}
+@media print{
+  body{overflow:visible}
+  .topbar,.nav,.progress,.drawer,.backdrop{display:none}
+  .slide{position:static;opacity:1;visibility:visible;transform:none;page-break-after:always}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">🧫</div>
+      <div>Pharmaceutical Microbiology
+        <small>Interactive Training Deck</small>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="tools">
+      <button class="tbtn" id="menuBtn">☰ <span>Overview</span></button>
+      <button class="tbtn" id="themeBtn">🌙 <span>Theme</span></button>
+    </div>
+  </header>
+  <div class="progress"><i id="bar"></i></div>
+
+  <!-- SLIDES -->
+  <main class="stage" id="stage"></main>
+
+  <!-- FOOTER -->
+  <footer class="nav">
+    <button class="nbtn" id="prevBtn">← Prev</button>
+    <div class="meter" id="meter"></div>
+    <button class="nbtn" id="nextBtn">Next →</button>
+  </footer>
+</div>
+
+<!-- DRAWER -->
+<div class="backdrop" id="backdrop"></div>
+<aside class="drawer" id="drawer">
+  <div class="dhead">
+    <h3>📑 Slide Overview</h3>
+    <div class="spacer"></div>
+    <button class="tbtn" id="closeDrawer">✕</button>
+  </div>
+  <div class="searchbox">
+    <span>🔍</span>
+    <input type="text" id="searchInput" placeholder="Search slides…">
+  </div>
+  <div class="dbody" id="drawerBody"></div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   SLIDE DATA
+   ========================================================= */
+const SLIDES = [
+
+/* ---------- 0 : TITLE ---------- */
+{
+mod:"Start", title:"Title",
+html:`
+<div class="divider">
+  <span class="kicker">🧫 Training Programme</span>
+  <h1>Pharmaceutical<br>Microbiology</h1>
+  <div class="rule"></div>
+  <p class="sub">Principles, Practices and Regulatory Compliance — a complete interactive
+  training module covering contamination control, aseptic technique, growth media,
+  environmental monitoring, QC testing and documentation.</p>
+  <div class="refrow" style="margin-top:18px">
+    <span class="pill">USP &lt;51&gt;</span>
+    <span class="pill">USP &lt;61&gt;</span>
+    <span class="pill">USP &lt;62&gt;</span>
+    <span class="pill">USP &lt;71&gt;</span>
+    <span class="pill">USP &lt;85&gt;</span>
+    <span class="pill">USP &lt;1111&gt;</span>
+    <span class="pill a">EU GMP Annex 1</span>
+    <span class="pill a">EMA Guidelines</span>
+  </div>
+  <div class="callout" style="margin-top:22px;max-width:760px">
+    <b>How to use this deck:</b> Use <b>← / →</b> arrow keys, the navigation buttons,
+    or swipe on touch devices. Open <b>☰ Overview</b> to jump to any slide.
+    Each module ends with an interactive knowledge check.
+  </div>
+</div>`
+},
+
+/* ---------- 1 : AGENDA ---------- */
+{
+mod:"Start", title:"Agenda",
+html:`
+<span class="kicker">Agenda</span>
+<h2>Training Modules</h2>
+<div class="rule"></div>
+<div class="grid g3">
+  <div class="card"><h3><span class="ic">1</span> Introduction</h3><p>Impact of contamination, pyrogens, particulates, chemical &amp; cross-contamination, pharmacopoeias.</p></div>
+  <div class="card"><h3><span class="ic">2</span> Aseptic Technique &amp; Gowning</h3><p>Personnel as contamination source, laminar airflow, donning &amp; doffing.</p></div>
+  <div class="card"><h3><span class="ic">3</span> Growth Media &amp; Culture</h3><p>General vs. selective media, autoclave, growth promotion testing, incubation temperatures.</p></div>
+  <div class="card"><h3><span class="ic">4</span> Environmental Monitoring</h3><p>Active vs. passive sampling, RODAC, swabs, finger dabs, excursion handling.</p></div>
+  <div class="card"><h3><span class="ic">5</span> Common QC Tests</h3><p>Bioburden, specified organisms, sterility testing, bacterial endotoxin test.</p></div>
+  <div class="card"><h3><span class="ic">6</span> Documentation</h3><p>TNTC handling, rounding rules, trending and CAPA.</p></div>
+  <div class="card"><h3><span class="ic">7</span> Summary</h3><p>Patient safety first, the analyst is the variable, media is the foundation.</p></div>
+  <div class="card tint"><h3><span class="ic">⏱</span> Duration</h3><p>Approx. 90 minutes including break and knowledge checks.</p></div>
+</div>`
+},
+
+/* ---------- 2 : OBJECTIVES ---------- */
+{
+mod:"Start", title:"Learning Objectives",
+html:`
+<span class="kicker">Objectives</span>
+<h2>By the End of This Training, You Will…</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card"><h3><span class="ic">✓</span> Understand</h3><p>The impact of microbial contamination on drug efficacy and patient safety, including pyrogens, particulates, chemicals and cross-contamination.</p></div>
+  <div class="card"><h3><span class="ic">✓</span> Apply</h3><p>Proper aseptic techniques and gowning procedures within cleanroom environments and laminar airflow.</p></div>
+  <div class="card"><h3><span class="ic">✓</span> Identify</h3><p>Appropriate growth media and culture methods for different microorganism classes.</p></div>
+  <div class="card"><h3><span class="ic">✓</span> Perform</h3><p>Environmental monitoring and interpret the results against alert and action limits.</p></div>
+  <div class="card"><h3><span class="ic">✓</span> Execute</h3><p>Common QC microbiological tests — bioburden, specified organisms, sterility and endotoxin.</p></div>
+  <div class="card"><h3><span class="ic">✓</span> Document</h3><p>Results correctly, including TNTC handling and USP &lt;1111&gt; rounding rules.</p></div>
+</div>`
+},
+
+/* ================= MODULE 1 ================= */
+{
+mod:"Module 1 · Introduction", title:"Module 1",
+html:`
+<div class="divider">
+  <div class="big">01</div>
+  <span class="kicker" style="margin-top:14px">Module One</span>
+  <h2>Introduction to Pharmaceutical Microbiology</h2>
+  <div class="rule"></div>
+  <p class="sub">Contamination is multi-faceted — pyrogens, viable microorganisms, particulates,
+  chemicals and cross-contamination. A robust Contamination Control Strategy (CCS) addresses them all.</p>
+</div>`
+},
+
+{
+mod:"Module 1 · Introduction", title:"Pyrogenic Reactions",
+html:`
+<span class="kicker">1.1 · Patient Safety</span>
+<h2>Pyrogenic Reactions (Endotoxins)</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">🔥</span> Mechanism</h3>
+    <ul>
+      <li><b>Pyrogens</b> are fever-causing substances; the most potent are <b>endotoxins</b> — lipopolysaccharides (LPS) from Gram-negative bacterial cell walls.</li>
+      <li>Endotoxins are <b>heat-stable</b> and survive many sterilisation processes.</li>
+      <li>Even low levels can cause <b>fever, shock and death</b> in patients receiving parenteral products.</li>
+      <li>Detected using the Bacterial Endotoxins Test (BET) per <b>USP &lt;85&gt;</b>.</li>
+    </ul>
+    <span class="ref">USP &lt;85&gt; · FDA Pyrogen &amp; Endotoxin Guidance</span>
+  </div>
+  <div class="card">
+    <h3><span class="ic">📏</span> Regulatory Limits</h3>
+    <div class="tblwrap">
+      <table class="data">
+        <tr><th>Route of Administration</th><th>Endotoxin Limit</th></tr>
+        <tr><td>Intravenous (IV)</td><td><strong>5 EU/kg body weight/hour</strong></td></tr>
+        <tr><td>Intrathecal</td><td><strong>0.2 EU/kg body weight/hour</strong></td></tr>
+      </table>
+    </div>
+    <div class="callout warn" style="margin-top:14px">
+      <b>Note:</b> The intrathecal limit is 25× stricter than the IV limit because the
+      product bypasses the blood–brain barrier.
+    </div>
+  </div>
+</div>
+<div class="grid g4" style="margin-top:14px">
+  <div class="stat"><b>5</b><span>EU/kg/hr — IV</span></div>
+  <div class="stat"><b>0.2</b><span>EU/kg/hr — IT</span></div>
+  <div class="stat"><b>LAL</b><span>Primary Reagent</span></div>
+  <div class="stat"><b>&lt;85&gt;</b><span>USP Chapter</span></div>
+</div>`
+},
+
+{
+mod:"Module 1 · Introduction", title:"Viable Organisms",
+html:`
+<span class="kicker">1.2 · Patient Safety</span>
+<h2>Microbial Contamination — Viable Organisms</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">⚠</span> Why It Matters</h3>
+    <p><b>USP &lt;1111&gt;</b> states that microorganisms in non-sterile preparations may:</p>
+    <ul>
+      <li><b>Reduce or even inactivate</b> therapeutic activity</li>
+      <li><b>Adversely affect</b> the health of the patient</li>
+    </ul>
+    <p style="margin-top:9px">Microorganisms must be evaluated in terms of the <b>use</b> of the product,
+    the <b>nature</b> of the product, and the <b>potential hazard</b> to the user.</p>
+    <span class="ref">USP &lt;1111&gt;</span>
+  </div>
+  <div class="card">
+    <h3><span class="ic">🚫</span> Objectionable Microorganisms</h3>
+    <div class="tblwrap">
+      <table class="data">
+        <tr><th>Organism</th><th>Significance / Risk</th></tr>
+        <tr><td><em>Escherichia coli</em></td><td>Indicates faecal contamination</td></tr>
+        <tr><td><em>Staphylococcus aureus</em></td><td>Opportunistic pathogen</td></tr>
+        <tr><td><em>Pseudomonas aeruginosa</em></td><td>Opportunistic pathogen</td></tr>
+        <tr><td><em>Salmonella</em> spp.</td><td>Gastrointestinal infection</td></tr>
+        <tr><td><em>Candida albicans</em></td><td>Fungal infection</td></tr>
+      </table>
+    </div>
+    <span class="ref">USP &lt;62&gt; · USP &lt;1111&gt;</span>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 1 · Introduction", title:"Opportunistic Pathogens",
+html:`
+<span class="kicker">1.3 · Emerging Risk</span>
+<h2>Opportunistic &amp; Multi-Drug Resistant Microbes</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">🧬</span> EMA Position</h3>
+    <ul>
+      <li>The <b>EMA</b> has emphasised that <b>opportunistic microbes</b> in the final formulation or <b>multi-antibiotic-resistant microbes</b> can pose a hazard for the product or the patient.</li>
+      <li>This applies to <b>both sterile and non-sterile</b> medicinal products.</li>
+      <li>Microbial contamination may pose a risk to <b>product quality</b> and <b>patient safety</b> even in non-sterile products.</li>
+    </ul>
+    <span class="ref">EMA Guidance</span>
+  </div>
+  <div class="card">
+    <h3><span class="ic">🛡</span> Regulatory Response</h3>
+    <ul>
+      <li>Facility design and segregation</li>
+      <li>Validated cleaning and disinfection</li>
+      <li>Supplier evaluation and qualification</li>
+      <li>Microbiological controls and monitoring</li>
+      <li>Risk assessment of raw materials</li>
+    </ul>
+    <div class="callout ok" style="margin-top:12px">
+      All of the above form part of the <b>Contamination Control Strategy</b> under EU GMP Annex 1.
+    </div>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 1 · Introduction", title:"Particulate Contamination",
+html:`
+<span class="kicker">1.4 · Non-Viable Risk</span>
+<h2>Particulate Contamination</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">🔬</span> What Are Particulates?</h3>
+    <p><b>Visible or subvisible particles</b> that may end up in the product, including:</p>
+    <ul>
+      <li>Fibres</li>
+      <li>Dust</li>
+      <li>Fragments from packaging</li>
+      <li>Fragments from people (skin, hair)</li>
+      <li>Fragments from equipment (glass, metal, rubber)</li>
+    </ul>
+    <span class="ref">EU GMP Annex 1</span>
+  </div>
+  <div class="card">
+    <h3><span class="ic">💉</span> Risks in Sterile Injectables</h3>
+    <ul>
+      <li><b>Embolism</b> — blockage of blood vessels</li>
+      <li><b>Inflammation</b> at injection site</li>
+      <li><b>Allergic reactions</b></li>
+    </ul>
+    <h3 style="margin-top:14px"><span class="ic">📉</span> Consequences</h3>
+    <ul>
+      <li>End-of-line quality rejection</li>
+      <li>Market recall</li>
+      <li>Supply chain disruption</li>
+      <li>Erosion of brand trust</li>
+    </ul>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 1 · Introduction", title:"Chemical & Cross-Contamination",
+html:`
+<span class="kicker">1.5 · Non-Viable Risk</span>
+<h2>Chemical &amp; Cross-Contamination</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">⚗</span> Chemical Contamination</h3>
+    <ul>
+      <li>Residual solvents</li>
+      <li>Cleaning agents</li>
+      <li>Lubricants</li>
+      <li>Leachables from manufacturing equipment</li>
+    </ul>
+    <div class="callout danger" style="margin-top:12px">
+      <b>Impact:</b> can alter the <b>safety, efficacy or stability</b> of the drug product.
+      Unknown or unqualified impurities can trigger serious adverse events and regulatory scrutiny.
+    </div>
+  </div>
+  <div class="card">
+    <h3><span class="ic">🔀</span> Cross-Contamination</h3>
+    <ul>
+      <li>Occurs when traces of one product are unintentionally transferred to another</li>
+      <li>Often caused by <b>shared equipment</b> or <b>inadequate segregation</b></li>
+      <li>Especially dangerous with <b>highly potent or allergenic compounds</b></li>
+    </ul>
+    <div class="callout warn" style="margin-top:12px">
+      <b>Consequences:</b> GMP violations, regulatory penalties, loss of manufacturing licence.
+    </div>
+    <span class="ref">EU GMP Annex 1 · EMA Guidelines</span>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 1 · Introduction", title:"Mycoplasma",
+html:`
+<span class="kicker">1.6 · Biologics</span>
+<h2>Mycoplasma Contamination</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">🧪</span> Why It Is Critical</h3>
+    <ul>
+      <li>A <b>critical risk</b> for cell therapies and biologics</li>
+      <li>Mycoplasma lack a cell wall — invisible to Gram staining and resistant to many antibiotics</li>
+      <li>Can alter cell metabolism, growth and product quality without visible turbidity</li>
+    </ul>
+    <span class="ref">USP &lt;63&gt; · USP &lt;1112&gt; · EP 2.6.7</span>
+  </div>
+  <div class="card">
+    <h3><span class="ic">📋</span> Standards Mandating Testing</h3>
+    <div class="tblwrap">
+      <table class="data">
+        <tr><th>Standard</th><th>Scope</th></tr>
+        <tr><td><strong>ISO 10993</strong></td><td>Biological evaluation of medical devices</td></tr>
+        <tr><td><strong>USP &lt;63&gt;</strong></td><td>Mycoplasma tests — detection in test articles, tissues, cell cultures</td></tr>
+        <tr><td><strong>USP &lt;1112&gt;</strong></td><td>Water activity determination for non-sterile products</td></tr>
+        <tr><td><strong>EP 2.6.7</strong></td><td>European Pharmacopoeia mycoplasma test</td></tr>
+        <tr><td><strong>FDA</strong></td><td>Guidance for cell &amp; gene therapy products</td></tr>
+      </table>
+    </div>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 1 · Introduction", title:"Pharmacopoeias",
+html:`
+<span class="kicker">1.7 · Regulatory Framework</span>
+<h2>Key Pharmacopoeial References</h2>
+<div class="rule"></div>
+<div class="tblwrap">
+  <table class="data">
+    <tr><th>Chapter</th><th>Title</th><th>Purpose</th></tr>
+    <tr><td><strong>USP &lt;51&gt;</strong></td><td>Antimicrobial Effectiveness Testing</td><td>Tests for products containing antimicrobial preservatives</td></tr>
+    <tr><td><strong>USP &lt;61&gt;</strong></td><td>Microbial Enumeration Tests</td><td>TAMC and TYMC for non-sterile products</td></tr>
+    <tr><td><strong>USP &lt;62&gt;</strong></td><td>Tests for Specified Microorganisms</td><td>Detection of objectionable organisms</td></tr>
+    <tr><td><strong>USP &lt;71&gt;</strong></td><td>Sterility Tests</td><td>Membrane Filtration and Direct Inoculation</td></tr>
+    <tr><td><strong>USP &lt;85&gt;</strong></td><td>Bacterial Endotoxins Test</td><td>LAL-based endotoxin detection</td></tr>
+    <tr><td><strong>USP &lt;1111&gt;</strong></td><td>Microbiological Quality of Non-Sterile Products</td><td>Acceptance criteria and evaluation</td></tr>
+  </table>
+</div>
+<div class="callout" style="margin-top:14px">
+  <b>EU GMP Annex 1 (2022)</b> introduces the <b>Contamination Control Strategy (CCS)</b> as a
+  mandatory requirement for sterile product manufacturing — a planned set of controls for
+  <b>microorganisms, endotoxins/pyrogens and particles</b>.
+</div>`
+},
+
+{
+mod:"Module 1 · Introduction", title:"Contamination Types",
+html:`
+<span class="kicker">1.8 · Summary</span>
+<h2>Overview of Contamination Types</h2>
+<div class="rule"></div>
+<div class="tblwrap">
+  <table class="data">
+    <tr><th>Contamination Type</th><th>Examples</th><th>Key Reference</th></tr>
+    <tr><td><strong>Bacteria</strong></td><td><em>E. coli</em>, <em>S. aureus</em>, <em>P. aeruginosa</em>, <em>Salmonella</em></td><td>USP &lt;61&gt;, &lt;62&gt;, &lt;1111&gt;</td></tr>
+    <tr><td><strong>Fungi (Yeast &amp; Moulds)</strong></td><td><em>Candida albicans</em>, <em>Aspergillus</em> spp.</td><td>USP &lt;61&gt;, &lt;62&gt;, &lt;1111&gt;</td></tr>
+    <tr><td><strong>Viruses</strong></td><td>Relevant for biologics</td><td>EU GMP Annex 1 (CCS)</td></tr>
+    <tr><td><strong>Endotoxins / Pyrogens</strong></td><td>LPS from Gram-negative bacteria</td><td>USP &lt;85&gt;</td></tr>
+    <tr><td><strong>Mycoplasma</strong></td><td>Cell culture contaminants</td><td>USP &lt;63&gt;, &lt;1112&gt;, EP 2.6.7</td></tr>
+    <tr><td><strong>Particulates</strong></td><td>Glass, fibres, dust, fragments</td><td>EU GMP Annex 1</td></tr>
+    <tr><td><strong>Chemical</strong></td><td>Residual solvents, cleaning agents</td><td>EU GMP Annex 1</td></tr>
+    <tr><td><strong>Cross-Contamination</strong></td><td>Product-to-product transfer</td><td>EU GMP Annex 1</td></tr>
+  </table>
+</div>`
+},
+
+/* --- MODULE 1 QUIZ --- */
+{
+mod:"Module 1 · Introduction", title:"Module 1 Quiz",
+html:`
+<span class="kicker">✅ Knowledge Check</span>
+<h2>Module 1 — Quiz</h2>
+<div class="rule"></div>
+<div class="quiz">
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">1</span> Which USP chapter provides tests for specified microorganisms such as <em>E. coli</em>, <em>S. aureus</em> and <em>P. aeruginosa</em>?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> USP &lt;61&gt;</button>
+      <button class="opt" data-k="B"><span class="k">B</span> USP &lt;62&gt;</button>
+      <button class="opt" data-k="C"><span class="k">C</span> USP &lt;85&gt;</button>
+      <button class="opt" data-k="D"><span class="k">D</span> USP &lt;71&gt;</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> USP &lt;62&gt; covers tests for specified microorganisms. USP &lt;61&gt; is enumeration, USP &lt;85&gt; is endotoxins, USP &lt;71&gt; is sterility.</div>
+  </div>
+
+  <div class="q" data-a="C">
+    <div class="qtext"><span class="num">2</span> Which USP chapter establishes the Bacterial Endotoxins Test (BET)?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> USP &lt;61&gt;</button>
+      <button class="opt" data-k="B"><span class="k">B</span> USP &lt;62&gt;</button>
+      <button class="opt" data-k="C"><span class="k">C</span> USP &lt;85&gt;</button>
+      <button class="opt" data-k="D"><span class="k">D</span> USP &lt;71&gt;</button>
+    </div>
+    <div class="explain"><b>Correct: C.</b> USP &lt;85&gt; is the official chapter for bacterial endotoxin testing using LAL-based methods.</div>
+  </div>
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">3</span> What is the endotoxin limit for intravenous parenteral drugs?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> 0.2 EU/kg body weight/hour</button>
+      <button class="opt" data-k="B"><span class="k">B</span> 5 EU/kg body weight/hour</button>
+      <button class="opt" data-k="C"><span class="k">C</span> 20 EU/kg body weight/hour</button>
+      <button class="opt" data-k="D"><span class="k">D</span> 100 EU/kg body weight/hour</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> 5 EU/kg/hr for IV; 0.2 EU/kg/hr for intrathecal administration (25× stricter).</div>
+  </div>
+
+  <div class="q" data-a="A">
+    <div class="qtext"><span class="num">4</span> According to USP &lt;1111&gt;, the significance of microorganisms in non-sterile products should be evaluated in terms of:</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> Use of the product, nature of the product, potential hazard to the user</button>
+      <button class="opt" data-k="B"><span class="k">B</span> Cost of recall and manufacturing batch size</button>
+      <button class="opt" data-k="C"><span class="k">C</span> Storage temperature and shelf life only</button>
+      <button class="opt" data-k="D"><span class="k">D</span> Number of personnel in the facility</button>
+    </div>
+    <div class="explain"><b>Correct: A.</b> USP &lt;1111&gt; explicitly requires evaluation based on product use, product nature and potential hazard to the user.</div>
+  </div>
+
+  <div class="qscore">
+    <b id="sc1">Score: 0 / 4</b>
+    <div class="bar"><i id="sb1"></i></div>
+  </div>
+</div>`
+},
+
+/* ================= MODULE 2 ================= */
+{
+mod:"Module 2 · Aseptic Technique", title:"Module 2",
+html:`
+<div class="divider">
+  <div class="big">02</div>
+  <span class="kicker" style="margin-top:14px">Module Two</span>
+  <h2>Aseptic Techniques &amp; Gowning</h2>
+  <div class="rule"></div>
+  <p class="sub">Personnel are the primary source of contamination in aseptic manufacturing.
+  Gowning, behaviour and airflow discipline are your first line of defence.</p>
+</div>`
+},
+
+{
+mod:"Module 2 · Aseptic Technique", title:"Personnel Contamination",
+html:`
+<span class="kicker">2.1 · Source of Contamination</span>
+<h2>Personnel — The Primary Source</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">👤</span> How Personnel Contaminate</h3>
+    <p>Personnel introduce particles and microbes shed from:</p>
+    <ul>
+      <li><b>Skin</b> — shedding millions of particles per hour</li>
+      <li><b>Hair</b></li>
+      <li><b>Clothing</b></li>
+      <li>Breathing, speaking and movement</li>
+    </ul>
+    <div class="callout danger" style="margin-top:12px">
+      Within a pharmaceutical CCS, personnel are consistently recognised as
+      <b>one of the most significant contributors to contamination risk</b>.
+    </div>
+  </div>
+  <div class="card">
+    <h3><span class="ic">📋</span> Key Personnel Risk Factors</h3>
+    <div class="grid g2" style="gap:9px">
+      <div class="card tint" style="padding:10px 12px"><b style="font-size:13px">Gowning</b><p style="font-size:12.4px">Integrity and technique</p></div>
+      <div class="card tint" style="padding:10px 12px"><b style="font-size:13px">Qualification</b><p style="font-size:12.4px">Training &amp; requalification</p></div>
+      <div class="card tint" style="padding:10px 12px"><b style="font-size:13px">Flow</b><p style="font-size:12.4px">Movement &amp; material flow</p></div>
+      <div class="card tint" style="padding:10px 12px"><b style="font-size:13px">Intervention</b><p style="font-size:12.4px">Critical interventions</p></div>
+      <div class="card tint" style="padding:10px 12px"><b style="font-size:13px">Monitoring</b><p style="font-size:12.4px">Personnel sampling</p></div>
+    </div>
+    <span class="ref">EU GMP Annex 1 (2022) · EMA Guidance</span>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 2 · Aseptic Technique", title:"Laminar Air Flow",
+html:`
+<span class="kicker">2.2 · Airflow Discipline</span>
+<h2>Working Under Laminar Air Flow (LAF)</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">💨</span> Core Principles</h3>
+    <ul>
+      <li>Operators must adhere to aseptic technique at all times to <b>prevent changes in air currents</b> that introduce air of lower quality into the critical zone.</li>
+      <li>Movement adjacent to the critical zone should be <b>restricted</b>.</li>
+      <li>Obstruction of the path of the <b>unidirectional (first air) airflow</b> must be <b>avoided</b>.</li>
+      <li>Never pass hands or equipment between the filter and the product.</li>
+    </ul>
+    <span class="ref">EU GMP Annex 1</span>
+  </div>
+  <div class="card">
+    <h3><span class="ic">📐</span> Air Velocity Guidance</h3>
+    <div class="tblwrap">
+      <table class="data">
+        <tr><th>Parameter</th><th>Guidance Value</th></tr>
+        <tr><td>Homogeneous air speed at working position</td><td><strong>0.36 – 0.54 m/s</strong></td></tr>
+      </table>
+    </div>
+    <h3 style="margin-top:15px"><span class="ic">🎥</span> Airflow Visualisation</h3>
+    <ul>
+      <li>Conduct under <b>dynamic conditions</b></li>
+      <li>Demonstrate unidirectional airflow and sweeping action <b>over and away from</b> the product</li>
+    </ul>
+    <div class="callout warn" style="margin-top:12px">
+      <b>Remember:</b> First air is the cleanest air. Protect it.
+    </div>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 2 · Aseptic Technique", title:"Gowning",
+html:`
+<span class="kicker">2.3 · Gowning &amp; Hygiene</span>
+<h2>Donning &amp; Doffing of Sterile Gear</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">🥼</span> EU GMP Annex 1 Requirements</h3>
+    <ul>
+      <li>An <b>aseptic gowning qualification programme</b> must assess the ability of personnel to maintain the microbial quality of the gown after gowning.</li>
+      <li>Garments must be <b>visually checked</b> for cleanliness and integrity:
+        <br>– immediately <b>prior to</b> gowning
+        <br>– <b>after</b> gowning</li>
+      <li>Gloves must be <b>regularly disinfected</b> during operations.</li>
+      <li>Facemasks may be required in Grade C and D areas.</li>
+    </ul>
+    <span class="ref">EU GMP Annex 1</span>
+  </div>
+  <div class="card">
+    <h3><span class="ic">🎓</span> EMA Recommendations</h3>
+    <ul>
+      <li><b>Regular, practical training</b> and assessment of gowning and cleaning personnel</li>
+      <li>Education about <b>correct behaviour</b> during production and critical activities</li>
+      <li>Personnel hygiene and health status should be <b>closely monitored</b></li>
+    </ul>
+    <h3 style="margin-top:14px"><span class="ic">📹</span> Watch</h3>
+    <a class="vcard" href="https://www.sps.nhs.uk/articles/gowning-in-aseptic-services/" target="_blank" rel="noopener">
+      <div class="vplay">▶</div>
+      <div><b>Gowning in Aseptic Services</b><span>NHS Specialist Pharmacy Service · 23 min</span></div>
+      <span class="go">→</span>
+    </a>
+  </div>
+</div>`
+},
+
+/* --- MODULE 2 QUIZ --- */
+{
+mod:"Module 2 · Aseptic Technique", title:"Module 2 Quiz",
+html:`
+<span class="kicker">✅ Knowledge Check</span>
+<h2>Module 2 — Quiz</h2>
+<div class="rule"></div>
+<div class="quiz">
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">1</span> In aseptic operations, who or what is considered the primary source of contamination?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> HVAC system</button>
+      <button class="opt" data-k="B"><span class="k">B</span> Personnel</button>
+      <button class="opt" data-k="C"><span class="k">C</span> Culture media</button>
+      <button class="opt" data-k="D"><span class="k">D</span> Glassware</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> EU GMP Annex 1 and EMA guidance recognise personnel as one of the most significant contributors to contamination risk.</div>
+  </div>
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">2</span> What is the guidance air velocity range for laminar airflow at the working position?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> 0.10 – 0.20 m/s</button>
+      <button class="opt" data-k="B"><span class="k">B</span> 0.36 – 0.54 m/s</button>
+      <button class="opt" data-k="C"><span class="k">C</span> 1.00 – 2.00 m/s</button>
+      <button class="opt" data-k="D"><span class="k">D</span> 5.00 – 10.00 m/s</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> EU GMP Annex 1 gives a guidance value of 0.36–0.54 m/s at the working position in open cleanroom applications.</div>
+  </div>
+
+  <div class="q" data-a="C">
+    <div class="qtext"><span class="num">3</span> Under EU GMP Annex 1, when must garments be visually checked for cleanliness and integrity?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> Only at the end of the shift</button>
+      <button class="opt" data-k="B"><span class="k">B</span> Only before entering the cleanroom</button>
+      <button class="opt" data-k="C"><span class="k">C</span> Immediately prior to gowning and after gowning</button>
+      <button class="opt" data-k="D"><span class="k">D</span> Once per week during qualification</button>
+    </div>
+    <div class="explain"><b>Correct: C.</b> Garments are checked immediately prior to and after gowning to confirm cleanliness and integrity.</div>
+  </div>
+
+  <div class="qscore">
+    <b id="sc2">Score: 0 / 3</b>
+    <div class="bar"><i id="sb2"></i></div>
+  </div>
+</div>`
+},
+
+/* ================= MODULE 3 ================= */
+{
+mod:"Module 3 · Growth Media", title:"Module 3",
+html:`
+<div class="divider">
+  <div class="big">03</div>
+  <span class="kicker" style="margin-top:14px">Module Three</span>
+  <h2>Growth Media &amp; Culture Methods</h2>
+  <div class="rule"></div>
+  <p class="sub">Media is the foundation of every microbiological result. Choosing the right medium,
+  sterilising it correctly and proving it promotes growth are non-negotiable.</p>
+</div>`
+},
+
+{
+mod:"Module 3 · Growth Media", title:"Media Types",
+html:`
+<span class="kicker">3.1 · Media Selection</span>
+<h2>General Purpose vs. Selective Media</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">🧫</span> General Purpose Media</h3>
+    <ul>
+      <li>Support growth of a <b>wide range</b> of microorganisms</li>
+      <li>Used for enumeration (TAMC / TYMC)</li>
+      <li>Examples:
+        <br>– <b>Tryptic Soy Agar (TSA)</b> for TAMC
+        <br>– <b>Sabouraud Dextrose Agar (SDA)</b> for TYMC</li>
+    </ul>
+    <span class="ref">USP &lt;61&gt;</span>
+  </div>
+  <div class="card">
+    <h3><span class="ic">🎯</span> Selective Media</h3>
+    <p><b>Inhibit</b> certain organisms while allowing <b>target organisms</b> to grow. Used in USP &lt;62&gt; for detection of specified microorganisms.</p>
+    <div class="tblwrap" style="margin-top:10px">
+      <table class="data">
+        <tr><th>Organism</th><th>Selective Agar</th></tr>
+        <tr><td><em>E. coli</em></td><td>MacConkey Agar</td></tr>
+        <tr><td><em>S. aureus</em></td><td>Baird-Parker Agar</td></tr>
+        <tr><td><em>Salmonella</em></td><td>XLD Agar</td></tr>
+        <tr><td><em>P. aeruginosa</em></td><td>Cetrimide Agar</td></tr>
+        <tr><td><em>C. albicans</em></td><td>Sabouraud + antibiotics</td></tr>
+      </table>
+    </div>
+    <span class="ref">USP &lt;62&gt;</span>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 3 · Growth Media", title:"Autoclave & GPT",
+html:`
+<span class="kicker">3.2 · Sterilisation &amp; Quality</span>
+<h2>Autoclave &amp; Growth Promotion Testing</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">♨</span> Autoclave (Moist Heat)</h3>
+    <ul>
+      <li>The <b>preferred sterilisation technique</b></li>
+      <li>Typical cycle: <b>121 °C (15 psi) for 15–20 minutes</b></li>
+      <li>Effects of sterilisation method and conditions on media must be validated by <b>sterility and growth-promotion testing</b></li>
+    </ul>
+    <div class="callout warn" style="margin-top:12px">
+      <b>Over-heating media</b> can destroy nutrients and produce false negatives.
+    </div>
+  </div>
+  <div class="card">
+    <h3><span class="ic">🌱</span> Growth Promotion Testing (GPT)</h3>
+    <ul>
+      <li>Must be performed on <b>each new batch of medium</b></li>
+      <li>Confirms the medium supports growth of challenge organisms</li>
+      <li>Per <b>USP &lt;62&gt;</b>, growth promotion must be checked for each new batch</li>
+      <li>The growth-promoting quality test shall be performed on the <b>smallest sized vessel</b> used in an autoclave run (provided autoclave validation exists)</li>
+    </ul>
+    <span class="ref">USP &lt;61&gt; · USP &lt;62&gt;</span>
+  </div>
+</div>
+<div class="grid g4" style="margin-top:14px">
+  <div class="stat"><b>121°C</b><span>Sterilisation Temp</span></div>
+  <div class="stat"><b>15–20</b><span>Minutes</span></div>
+  <div class="stat"><b>15 psi</b><span>Pressure</span></div>
+  <div class="stat"><b>Each Batch</b><span>GPT Frequency</span></div>
+</div>`
+},
+
+{
+mod:"Module 3 · Growth Media", title:"Incubation Temperatures",
+html:`
+<span class="kicker">3.3 · Incubation</span>
+<h2>Incubation Temperatures &amp; Duration</h2>
+<div class="rule"></div>
+<div class="tblwrap">
+  <table class="data">
+    <tr><th>Test</th><th>Medium</th><th>Temperature</th><th>Duration</th></tr>
+    <tr><td><strong>TAMC</strong> (USP &lt;61&gt;)</td><td>TSA</td><td><strong>30–35 °C</strong></td><td>3–5 days</td></tr>
+    <tr><td><strong>TYMC</strong> (USP &lt;61&gt;)</td><td>SDA</td><td><strong>20–25 °C</strong></td><td>5–7 days</td></tr>
+    <tr><td><strong>Sterility</strong> (USP &lt;71&gt;)</td><td>TSB / SCDM</td><td><strong>20–25 °C AND 30–35 °C</strong></td><td>14 days</td></tr>
+    <tr><td><strong>Growth Promotion</strong> (USP &lt;62&gt;)</td><td>Various</td><td>30–35 °C</td><td>≤ 18 h (worst case)</td></tr>
+  </table>
+</div>
+<div class="grid g2" style="margin-top:14px">
+  <div class="card">
+    <h3><span class="ic">🦠</span> Why Different Temperatures?</h3>
+    <ul>
+      <li><b>Bacteria</b> generally grow optimally at <b>30–35 °C</b> (near human body temperature)</li>
+      <li><b>Fungi / Yeast &amp; Moulds</b> prefer cooler conditions at <b>20–25 °C</b></li>
+      <li>Incubating at the wrong temperature can <b>miss contaminants entirely</b></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3><span class="ic">⏱</span> USP &lt;71&gt; Dual Incubation</h3>
+    <p>Sterility testing requires incubation at <b>BOTH</b> temperature ranges for 14 days to detect both fungal and bacterial contaminants. A single temperature is insufficient.</p>
+    <span class="ref">USP &lt;61&gt; · USP &lt;62&gt; · USP &lt;71&gt;</span>
+  </div>
+</div>`
+},
+
+/* --- MODULE 3 QUIZ --- */
+{
+mod:"Module 3 · Growth Media", title:"Module 3 Quiz",
+html:`
+<span class="kicker">✅ Knowledge Check</span>
+<h2>Module 3 — Quiz</h2>
+<div class="rule"></div>
+<div class="quiz">
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">1</span> What are the typical incubation conditions for Total Aerobic Microbial Count (TAMC) under USP &lt;61&gt;?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> 20–25 °C for 5–7 days</button>
+      <button class="opt" data-k="B"><span class="k">B</span> 30–35 °C for 3–5 days</button>
+      <button class="opt" data-k="C"><span class="k">C</span> 35–37 °C for 24 hours</button>
+      <button class="opt" data-k="D"><span class="k">D</span> 25–30 °C for 14 days</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> TAMC uses TSA incubated at 30–35 °C for 3–5 days. TYMC uses SDA at 20–25 °C for 5–7 days.</div>
+  </div>
+
+  <div class="q" data-a="A">
+    <div class="qtext"><span class="num">2</span> What are the typical incubation conditions for Total Yeast and Mould Count (TYMC)?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> 20–25 °C for 5–7 days</button>
+      <button class="opt" data-k="B"><span class="k">B</span> 30–35 °C for 3–5 days</button>
+      <button class="opt" data-k="C"><span class="k">C</span> 35–37 °C for 48 hours</button>
+      <button class="opt" data-k="D"><span class="k">D</span> 2–8 °C for 7 days</button>
+    </div>
+    <div class="explain"><b>Correct: A.</b> Fungi and moulds grow best at the cooler 20–25 °C range on Sabouraud Dextrose Agar.</div>
+  </div>
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">3</span> Growth Promotion Testing (GPT) must be performed:</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> Once per year</button>
+      <button class="opt" data-k="B"><span class="k">B</span> On each new batch of medium</button>
+      <button class="opt" data-k="C"><span class="k">C</span> Only when contamination occurs</button>
+      <button class="opt" data-k="D"><span class="k">D</span> Only for selective media</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> USP &lt;61&gt;/&lt;62&gt; require GPT on each new batch of medium to confirm it supports microbial growth.</div>
+  </div>
+
+  <div class="q" data-a="A">
+    <div class="qtext"><span class="num">4</span> What is a typical moist heat autoclave cycle for sterilising media?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> 121 °C for 15–20 minutes</button>
+      <button class="opt" data-k="B"><span class="k">B</span> 160 °C for 2 hours</button>
+      <button class="opt" data-k="C"><span class="k">C</span> 180 °C for 30 minutes</button>
+      <button class="opt" data-k="D"><span class="k">D</span> 100 °C for 5 minutes</button>
+    </div>
+    <div class="explain"><b>Correct: A.</b> 121 °C (15 psi) for 15–20 minutes is the standard moist heat sterilisation cycle unless otherwise specified.</div>
+  </div>
+
+  <div class="qscore">
+    <b id="sc3">Score: 0 / 4</b>
+    <div class="bar"><i id="sb3"></i></div>
+  </div>
+</div>`
+},
+
+/* ================= MODULE 4 ================= */
+{
+mod:"Module 4 · Environmental Monitoring", title:"Module 4",
+html:`
+<div class="divider">
+  <div class="big">04</div>
+  <span class="kicker" style="margin-top:14px">Module Four</span>
+  <h2>Environmental Monitoring (EM)</h2>
+  <div class="rule"></div>
+  <p class="sub">If you cannot measure the environment, you cannot control it. EM is the
+  early-warning system of your Contamination Control Strategy.</p>
+</div>`
+},
+
+{
+mod:"Module 4 · Environmental Monitoring", title:"Active vs Passive",
+html:`
+<span class="kicker">4.1 · Air Monitoring</span>
+<h2>Active vs. Passive Sampling</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">🌪</span> Active (Volumetric) Sampling</h3>
+    <ul>
+      <li>Uses <b>air samplers</b> to draw a known volume of air over a collection medium</li>
+      <li>Provides <b>quantitative</b> results (CFU/m³)</li>
+      <li>Examples: slit-to-agar samplers, centrifugal samplers</li>
+      <li>Allows calculation of contamination per unit volume of air</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3><span class="ic">🕸</span> Passive (Settle Plate) Sampling</h3>
+    <ul>
+      <li>Exposes <b>open agar plates</b> to the environment for a defined period</li>
+      <li>Provides <b>qualitative / semi-quantitative</b> data on viable particles settling by gravity</li>
+      <li>Example: TSA plates exposed for up to 4 hours</li>
+      <li>Simple, low-cost, but does not measure air volume</li>
+    </ul>
+  </div>
+</div>
+<div class="callout" style="margin-top:14px">
+  <b>Regulatory requirement:</b> EU GMP Annex 1 (2022) requires that both active and passive methods
+  form part of the <b>Contamination Control Strategy</b>. EMA guidelines require the monitoring
+  programme to be based on a documented <b>Environmental Monitoring Risk Assessment</b>.
+</div>`
+},
+
+{
+mod:"Module 4 · Environmental Monitoring", title:"RODAC & Swabs",
+html:`
+<span class="kicker">4.2 · Surface Monitoring</span>
+<h2>Contact Plates (RODAC) &amp; Swabs</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">⭕</span> Contact Plates (RODAC)</h3>
+    <ul>
+      <li>Used for <b>flat, non-porous surfaces</b></li>
+      <li>Convex agar surface is pressed directly onto the surface, transferring microorganisms</li>
+      <li>Results expressed as <b>CFU/plate</b></li>
+      <li>Recovered organisms are <b>not</b> removed from the plate, so no further enumeration is possible</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3><span class="ic">🧽</span> Swabs</h3>
+    <ul>
+      <li>Used for <b>irregular or hard-to-reach surfaces</b></li>
+      <li>Swab is rubbed over a defined area (e.g., 25 cm²), then streaked onto agar</li>
+      <li>Results expressed as <b>CFU/swab</b></li>
+      <li>Allows transfer to multiple media if required</li>
+    </ul>
+  </div>
+</div>
+<div class="grid g3" style="margin-top:14px">
+  <div class="card tint"><h3><span class="ic">🖥</span> Equipment</h3><p>Surfaces of filling machines, conveyors, tools</p></div>
+  <div class="card tint"><h3><span class="ic">🧱</span> Facility</h3><p>Walls, floors, doors, ceilings, curtains</p></div>
+  <div class="card tint"><h3><span class="ic">👤</span> Personnel</h3><p>Gowns, gloves — verified after critical interventions</p></div>
+</div>`
+},
+
+{
+mod:"Module 4 · Environmental Monitoring", title:"Finger Dabs & Gown Sampling",
+html:`
+<span class="kicker">4.3 · Personnel Monitoring</span>
+<h2>Finger Dabs &amp; Gown Sampling</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">👆</span> Finger Dabs</h3>
+    <ul>
+      <li>Performed <b>immediately after critical interventions</b></li>
+      <li>Assess <b>glove contamination</b></li>
+      <li>Typically performed by pressing gloved fingertips onto an agar plate</li>
+      <li>Provides direct feedback on operator technique</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3><span class="ic">🥼</span> Gown Sampling</h3>
+    <ul>
+      <li>Involves <b>contact plates</b> on gown surfaces:
+        <br>– Chest
+        <br>– Arms
+        <br>– Other defined sites</li>
+      <li>Verifies personnel gowning integrity</li>
+      <li>Detects contamination introduced during donning or movement</li>
+    </ul>
+  </div>
+</div>
+<div class="callout" style="margin-top:14px">
+  <b>EU GMP Annex 1</b> requires <b>personnel monitoring</b> as part of the Contamination Control
+  Strategy — including gown sampling after critical interventions.
+</div>
+<div class="grid g2" style="margin-top:14px">
+  <a class="vcard" href="https://www.ncbionetwork.org" target="_blank" rel="noopener">
+    <div class="vplay">▶</div>
+    <div><b>Environmental Monitoring</b><span>NCBioNetwork · Interactive Lesson</span></div>
+    <span class="go">→</span>
+  </a>
+  <a class="vcard" href="https://www.pharmaceuticalonline.com" target="_blank" rel="noopener">
+    <div class="vplay">▶</div>
+    <div><b>Annex 1 Data &amp; Reporting</b><span>Pharmaceutical Online · Tech Expo Video</span></div>
+    <span class="go">→</span>
+  </a>
+</div>`
+},
+
+{
+mod:"Module 4 · Environmental Monitoring", title:"Handling Excursions",
+html:`
+<span class="kicker">4.4 · Excursion Handling</span>
+<h2>What To Do When Counts Are Too High</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">🚨</span> Immediate Actions</h3>
+    <ul>
+      <li><b>Investigate</b> as a deviation / OOS (Out-of-Specification)</li>
+      <li>Initiate <b>CAPA</b> (Corrective and Preventive Actions)</li>
+      <li>Perform <b>resampling</b> where required</li>
+      <li>Assess impact on product batches manufactured in that period</li>
+      <li>Quarantine affected batches pending investigation</li>
+    </ul>
+    <div class="callout danger" style="margin-top:12px">
+      <b>Never</b> simply repeat sampling until a passing result is obtained — this is data manipulation.
+    </div>
+  </div>
+  <div class="card">
+    <h3><span class="ic">🔍</span> Potential Root Causes</h3>
+    <ul>
+      <li>Inadequate gowning or aseptic technique</li>
+      <li>HVAC / airflow disruption</li>
+      <li>Cleaning / disinfection failure</li>
+      <li>Media or sampling errors</li>
+      <li>Personnel overload in the area</li>
+      <li>Equipment failure or maintenance activity</li>
+    </ul>
+    <span class="ref">EU GMP Annex 1 · EMA Guidance</span>
+  </div>
+</div>
+<div class="callout ok" style="margin-top:14px">
+  <b>EMA guidance:</b> Appropriate environmental monitoring ensures production premises remain
+  suitable for manufacturing and that there is <b>no risk of uncontrolled contamination</b>.
+</div>`
+},
+
+/* --- MODULE 4 QUIZ --- */
+{
+mod:"Module 4 · Environmental Monitoring", title:"Module 4 Quiz",
+html:`
+<span class="kicker">✅ Knowledge Check</span>
+<h2>Module 4 — Quiz</h2>
+<div class="rule"></div>
+<div class="quiz">
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">1</span> Which environmental monitoring method is an active (volumetric) sampling technique?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> Settle plate</button>
+      <button class="opt" data-k="B"><span class="k">B</span> Air sampler</button>
+      <button class="opt" data-k="C"><span class="k">C</span> RODAC contact plate</button>
+      <button class="opt" data-k="D"><span class="k">D</span> Swab</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> Active/volumetric sampling uses air samplers to draw a known volume of air. Settle plates are passive.</div>
+  </div>
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">2</span> RODAC contact plates are best suited for which type of surface?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> Irregular surfaces</button>
+      <button class="opt" data-k="B"><span class="k">B</span> Flat, non-porous surfaces</button>
+      <button class="opt" data-k="C"><span class="k">C</span> Air monitoring</button>
+      <button class="opt" data-k="D"><span class="k">D</span> Personnel gowns only</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> Contact plates (RODAC) are designed for flat, non-porous surfaces. Swabs are used for irregular or hard-to-reach areas.</div>
+  </div>
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">3</span> Finger dabs are typically performed:</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> Before gowning only</button>
+      <button class="opt" data-k="B"><span class="k">B</span> After critical interventions</button>
+      <button class="opt" data-k="C"><span class="k">C</span> At the end of the shift only</button>
+      <button class="opt" data-k="D"><span class="k">D</span> Once per month</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> Finger dabs assess glove contamination immediately after critical interventions.</div>
+  </div>
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">4</span> If environmental monitoring counts are too high, what is the most appropriate first action?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> Ignore if below 300 CFU</button>
+      <button class="opt" data-k="B"><span class="k">B</span> Investigate as a deviation/OOS and initiate CAPA</button>
+      <button class="opt" data-k="C"><span class="k">C</span> Repeat sampling until a passing result is obtained</button>
+      <button class="opt" data-k="D"><span class="k">D</span> Discard the plate</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> Excursions must be investigated as deviations/OOS with CAPA. Repeatedly resampling until you pass is data manipulation.</div>
+  </div>
+
+  <div class="qscore">
+    <b id="sc4">Score: 0 / 4</b>
+    <div class="bar"><i id="sb4"></i></div>
+  </div>
+</div>`
+},
+
+/* ================= MODULE 5 ================= */
+{
+mod:"Module 5 · QC Tests", title:"Module 5",
+html:`
+<div class="divider">
+  <div class="big">05</div>
+  <span class="kicker" style="margin-top:14px">Module Five</span>
+  <h2>Common QC Microbiological Tests</h2>
+  <div class="rule"></div>
+  <p class="sub">Bioburden, specified organisms, sterility and bacterial endotoxins —
+  the four pillars of routine QC microbiological testing.</p>
+</div>`
+},
+
+{
+mod:"Module 5 · QC Tests", title:"Bioburden Test",
+html:`
+<span class="kicker">5.1 · Enumeration</span>
+<h2>Bioburden Test — CFU/g or CFU/mL</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">🔢</span> Calculation</h3>
+    <p><b>Bioburden testing</b> quantifies viable microorganisms using TAMC and TYMC per USP &lt;61&gt;.</p>
+    <div class="callout" style="margin-top:10px;font-family:monospace;font-size:14px">
+      CFU/mL = Total Colonies ÷ Volume Filtered
+    </div>
+    <h3 style="margin-top:15px"><span class="ic">📝</span> Worked Example</h3>
+    <ul>
+      <li>50 colonies recovered from a 100 mL sample</li>
+      <li>CFU/mL = 50 ÷ 100 = <b>0.5 CFU/mL</b></li>
+    </ul>
+    <h3 style="margin-top:15px"><span class="ic">✔</span> Method Suitability</h3>
+    <p>USP &lt;61&gt; requires at least <b>50 % recovery</b> of specified challenge organisms in the presence of the test article.</p>
+  </div>
+  <div class="card">
+    <h3><span class="ic">📊</span> Acceptance Criteria</h3>
+    <p><b>USP &lt;1111&gt; — Oral Solid Products</b></p>
+    <div class="tblwrap" style="margin-top:8px">
+      <table class="data">
+        <tr><th>Parameter</th><th>Limit</th></tr>
+        <tr><td>TAMC</td><td><strong>≤ 1,000 CFU/g</strong></td></tr>
+        <tr><td>TYMC</td><td><strong>≤ 100 CFU/g</strong></td></tr>
+      </table>
+    </div>
+    <h3 style="margin-top:15px"><span class="ic">💧</span> Water Limits</h3>
+    <div class="tblwrap">
+      <table class="data">
+        <tr><th>Water Type</th><th>Alert</th><th>Action</th></tr>
+        <tr><td>Purified Water</td><td>50 CFU/mL</td><td><strong>100 CFU/mL</strong></td></tr>
+        <tr><td>Water for Injection</td><td>10 CFU/100 mL</td><td><strong>20 CFU/100 mL</strong></td></tr>
+      </table>
+    </div>
+    <span class="ref">USP &lt;61&gt; · USP &lt;1111&gt;</span>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 5 · QC Tests", title:"Specified Organisms",
+html:`
+<span class="kicker">5.2 · Objectionables</span>
+<h2>Test for Specified Organisms</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">🚫</span> USP &lt;62&gt; — Tests for Absence of:</h3>
+    <ul>
+      <li><em>Staphylococcus aureus</em></li>
+      <li><em>Pseudomonas aeruginosa</em></li>
+      <li><em>Escherichia coli</em></li>
+      <li><em>Salmonella</em> spp.</li>
+      <li><em>Candida albicans</em></li>
+      <li>Bile-tolerant Gram-negative bacteria</li>
+      <li><em>Clostridia</em> species</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3><span class="ic">📏</span> Key Test Requirements</h3>
+    <ul>
+      <li>Test strains must be inoculated <b>individually</b></li>
+      <li>Inoculum: <b>not more than 100 CFU</b></li>
+      <li><b>No mixed inoculum</b> is permitted</li>
+      <li>A <b>negative control</b> must be included <b>every time</b> the product is tested</li>
+      <li>If a positive result occurs with the negative control, the test is <b>invalid</b> and may be repeated</li>
+    </ul>
+    <h3 style="margin-top:14px"><span class="ic">🎯</span> Acceptance Examples</h3>
+    <ul>
+      <li>Absence of <em>Salmonella</em> spp. in a <b>10 g</b> sample</li>
+      <li>Absence of <em>E. coli</em> per <b>1 g</b> for botanical ingredients</li>
+    </ul>
+    <span class="ref">USP &lt;62&gt;</span>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 5 · QC Tests", title:"Sterility Testing",
+html:`
+<span class="kicker">5.3 · Sterility</span>
+<h2>Sterility Testing — USP &lt;71&gt;</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">🧪</span> Membrane Filtration <span class="pill ok">Preferred</span></h3>
+    <ul>
+      <li>Pass liquid product through a <b>0.45 µm filter</b></li>
+      <li>Rinse to remove antimicrobial inhibitors</li>
+      <li>Transfer filter to culture media</li>
+      <li>Preferred for <b>filterable products</b></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3><span class="ic">💉</span> Direct Inoculation <span class="pill w">Secondary</span></h3>
+    <ul>
+      <li>Used when membrane filtration is <b>unsuitable</b></li>
+      <li>Examples: high viscosity, non-filterable products</li>
+      <li>Product directly inoculated into growth medium</li>
+    </ul>
+  </div>
+</div>
+<div class="grid g2" style="margin-top:14px">
+  <div class="card">
+    <h3><span class="ic">⏱</span> Incubation Requirements</h3>
+    <div class="callout" style="font-size:15px">
+      <b>14 days</b> at <b>20–25 °C AND 30–35 °C</b>
+    </div>
+    <p style="margin-top:10px">Both temperature ranges are required to detect fungal and bacterial contaminants.</p>
+    <span class="ref">USP &lt;71&gt;</span>
+  </div>
+  <div class="card">
+    <h3><span class="ic">🧴</span> USP &lt;51&gt; — Antimicrobial Effectiveness</h3>
+    <ul>
+      <li><b>Distinct</b> from sterility testing</li>
+      <li>Required for products containing <b>antimicrobial preservatives</b></li>
+      <li>Verifies the preservative system can reduce microbial load over <b>28 days</b></li>
+    </ul>
+    <span class="ref">USP &lt;51&gt;</span>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 5 · QC Tests", title:"Bacterial Endotoxin Test",
+html:`
+<span class="kicker">5.4 · Endotoxins</span>
+<h2>Bacterial Endotoxin Test (BET)</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">🧬</span> Methods — USP &lt;85&gt;</h3>
+    <ul>
+      <li><b>LAL (Limulus Amebocyte Lysate)</b> reagents</li>
+      <li><b>Recombinant Factor C (rFC)</b> — animal-free alternative</li>
+    </ul>
+    <p style="margin-top:9px"><b>Three validated techniques:</b></p>
+    <ul>
+      <li>Gel-clot</li>
+      <li>Photometric</li>
+      <li>Kinetic</li>
+    </ul>
+    <span class="ref">USP &lt;85&gt; · USP &lt;86&gt;</span>
+  </div>
+  <div class="card">
+    <h3><span class="ic">📏</span> Endotoxin Limits</h3>
+    <div class="tblwrap">
+      <table class="data">
+        <tr><th>Route</th><th>Limit</th></tr>
+        <tr><td>Intravenous (IV)</td><td><strong>5 EU/kg body weight/hour</strong></td></tr>
+        <tr><td>Intrathecal</td><td><strong>0.2 EU/kg body weight/hour</strong></td></tr>
+      </table>
+    </div>
+    <h3 style="margin-top:15px"><span class="ic">🔄</span> Retesting</h3>
+    <ul>
+      <li>When results are anomalous, use the <b>gel-clot method</b> per USP &lt;85&gt;</li>
+      <li>If failure occurs below the maximum valid dilution (MVD), <b>investigation is required</b></li>
+    </ul>
+    <span class="ref">USP &lt;85&gt; · FDA Guidance</span>
+  </div>
+</div>
+<div class="grid g2" style="margin-top:14px">
+  <a class="vcard" href="https://www.jove.com" target="_blank" rel="noopener">
+    <div class="vplay">▶</div>
+    <div><b>Gel-Clot LAL Assay</b><span>JoVE · Scientific Video Protocol</span></div>
+    <span class="go">→</span>
+  </a>
+  <a class="vcard" href="https://www.steris-ast.com" target="_blank" rel="noopener">
+    <div class="vplay">▶</div>
+    <div><b>Fundamentals of Bioburden Testing</b><span>STERIS AST · 48-min Webinar</span></div>
+    <span class="go">→</span>
+  </a>
+</div>`
+},
+
+/* --- MODULE 5 QUIZ --- */
+{
+mod:"Module 5 · QC Tests", title:"Module 5 Quiz",
+html:`
+<span class="kicker">✅ Knowledge Check</span>
+<h2>Module 5 — Quiz</h2>
+<div class="rule"></div>
+<div class="quiz">
+
+  <div class="q" data-a="A">
+    <div class="qtext"><span class="num">1</span> If 50 colonies are recovered from a 100 mL sample, what is the bioburden result?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> 0.5 CFU/mL</button>
+      <button class="opt" data-k="B"><span class="k">B</span> 5 CFU/mL</button>
+      <button class="opt" data-k="C"><span class="k">C</span> 50 CFU/mL</button>
+      <button class="opt" data-k="D"><span class="k">D</span> 500 CFU/mL</button>
+    </div>
+    <div class="explain"><b>Correct: A.</b> 50 colonies ÷ 100 mL = 0.5 CFU/mL.</div>
+  </div>
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">2</span> In USP &lt;62&gt;, when is a negative control required?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> Not required</button>
+      <button class="opt" data-k="B"><span class="k">B</span> Every time the product is tested</button>
+      <button class="opt" data-k="C"><span class="k">C</span> Only for sterile products</button>
+      <button class="opt" data-k="D"><span class="k">D</span> Once per year</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> USP &lt;62&gt; requires a negative control every time the product is tested. A positive negative-control invalidates the test.</div>
+  </div>
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">3</span> Which sterility testing method is preferred for filterable products?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> Direct Inoculation</button>
+      <button class="opt" data-k="B"><span class="k">B</span> Membrane Filtration</button>
+      <button class="opt" data-k="C"><span class="k">C</span> Most Probable Number</button>
+      <button class="opt" data-k="D"><span class="k">D</span> Surface Spread</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> USP &lt;71&gt; prefers Membrane Filtration for filterable products; Direct Inoculation is used when filtration is unsuitable.</div>
+  </div>
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">4</span> What is the required incubation period and temperature for USP &lt;71&gt; sterility testing?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> 7 days at 30–35 °C only</button>
+      <button class="opt" data-k="B"><span class="k">B</span> 14 days at 20–25 °C and 30–35 °C</button>
+      <button class="opt" data-k="C"><span class="k">C</span> 5 days at 20–25 °C only</button>
+      <button class="opt" data-k="D"><span class="k">D</span> 24 hours at 35–37 °C</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> USP &lt;71&gt; requires 14 days at BOTH 20–25 °C and 30–35 °C to detect fungi and bacteria.</div>
+  </div>
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">5</span> USP &lt;51&gt; provides guidance for which test?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> Sterility Testing</button>
+      <button class="opt" data-k="B"><span class="k">B</span> Antimicrobial Effectiveness Testing</button>
+      <button class="opt" data-k="C"><span class="k">C</span> Bacterial Endotoxins Test</button>
+      <button class="opt" data-k="D"><span class="k">D</span> Bioburden Testing</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> USP &lt;51&gt; covers Antimicrobial Effectiveness Testing for products containing preservatives.</div>
+  </div>
+
+  <div class="qscore">
+    <b id="sc5">Score: 0 / 5</b>
+    <div class="bar"><i id="sb5"></i></div>
+  </div>
+</div>`
+},
+
+/* ================= MODULE 6 ================= */
+{
+mod:"Module 6 · Documentation", title:"Module 6",
+html:`
+<div class="divider">
+  <div class="big">06</div>
+  <span class="kicker" style="margin-top:14px">Module Six</span>
+  <h2>Documentation</h2>
+  <div class="rule"></div>
+  <p class="sub">If it isn't documented, it didn't happen. Accurate counting, TNTC handling
+  and rounding rules protect both the patient and the data.</p>
+</div>`
+},
+
+{
+mod:"Module 6 · Documentation", title:"TNTC",
+html:`
+<span class="kicker">6.1 · Enumeration</span>
+<h2>Handling "Too Numerous To Count" (TNTC)</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">❓</span> Definition</h3>
+    <ul>
+      <li>Colony counts that exceed the upper limit of the countable range</li>
+      <li>Typically <b>&gt; 300 colonies per plate</b></li>
+    </ul>
+    <div class="callout warn" style="margin-top:12px">
+      TNTC does <b>not</b> mean the CFUs cannot be enumerated — it means the number exceeds the
+      recoverable number and most accurately quantifies the number present.
+    </div>
+  </div>
+  <div class="card">
+    <h3><span class="ic">🔍</span> Common Causes</h3>
+    <ul>
+      <li>Insufficient dilution</li>
+      <li>High bioburden in the sample</li>
+      <li>Contamination during testing</li>
+      <li>Incorrect media or incubation conditions</li>
+    </ul>
+    <h3 style="margin-top:14px"><span class="ic">⚙</span> Actions Required</h3>
+    <ul>
+      <li><b>Investigate</b> as a deviation</li>
+      <li>Repeated TNTC results on in-process control samples may indicate a <b>systemic contamination issue</b> requiring CAPA</li>
+      <li>Consider re-testing with a larger dilution series</li>
+    </ul>
+    <span class="ref">USP &lt;61&gt; · USP &lt;1111&gt;</span>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 6 · Documentation", title:"Rounding Rules",
+html:`
+<span class="kicker">6.2 · Data Integrity</span>
+<h2>Rounding Rules — USP &lt;1111&gt;</h2>
+<div class="rule"></div>
+<div class="tblwrap">
+  <table class="data">
+    <tr><th>Original Count</th><th>Maximum Acceptable Count</th></tr>
+    <tr><td>101 CFU</td><td><strong>20</strong></td></tr>
+    <tr><td>10² CFU</td><td><strong>200</strong></td></tr>
+    <tr><td>10³ CFU</td><td><strong>2,000</strong></td></tr>
+  </table>
+</div>
+<div class="grid g2" style="margin-top:14px">
+  <div class="card">
+    <h3><span class="ic">🔢</span> Key Rules</h3>
+    <ul>
+      <li>Round to <b>two significant figures</b></li>
+      <li>Apply consistently across all enumeration results</li>
+      <li>Do not round in a way that changes the pass/fail outcome</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3><span class="ic">📈</span> Trending &amp; Documentation</h3>
+    <ul>
+      <li>All EM and bioburden results must be <b>trended monthly</b></li>
+      <li>Excursion investigations must be documented with <b>CAPA</b> and resampling where required</li>
+      <li>Maintain traceability from raw data to reported result</li>
+    </ul>
+    <span class="ref">USP &lt;1111&gt;</span>
+  </div>
+</div>
+<div class="grid g2" style="margin-top:14px">
+  <a class="vcard" href="https://www.linkedin.com/learning" target="_blank" rel="noopener">
+    <div class="vplay">▶</div>
+    <div><b>Lecture 28: Total Plate Count &amp; Aerobic Colony Count</b><span>LinkedIn Learning · Lecture Video</span></div>
+    <span class="go">→</span>
+  </a>
+  <a class="vcard" href="https://www.jove.com" target="_blank" rel="noopener">
+    <div class="vplay">▶</div>
+    <div><b>Serial Dilutions and Plating</b><span>JoVE · Scientific Video Protocol</span></div>
+    <span class="go">→</span>
+  </a>
+</div>`
+},
+
+/* --- MODULE 6 QUIZ --- */
+{
+mod:"Module 6 · Documentation", title:"Module 6 Quiz",
+html:`
+<span class="kicker">✅ Knowledge Check</span>
+<h2>Module 6 — Quiz</h2>
+<div class="rule"></div>
+<div class="quiz">
+
+  <div class="q" data-a="A">
+    <div class="qtext"><span class="num">1</span> In microbiological enumeration, "TNTC" generally means:</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> More than 300 colonies per plate</button>
+      <button class="opt" data-k="B"><span class="k">B</span> Fewer than 30 colonies per plate</button>
+      <button class="opt" data-k="C"><span class="k">C</span> Exactly 100 colonies per plate</button>
+      <button class="opt" data-k="D"><span class="k">D</span> No growth</button>
+    </div>
+    <div class="explain"><b>Correct: A.</b> TNTC = Too Numerous To Count, generally indicating &gt; 300 colonies per plate.</div>
+  </div>
+
+  <div class="q" data-a="D">
+    <div class="qtext"><span class="num">2</span> According to USP &lt;1111&gt; rounding rules, a maximum acceptable count of 10³ CFU corresponds to:</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> 100 CFU</button>
+      <button class="opt" data-k="B"><span class="k">B</span> 200 CFU</button>
+      <button class="opt" data-k="C"><span class="k">C</span> 1,000 CFU</button>
+      <button class="opt" data-k="D"><span class="k">D</span> 2,000 CFU</button>
+    </div>
+    <div class="explain"><b>Correct: D.</b> USP &lt;1111&gt;: 10 CFU → 20; 10² CFU → 200; 10³ CFU → 2,000.</div>
+  </div>
+
+  <div class="q" data-a="C">
+    <div class="qtext"><span class="num">3</span> Which USP chapter provides the acceptance criteria and rounding rules for non-sterile products?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> USP &lt;61&gt;</button>
+      <button class="opt" data-k="B"><span class="k">B</span> USP &lt;71&gt;</button>
+      <button class="opt" data-k="C"><span class="k">C</span> USP &lt;1111&gt;</button>
+      <button class="opt" data-k="D"><span class="k">D</span> USP &lt;85&gt;</button>
+    </div>
+    <div class="explain"><b>Correct: C.</b> USP &lt;1111&gt; provides the microbiological quality acceptance criteria, including the rounding rules.</div>
+  </div>
+
+  <div class="qscore">
+    <b id="sc6">Score: 0 / 3</b>
+    <div class="bar"><i id="sb6"></i></div>
+  </div>
+</div>`
+},
+
+/* ================= MODULE 7 ================= */
+{
+mod:"Module 7 · Summary", title:"Module 7",
+html:`
+<div class="divider">
+  <div class="big">07</div>
+  <span class="kicker" style="margin-top:14px">Module Seven</span>
+  <h2>Summary &amp; Key Takeaways</h2>
+  <div class="rule"></div>
+  <p class="sub">Three pillars underpin everything in pharmaceutical microbiology.</p>
+</div>`
+},
+
+{
+mod:"Module 7 · Summary", title:"Patient Safety First",
+html:`
+<span class="kicker">7.1 · Pillar One</span>
+<h2>Patient Safety First</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">❤</span> The Purpose of Testing</h3>
+    <p>All microbiological testing exists to protect patients from:</p>
+    <ul>
+      <li><b>Pyrogenic reactions</b></li>
+      <li><b>Infections</b></li>
+      <li><b>Product degradation</b></li>
+    </ul>
+    <h3 style="margin-top:14px"><span class="ic">📏</span> Endotoxin Limits</h3>
+    <div class="tblwrap">
+      <table class="data">
+        <tr><th>Route</th><th>Limit</th></tr>
+        <tr><td>Intravenous (IV)</td><td><strong>5 EU/kg/hr</strong></td></tr>
+        <tr><td>Intrathecal</td><td><strong>0.2 EU/kg/hr</strong></td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <h3><span class="ic">📖</span> USP &lt;1111&gt; Emphasis</h3>
+    <p>The significance of microorganisms in non-sterile products must be evaluated in terms of:</p>
+    <div class="grid" style="gap:9px;margin-top:11px">
+      <div class="card tint" style="padding:11px 13px"><b style="font-size:13.5px">1. Use of the product</b><p style="font-size:12.6px">Route of administration and patient population</p></div>
+      <div class="card tint" style="padding:11px 13px"><b style="font-size:13.5px">2. Nature of the product</b><p style="font-size:12.6px">Aqueous, solid, preservative content</p></div>
+      <div class="card tint" style="padding:11px 13px"><b style="font-size:13.5px">3. Potential hazard to the user</b><p style="font-size:12.6px">Immunocompromised, paediatric, ophthalmic use</p></div>
+    </div>
+    <span class="ref">USP &lt;85&gt; · USP &lt;1111&gt;</span>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 7 · Summary", title:"The Analyst is the Variable",
+html:`
+<span class="kicker">7.2 · Pillar Two</span>
+<h2>The Analyst is the Variable</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">👤</span> Core Message</h3>
+    <ul>
+      <li>Personnel are the <b>primary source of contamination</b> in aseptic manufacturing</li>
+      <li>Equipment is validated and consistent — <b>humans are the variable</b></li>
+      <li>Behaviour, technique and discipline determine the outcome</li>
+    </ul>
+    <div class="callout" style="margin-top:12px">
+      <b>EU GMP Annex 1</b> requires a Contamination Control Strategy that addresses:
+      gowning, aseptic technique, training and behavioural expectations.
+    </div>
+  </div>
+  <div class="card">
+    <h3><span class="ic">✔</span> Critical Practices</h3>
+    <ul>
+      <li>Proper <b>donning / doffing</b></li>
+      <li><b>Glove disinfection</b> at defined intervals</li>
+      <li><b>Airflow maintenance</b> — never break first air</li>
+      <li>Avoid obstruction of the unidirectional airflow</li>
+      <li>Restrict movement near the critical zone</li>
+    </ul>
+    <h3 style="margin-top:14px"><span class="ic">🎓</span> EMA Guidance</h3>
+    <p><b>Regular, practical training</b> and assessment of gowning and cleaning personnel is required.</p>
+    <span class="ref">EU GMP Annex 1 · EMA Guidance</span>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 7 · Summary", title:"Media is the Foundation",
+html:`
+<span class="kicker">7.3 · Pillar Three</span>
+<h2>Media is the Foundation</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <div class="card">
+    <h3><span class="ic">🌱</span> Growth Promotion Testing</h3>
+    <ul>
+      <li>GPT must be performed on <b>each new batch</b> of medium</li>
+      <li>Confirms the medium's ability to support microbial growth</li>
+      <li>Without GPT, you cannot trust a "no growth" result</li>
+    </ul>
+    <h3 style="margin-top:14px"><span class="ic">♨</span> Autoclave Validation</h3>
+    <ul>
+      <li><b>Sterility and growth-promotion testing</b> of media are mandatory</li>
+      <li>The <b>smallest vessel</b> in an autoclave run must be tested for growth promotion</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3><span class="ic">⚠</span> Consequences of Poor Media Quality</h3>
+    <div class="grid" style="gap:10px;margin-top:6px">
+      <div class="card tint" style="padding:12px 14px;border-left:4px solid var(--bad)">
+        <b style="font-size:13.4px">False Negatives</b>
+        <p style="font-size:12.7px">Failure to detect contamination → contaminated product released to market</p>
+      </div>
+      <div class="card tint" style="padding:12px 14px;border-left:4px solid var(--warn)">
+        <b style="font-size:13.4px">False Positives</b>
+        <p style="font-size:12.7px">Media contamination → unnecessary batch rejection and investigation</p>
+      </div>
+      <div class="card tint" style="padding:12px 14px;border-left:4px solid var(--brand)">
+        <b style="font-size:13.4px">Both Compromise Patient Safety</b>
+        <p style="font-size:12.7px">Either way, the result can no longer be trusted</p>
+      </div>
+    </div>
+    <span class="ref">USP &lt;61&gt; · USP &lt;62&gt;</span>
+  </div>
+</div>`
+},
+
+{
+mod:"Module 7 · Summary", title:"Reference Summary",
+html:`
+<span class="kicker">7.4 · Reference Matrix</span>
+<h2>Key Regulatory References Summary</h2>
+<div class="rule"></div>
+<div class="tblwrap">
+  <table class="data">
+    <tr><th>Topic</th><th>USP Chapter</th><th>EU GMP Annex 1</th><th>EMA Guidance</th></tr>
+    <tr><td>Microbial Enumeration</td><td>USP &lt;61&gt;</td><td>✓</td><td>✓</td></tr>
+    <tr><td>Specified Microorganisms</td><td>USP &lt;62&gt;</td><td>✓</td><td>✓</td></tr>
+    <tr><td>Sterility Testing</td><td>USP &lt;71&gt;</td><td>✓</td><td>✓</td></tr>
+    <tr><td>Bacterial Endotoxins</td><td>USP &lt;85&gt;</td><td>✓</td><td>✓</td></tr>
+    <tr><td>Antimicrobial Effectiveness</td><td>USP &lt;51&gt;</td><td>—</td><td>—</td></tr>
+    <tr><td>Microbiological Quality</td><td>USP &lt;1111&gt;</td><td>✓</td><td>✓</td></tr>
+    <tr><td>Contamination Control Strategy</td><td>—</td><td>✓</td><td>✓</td></tr>
+    <tr><td>Gowning &amp; Aseptic Technique</td><td>—</td><td>✓</td><td>✓</td></tr>
+    <tr><td>Environmental Monitoring</td><td>—</td><td>✓</td><td>✓</td></tr>
+  </table>
+</div>
+<div class="callout ok" style="margin-top:14px">
+  <b>Three Pillars:</b> Patient Safety First · The Analyst is the Variable · Media is the Foundation
+</div>`
+},
+
+/* --- FINAL ASSESSMENT --- */
+{
+mod:"Module 7 · Summary", title:"Final Assessment",
+html:`
+<span class="kicker">🎓 Final Assessment</span>
+<h2>Comprehensive Knowledge Check</h2>
+<div class="rule"></div>
+<div class="quiz">
+
+  <div class="q" data-a="C">
+    <div class="qtext"><span class="num">1</span> Which document introduces the mandatory Contamination Control Strategy (CCS) for sterile manufacturing?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> USP &lt;61&gt;</button>
+      <button class="opt" data-k="B"><span class="k">B</span> USP &lt;1111&gt;</button>
+      <button class="opt" data-k="C"><span class="k">C</span> EU GMP Annex 1 (2022)</button>
+      <button class="opt" data-k="D"><span class="k">D</span> ISO 10993</button>
+    </div>
+    <div class="explain"><b>Correct: C.</b> EU GMP Annex 1 (2022) introduced the CCS as a mandatory requirement for sterile product manufacturing.</div>
+  </div>
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">2</span> In USP &lt;61&gt; method suitability testing, what is the minimum acceptable recovery of challenge organisms?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> 20 %</button>
+      <button class="opt" data-k="B"><span class="k">B</span> 50 %</button>
+      <button class="opt" data-k="C"><span class="k">C</span> 70 %</button>
+      <button class="opt" data-k="D"><span class="k">D</span> 100 %</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> USP &lt;61&gt; requires at least 50 % recovery of specified challenge organisms.</div>
+  </div>
+
+  <div class="q" data-a="D">
+    <div class="qtext"><span class="num">3</span> What is the action limit for Purified Water?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> 10 CFU/100 mL</button>
+      <button class="opt" data-k="B"><span class="k">B</span> 20 CFU/100 mL</button>
+      <button class="opt" data-k="C"><span class="k">C</span> 50 CFU/mL</button>
+      <button class="opt" data-k="D"><span class="k">D</span> 100 CFU/mL</button>
+    </div>
+    <div class="explain"><b>Correct: D.</b> Purified Water: alert = 50 CFU/mL; action = 100 CFU/mL. WFI: alert = 10, action = 20 CFU/100 mL.</div>
+  </div>
+
+  <div class="q" data-a="A">
+    <div class="qtext"><span class="num">4</span> Which organisation/standard mandates mycoplasma testing for cell-based products alongside USP &lt;63&gt;?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> ISO 10993, EP 2.6.7, FDA guidelines</button>
+      <button class="opt" data-k="B"><span class="k">B</span> USP &lt;51&gt; only</button>
+      <button class="opt" data-k="C"><span class="k">C</span> USP &lt;85&gt; only</button>
+      <button class="opt" data-k="D"><span class="k">D</span> None — testing is optional</button>
+    </div>
+    <div class="explain"><b>Correct: A.</b> ISO 10993, USP &lt;1112&gt;, EP 2.6.7 and FDA guidelines mandate mycoplasma testing for cell therapies and biologics.</div>
+  </div>
+
+  <div class="q" data-a="C">
+    <div class="qtext"><span class="num">5</span> Which of the following is NOT a pillar of the summary takeaways?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> Patient Safety First</button>
+      <button class="opt" data-k="B"><span class="k">B</span> The Analyst is the Variable</button>
+      <button class="opt" data-k="C"><span class="k">C</span> Speed Over Accuracy</button>
+      <button class="opt" data-k="D"><span class="k">D</span> Media is the Foundation</button>
+    </div>
+    <div class="explain"><b>Correct: C.</b> The three pillars are: Patient Safety First, The Analyst is the Variable, and Media is the Foundation.</div>
+  </div>
+
+  <div class="q" data-a="B">
+    <div class="qtext"><span class="num">6</span> Why does USP &lt;71&gt; require incubation at two temperature ranges?</div>
+    <div class="opts">
+      <button class="opt" data-k="A"><span class="k">A</span> To speed up the test</button>
+      <button class="opt" data-k="B"><span class="k">B</span> To detect both fungal and bacterial contaminants</button>
+      <button class="opt" data-k="C"><span class="k">C</span> To comply with ISO 9001</button>
+      <button class="opt" data-k="D"><span class="k">D</span> To reduce media consumption</button>
+    </div>
+    <div class="explain"><b>Correct: B.</b> Fungi grow at 20–25 °C and bacteria at 30–35 °C — both ranges are needed for complete detection.</div>
+  </div>
+
+  <div class="qscore">
+    <b id="sc7">Score: 0 / 6</b>
+    <div class="bar"><i id="sb7"></i></div>
+  </div>
+</div>`
+},
+
+/* ---------- VIDEO LIBRARY ---------- */
+{
+mod:"Resources", title:"Video Library",
+html:`
+<span class="kicker">📹 Resources</span>
+<h2>Complete Video Reference Library</h2>
+<div class="rule"></div>
+<div class="grid g2">
+  <a class="vcard" href="https://julib.fz-juelich.de" target="_blank" rel="noopener">
+    <div class="vplay">▶</div><div><b>Building Microbiological Quality During Manufacture of Medicines</b><span>Module 1 · Forschungszentrum Jülich · 25 min</span></div><span class="go">→</span>
+  </a>
+  <a class="vcard" href="https://www.sps.nhs.uk/articles/gowning-in-aseptic-services/" target="_blank" rel="noopener">
+    <div class="vplay">▶</div><div><b>Gowning in Aseptic Services</b><span>Module 2 · NHS SPS · 23 min</span></div><span class="go">→</span>
+  </a>
+  <a class="vcard" href="https://www.ncbionetwork.org" target="_blank" rel="noopener">
+    <div class="vplay">▶</div><div><b>Aseptic Gowning for the Cleanroom</b><span>Module 2 · NCBioNetwork</span></div><span class="go">→</span>
+  </a>
+  <a class="vcard" href="https://www.labster.com" target="_blank" rel="noopener">
+    <div class="vplay">▶</div><div><b>Aseptic Technique Virtual Lab</b><span>Module 2 · Labster · Interactive Simulation</span></div><span class="go">→</span>
+  </a>
+  <a class="vcard" href="https://www.pearson.com" target="_blank" rel="noopener">
+    <div class="vplay">▶</div><div><b>Microbiology Study Guide: Growth &amp; Culturing</b><span>Module 3 · Pearson</span></div><span class="go">→</span>
+  </a>
+  <a class="vcard" href="https://www.fuseschool.org" target="_blank" rel="noopener">
+    <div class="vplay">▶</div><div><b>Culturing Microorganisms Part 1</b><span>Module 3 · FuseSchool</span></div><span class="go">→</span>
+  </a>
+  <a class="vcard" href="https://www.ncbionetwork.org" target="_blank" rel="noopener">
+    <div class="vplay">▶</div><div><b>Environmental Monitoring</b><span>Module 4 · NCBioNetwork · Interactive Lesson</span></div><span class="go">→</span>
+  </a>
+  <a class="vcard" href="https://www.pharmaceuticalonline.com" target="_blank" rel="noopener">
+    <div class="vplay">▶</div><div><b>Annex 1 Data &amp; Reporting</b><span>Module 4 · Pharmaceutical Online</span></div><span class="go">→</span>
+  </a>
+  <a class="vcard" href="https://www.steris-ast.com" target="_blank" rel="noopener">
+    <div class="vplay">▶</div><div><b>Fundamentals of Bioburden Testing</b><span>Module 5 · STERIS AST · 48 min</span></div><span class="go">→</span>
+  </a>
+  <a class="vcard" href="https://www.jove.com" target="_blank" rel="noopener">
+    <div class="vplay">▶</div><div><b>Gel-Clot LAL Assay</b><span>Module 5 · JoVE · Scientific Protocol</span></div><span class="go">→</span>
+  </a>
+  <a class="vcard" href="https://www.sartorius.com" target="_blank" rel="noopener">
+    <div class="vplay">▶</div><div><b>Sterisart® Universal Pump Workflow</b><span>Module 5 · Sartorius · 4 min</span></div><span class="go">→</span>
+  </a>
+  <a class="vcard" href="https://www.linkedin.com/learning" target="_blank" rel="noopener">
+    <div class="vplay">▶</div><div><b>Lecture 28: Total Plate Count &amp; Aerobic Colony Count</b><span>Module 6 · LinkedIn Learning</span></div><span class="go">→</span>
+  </a>
+</div>
+<div class="callout warn" style="margin-top:16px">
+  <b>Note:</b> Some resources may require registration or subscription. NCBioNetwork, JoVE and NHS SPS
+  resources are generally freely accessible for educational purposes.
+</div>`
+},
+
+/* ---------- THANK YOU ---------- */
+{
+mod:"Resources", title:"Thank You",
+html:`
+<div class="divider">
+  <span class="kicker">🎓 End of Programme</span>
+  <h1>Thank You</h1>
+  <div class="rule"></div>
+  <p class="sub">You have completed the Pharmaceutical Microbiology interactive training deck.</p>
+  <div class="grid g3" style="margin-top:24px;width:100%;max-width:900px">
+    <div class="card"><h3><span class="ic">❤</span> Patient Safety First</h3><p>Every test protects a patient.</p></div>
+    <div class="card"><h3><span class="ic">👤</span> The Analyst is the Variable</h3><p>Technique and discipline determine outcomes.</p></div>
+    <div class="card"><h3><span class="ic">🌱</span> Media is the Foundation</h3><p>No growth promotion, no trust in results.</p></div>
+  </div>
+  <div class="callout" style="margin-top:24px;max-width:760px">
+    <b>Questions?</b> Contact your Quality Assurance or Microbiology department for further guidance.
+    Full reference list available in the slide overview panel (☰).
+  </div>
+</div>`
+}
+];
+
+/* =========================================================
+   RENDER ENGINE
+   ========================================================= */
+const stage = document.getElementById('stage');
+const bar = document.getElementById('bar');
+const meter = document.getElementById('meter');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const drawer = document.getElementById('drawer');
+const backdrop = document.getElementById('backdrop');
+const drawerBody = document.getElementById('drawerBody');
+const toast = document.getElementById('toast');
+
+let cur = 
