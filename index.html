@@ -7,15 +7,15 @@
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 <style>
 :root{
-  --bg:#eef2f6;--surface:#ffffff;--surface-2:#f6f9fb;--ink:#0e2233;--ink-2:#41607a;
-  --ink-3:#7593aa;--line:#d8e3ec;--brand:#0d6e6e;--brand-2:#0f8b8b;--brand-soft:#e2f4f3;
+  --bg:#eef2f6;--surface:#ffffff;--surface-2:#f6f9fb;--ink:#000000;--ink-2:#000000;
+  --ink-3:#000000;--line:#d8e3ec;--brand:#0d6e6e;--brand-2:#0f8b8b;--brand-soft:#e2f4f3;
   --accent:#c2410c;--accent-soft:#fdece3;--ok:#15803d;--ok-soft:#e6f6ec;--bad:#b91c1c;
   --bad-soft:#fdeaea;--warn:#a16207;--warn-soft:#fdf4e3;--violet:#6d28d9;--violet-soft:#f3e8ff;
   --shadow:0 10px 30px rgba(13,50,80,.10);--radius:16px;
 }
 html[data-theme="dark"]{
-  --bg:#070d14;--surface:#0f1a26;--surface-2:#132230;--ink:#e8f1f8;--ink-2:#9fb6c9;
-  --ink-3:#6b869c;--line:#20364a;--brand:#2dd4bf;--brand-2:#5eead4;--brand-soft:#10302e;
+  --bg:#070d14;--surface:#0f1a26;--surface-2:#132230;--ink:#ffffff;--ink-2:#ffffff;
+  --ink-3:#f0f4f8;--line:#20364a;--brand:#2dd4bf;--brand-2:#5eead4;--brand-soft:#10302e;
   --accent:#fb923c;--accent-soft:#2e1c0e;--ok:#4ade80;--ok-soft:#0e2a19;--bad:#f87171;
   --bad-soft:#2c1212;--warn:#fbbf24;--warn-soft:#2b2109;--violet:#a78bfa;--violet-soft:#231435;
   --shadow:0 10px 30px rgba(0,0,0,.5);
@@ -324,61 +324,46 @@ html:`
 </div>`
 },
 
-/* ---------- 1 : ATTENDANCE ---------- */
+/* ---------- 1 : ATTENDANCE & PRE-ASSESSMENT (COMBINED) ---------- */
 {
-mod:"Start", title:"Attendance",
+mod:"Start", title:"Attendance & Pre-Assessment",
 html:`
-<span class="kicker">📋 Attendance</span>
+<span class="kicker">📋 Before We Begin</span>
 <h2>QC Yearly Training Plan 2026</h2>
 <div class="rule"></div>
 <div class="grid g2">
   <div class="card">
-    <h3><span class="ic">📷</span> Scan to Mark Attendance</h3>
+    <h3><span class="ic">📷</span> Mark Attendance</h3>
     <p>Please scan the QR code to record your attendance for this training session.</p>
-    <p style="margin-top:10px; font-size:12px; color:var(--ink-3);">
-      * Replace the placeholder image with your actual QR code.
-    </p>
-    <div class="callout ok" style="margin-top:16px;">
+    <div class="callout ok" style="margin-top:12px;">
       <b>Note:</b> Please ensure your full name and department are correctly registered.
     </div>
-  </div>
-  <div class="card" style="display:flex; justify-content:center; align-items:center; padding:20px; background:var(--surface-2);">
-    <!-- REPLACE THE SRC BELOW WITH YOUR ATTENDANCE QR CODE IMAGE -->
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://docs.google.com/forms/d/e/1FAIpQLScJMTXDklpKAXvOnXqCRvu7xK-KKeAPAqIdniUOgiRsjDlFpQ/viewform?usp=dialog" 
-         alt="Attendance QR Code" 
-         style="width:100%; max-width:250px; height:auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-  </div>
-</div>`
-},
-
-/* ---------- 2 : PRE-ASSESSMENT ---------- */
-{
-mod:"Start", title:"Pre-Assessment",
-html:`
-<span class="kicker">📝 Pre-Assessment</span>
-<h2>QC Yearly Training Plan 2026</h2>
-<div class="rule"></div>
-<div class="grid g2">
-  <div class="card">
-    <h3><span class="ic">📝</span> Baseline Knowledge Check</h3>
-    <p>Please scan the QR code to complete the short pre-assessment before we begin.</p>
-    <p style="margin-top:10px; font-size:12px; color:var(--ink-3);">
-      * Replace the placeholder image with your actual QR code.
-    </p>
-    <div class="callout" style="margin-top:16px;">
-      <b>Note:</b> This helps us gauge the current understanding of the group and tailor the session accordingly.
+    <div style="text-align:center; margin-top:16px;">
+      <!-- REPLACE THE SRC BELOW WITH YOUR ATTENDANCE QR CODE IMAGE -->
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://docs.google.com/forms/d/e/1FAIpQLScJMTXDklpKAXvOnXqCRvu7xK-KKeAPAqIdniUOgiRsjDlFpQ/viewform?usp=dialog"
+           alt="Attendance QR Code"
+           data-ppt-w="1.40"
+           style="width:100%; max-width:180px; height:auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
     </div>
   </div>
-  <div class="card" style="display:flex; justify-content:center; align-items:center; padding:20px; background:var(--surface-2);">
-    <!-- REPLACE THE SRC BELOW WITH YOUR PRE-ASSESSMENT QR CODE IMAGE -->
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://forms.gle/5KWz2qMbRrc7rhMp9" 
-         alt="Pre-Assessment QR Code" 
-         style="width:100%; max-width:250px; height:auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+  <div class="card">
+    <h3><span class="ic">📝</span> Pre-Assessment</h3>
+    <p>Please scan the QR code to complete the short pre-assessment before we begin.</p>
+    <div class="callout" style="margin-top:12px;">
+      <b>Note:</b> This helps us gauge the current understanding of the group and tailor the session accordingly.
+    </div>
+    <div style="text-align:center; margin-top:16px;">
+      <!-- REPLACE THE SRC BELOW WITH YOUR PRE-ASSESSMENT QR CODE IMAGE -->
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://forms.gle/5KWz2qMbRrc7rhMp9"
+           alt="Pre-Assessment QR Code"
+           data-ppt-w="1.40"
+           style="width:100%; max-width:180px; height:auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+    </div>
   </div>
 </div>`
 },
 
-/* ---------- 3 : AGENDA ---------- */
+/* ---------- 2 : AGENDA ---------- */
 {
 mod:"Start", title:"Agenda",
 html:`
@@ -397,7 +382,7 @@ html:`
 </div>`
 },
 
-/* ---------- 4 : OBJECTIVES ---------- */
+/* ---------- 3 : OBJECTIVES ---------- */
 {
 mod:"Start", title:"Learning Objectives",
 html:`
@@ -2165,14 +2150,14 @@ html:`
   </div>
   <div class="card" style="display:flex; justify-content:center; align-items:center; padding:20px; background:var(--surface-2);">
     <!-- REPLACE THE SRC BELOW WITH YOUR POST-ASSESSMENT QR CODE IMAGE -->
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://forms.gle/TWAiG3MuUvvTGJJ88" 
-         alt="Post-Assessment QR Code" 
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://forms.gle/TWAiG3MuUvvTGJJ88"
+         alt="Post-Assessment QR Code"
          style="width:100%; max-width:250px; height:auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
   </div>
 </div>`
 },
 
-/* ---------- TRAINING EVALUATION (NEW - ADDED AFTER POST-ASSESSMENT) ---------- */
+/* ---------- TRAINING EVALUATION ---------- */
 {
 mod:"Resources", title:"Training Evaluation",
 html:`
@@ -2192,8 +2177,8 @@ html:`
   </div>
   <div class="card" style="display:flex; justify-content:center; align-items:center; padding:20px; background:var(--surface-2);">
     <!-- REPLACE THE SRC BELOW WITH YOUR TRAINING EVALUATION QR CODE IMAGE -->
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://docs.google.com/forms/d/e/1FAIpQLSfavje0n22WShQGjCR9NlOqjAI96USWe6wBXyBPhYNZjXUDww/viewform?usp=dialog" 
-         alt="Training Evaluation QR Code" 
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://docs.google.com/forms/d/e/1FAIpQLSfavje0n22WShQGjCR9NlOqjAI96USWe6wBXyBPhYNZjXUDww/viewform?usp=dialog"
+         alt="Training Evaluation QR Code"
          style="width:100%; max-width:250px; height:auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
   </div>
 </div>`
@@ -2406,168 +2391,809 @@ function showToast(msg) {
 }
 
 /* =========================================================
-   POWERPOINT EXPORT
+   POWERPOINT EXPORT — FAITHFUL DECK REPRODUCTION
    ========================================================= */
 const dlBtn = document.getElementById('dlBtn');
 const dlbar = document.getElementById('dlbar');
 
-function stripHTML(html) {
-  const tmp = document.createElement('div');
-  tmp.innerHTML = html;
-  return tmp;
+/* ---------- geometry (inches) ---------- */
+const SW = 10, SH = 5.63;
+const MX = 0.45;
+const CW = SW - MX * 2;
+const CTOP = 1.12;
+const CBOT = 5.20;
+
+/* ---------- palette ---------- */
+const C = {
+  brand:'0D6E6E', brand2:'0F8B8B', brandSoft:'E2F4F3',
+  ink:'000000', ink2:'000000', ink3:'000000',
+  line:'D8E3EC', surface:'FFFFFF', surface2:'F6F9FB',
+  accent:'C2410C', accentSoft:'FDECE3',
+  ok:'15803D', okSoft:'E6F6EC',
+  bad:'B91C1C', badSoft:'FDEAEA',
+  warn:'A16207', warnSoft:'FDF4E3',
+  violet:'6D28D9', violetSoft:'F3E8FF'
+};
+
+const FONT = 'Segoe UI';
+
+let SLIDE_NO = 0;
+let IMG_MAP = new Map();
+
+/* ---------- text metrics ---------- */
+function estLines(text, fontSize, widthIn){
+  if(!text) return 0;
+  const charW = fontSize * 0.50 / 72;
+  const per = Math.max(6, Math.floor(widthIn / charW));
+  return Math.max(1, Math.ceil(text.length / per));
+}
+function textH(text, fontSize, widthIn){
+  return estLines(text, fontSize, widthIn) * fontSize * 1.34 / 72;
+}
+function clean(t){ return (t || '').replace(/\s+/g,' ').trim(); }
+
+/* ---------- pill helpers ---------- */
+function pillColor(el){
+  if(el.classList.contains('a'))  return C.accent;
+  if(el.classList.contains('ok')) return C.ok;
+  if(el.classList.contains('w'))  return C.warn;
+  if(el.classList.contains('v'))  return C.violet;
+  return C.brand;
+}
+function pillBg(el){
+  if(el.classList.contains('a'))  return C.accentSoft;
+  if(el.classList.contains('ok')) return C.okSoft;
+  if(el.classList.contains('w'))  return C.warnSoft;
+  if(el.classList.contains('v'))  return C.violetSoft;
+  return C.brandSoft;
 }
 
-function extractTextNodes(el) {
-  const out = [];
-  el.querySelectorAll('h1, h2, h3, h4, p, li, td, th').forEach(node => {
-    const t = node.textContent.replace(/\s+/g, ' ').trim();
-    if (t && t.length > 1) out.push({ tag: node.tagName.toLowerCase(), text: t });
+/* ---------- rich-text extraction ---------- */
+function inlineRuns(el, base){
+  const runs = [];
+  const walk = (node, opts) => {
+    node.childNodes.forEach(n => {
+      if(n.nodeType === 3){
+        const t = n.textContent.replace(/\s+/g,' ');
+        if(!t) return;
+        if(!t.trim()){ if(runs.length) runs.push({text:' ', options:Object.assign({},opts)}); return; }
+        runs.push({text:t, options:Object.assign({},opts)});
+      } else if(n.nodeType === 1){
+        const tag = n.tagName.toLowerCase();
+        if(tag === 'br'){ runs.push({text:'\n', options:Object.assign({},opts)}); return; }
+        const o = Object.assign({}, opts);
+        if(tag === 'b' || tag === 'strong') o.bold = true;
+        if(tag === 'em' || tag === 'i')     o.italic = true;
+        if(n.classList.contains('pill')){ o.bold = true; o.color = pillColor(n); }
+        if(n.classList.contains('ref')){  o.bold = true; o.color = C.brand; }
+        walk(n, o);
+      }
+    });
+  };
+  walk(el, base);
+  return runs;
+}
+
+/* =========================================================
+   BLOCK RENDERERS
+   ========================================================= */
+function renderBlock(slide, el, x, y, w, dry){
+  if(!el || el.nodeType !== 1) return 0;
+  try{
+    const cl = el.classList;
+    const tag = el.tagName.toLowerCase();
+
+    if(cl.contains('divider'))   return renderStack(slide, [...el.children], x, y, w, dry, 0.14);
+    if(cl.contains('grid'))      return renderGrid(slide, el, x, y, w, dry);
+    if(cl.contains('card'))      return renderCard(slide, el, x, y, w, dry);
+    if(cl.contains('activity'))  return renderActivity(slide, el, x, y, w, dry);
+    if(cl.contains('quiz'))      return renderQuiz(slide, el, x, y, w, dry);
+    if(cl.contains('callout'))   return renderCallout(slide, el, x, y, w, dry);
+    if(cl.contains('tblwrap'))   return renderTable(slide, el.querySelector('table'), x, y, w, dry);
+    if(tag === 'table')          return renderTable(slide, el, x, y, w, dry);
+    if(cl.contains('stat'))      return renderStat(slide, el, x, y, w, dry);
+    if(cl.contains('vcard'))     return renderVCard(slide, el, x, y, w, dry);
+    if(cl.contains('refrow'))    return renderPills(slide, el, x, y, w, dry);
+    if(cl.contains('ref'))       return renderRefPill(slide, el, x, y, w, dry);
+    if(cl.contains('kicker'))    return renderKicker(slide, el, x, y, w, dry);
+    if(cl.contains('rule'))      return renderRule(slide, el, x, y, w, dry);
+    if(cl.contains('qscore'))    return renderQScore(slide, el, x, y, w, dry);
+    if(cl.contains('big'))       return renderBig(slide, el, x, y, w, dry);
+    if(tag === 'ul' || tag === 'ol') return renderList(slide, el, x, y, w, dry);
+    if(tag === 'img')            return renderImg(slide, el, x, y, w, dry);
+    if(/^(h1|h2|h3|h4|p|span|div|a|blockquote)$/.test(tag)) return renderTextEl(slide, el, x, y, w, dry);
+    return 0;
+  }catch(err){
+    console.warn('PPTX render skip:', el.className || el.tagName, err);
+    return 0;
+  }
+}
+
+function renderStack(slide, kids, x, y, w, dry, gap){
+  gap = gap == null ? 0.12 : gap;
+  let cy = y;
+  kids.filter(k => k.nodeType === 1).forEach(k => {
+    const h = renderBlock(slide, k, x, cy, w, dry);
+    cy += h + gap;
   });
-  return out;
+  return Math.max(0, cy - y - gap);
+}
+function stackHeight(slide, kids, w, gap){
+  gap = gap == null ? 0.07 : gap;
+  let h = 0;
+  kids.filter(k => k.nodeType === 1).forEach((k, i) => {
+    h += renderBlock(slide, k, 0, 0, w, true);
+    if(i < kids.length - 1) h += gap;
+  });
+  return h;
 }
 
+function renderTextEl(slide, el, x, y, w, dry){
+  const tag = el.tagName.toLowerCase();
+  let fs = 12.5, bold = false, color = C.ink2, italic = false;
+  if(tag === 'h1'){ fs = 32; bold = true; color = C.ink; }
+  else if(tag === 'h2'){ fs = 21; bold = true; color = C.ink; }
+  else if(tag === 'h3'){ fs = 13.5; bold = true; color = C.ink; }
+  else if(tag === 'h4'){ fs = 10.5; bold = true; color = C.ink3; }
+  if(el.classList.contains('sub')){ fs = 13.5; color = C.ink2; }
+  if(el.classList.contains('num')){ return 0; }
+
+  const txt = clean(el.textContent);
+  if(!txt) return 0;
+
+  const h = textH(txt, fs, w);
+  if(!dry){
+    const runs = inlineRuns(el, {fontSize:fs, color:color, bold:bold, italic:italic, fontFace:FONT});
+    if(runs.length){
+      slide.addText(runs, {x:x, y:y, w:w, h:h, valign:'top', fontFace:FONT, fontSize:fs, color:color, bold:bold});
+    } else {
+      slide.addText(txt, {x:x, y:y, w:w, h:h, valign:'top', fontFace:FONT, fontSize:fs, color:color, bold:bold});
+    }
+  }
+  return h;
+}
+
+function renderList(slide, el, x, y, w, dry){
+  const items = [...el.children].filter(c => c.tagName === 'LI');
+  if(!items.length) return 0;
+  const isOl = el.tagName === 'OL';
+  const fs = 12;
+  const inner = w - 0.22;
+
+  let h = 0;
+  const heights = items.map(li => {
+    const lh = textH(clean(li.textContent), fs, inner);
+    h += lh + 0.05;
+    return lh;
+  });
+  h -= 0.05;
+
+  if(!dry){
+    const paras = [];
+    items.forEach((li, i) => {
+      const runs = inlineRuns(li, {fontSize:fs, color:C.ink2, fontFace:FONT});
+      if(!runs.length) return;
+      runs[0].options.bullet = isOl ? {type:'number'} : {code:'2022'};
+      runs.forEach(r => { r.options.color = r.options.color || C.ink2; r.options.fontSize = fs; });
+      runs[runs.length - 1].options.breakLine = true;
+      paras.push(...runs);
+    });
+    if(paras.length){
+      slide.addText(paras, {x:x, y:y, w:w, h:h + 0.1, valign:'top', fontFace:FONT, fontSize:fs, color:C.ink2});
+    }
+  }
+  return h;
+}
+
+function renderKicker(slide, el, x, y, w, dry){
+  const txt = clean(el.textContent).toUpperCase();
+  if(!txt) return 0;
+  let color = C.brand, bg = C.brandSoft;
+  if(el.classList.contains('v')){ color = C.violet; bg = C.violetSoft; }
+  else if(el.classList.contains('ok')){ color = C.ok; bg = C.okSoft; }
+  else if(el.classList.contains('w')){ color = C.warn; bg = C.warnSoft; }
+
+  const h = 0.28;
+  const pw = Math.min(w, txt.length * 0.072 + 0.30);
+  if(!dry){
+    slide.addShape('roundRect', {x:x, y:y, w:pw, h:h, rectRadius:0.14,
+      fill:{color:bg}, line:{color:bg, width:0.5}});
+    slide.addText(txt, {x:x, y:y, w:pw, h:h, fontSize:9, bold:true, color:color,
+      align:'center', valign:'middle', charSpacing:1.2, fontFace:FONT});
+  }
+  return h;
+}
+
+function renderRule(slide, el, x, y, w, dry){
+  const h = 0.09;
+  if(!dry){
+    slide.addShape('roundRect', {x:x, y:y + 0.02, w:0.78, h:0.05, rectRadius:0.03,
+      fill:{color:C.brand}, line:{color:C.brand, width:0.5}});
+  }
+  return h;
+}
+
+function renderBig(slide, el, x, y, w, dry){
+  const txt = clean(el.textContent);
+  const h = 1.15;
+  if(!dry) slide.addText(txt, {x:x, y:y, w:w, h:h, fontSize:76, bold:true,
+    color:C.brand, fontFace:FONT, valign:'middle'});
+  return h;
+}
+
+function renderGrid(slide, el, x, y, w, dry){
+  const cl = el.classList;
+  let cols = 2;
+  if(cl.contains('g4')) cols = 4;
+  else if(cl.contains('g3')) cols = 3;
+
+  const items = [...el.children].filter(c => c.nodeType === 1);
+  if(!items.length) return 0;
+  cols = Math.min(cols, items.length);
+
+  const gap = 0.13;
+  const colW = (w - gap * (cols - 1)) / cols;
+  let cy = y;
+
+  for(let i = 0; i < items.length; i += cols){
+    const row = items.slice(i, i + cols);
+    const hs = row.map(it => renderBlock(slide, it, 0, 0, colW, true));
+    const rowH = Math.max.apply(null, hs.concat([0.30]));
+
+    if(!dry){
+      row.forEach((it, j) => {
+        renderBlock(slide, it, x + j * (colW + gap), cy, colW, false);
+      });
+    }
+    cy += rowH + gap;
+  }
+  return cy - y - gap;
+}
+
+function renderCard(slide, el, x, y, w, dry){
+  const pad = 0.14;
+  const innerW = w - pad * 2;
+  const kids = [...el.children].filter(c => c.nodeType === 1);
+  const tint = el.classList.contains('tint');
+
+  const contentH = kids.length ? stackHeight(slide, kids, innerW, 0.07) : 0.1;
+  const h = contentH + pad * 2;
+
+  if(!dry){
+    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.07,
+      fill:{color: tint ? C.surface2 : C.surface},
+      line:{color:C.line, width:0.75}});
+    let cy = y + pad;
+    kids.forEach((k, i) => {
+      const kh = renderBlock(slide, k, x + pad, cy, innerW, false);
+      cy += kh + (i < kids.length - 1 ? 0.07 : 0);
+    });
+  }
+  return h;
+}
+
+function renderCallout(slide, el, x, y, w, dry){
+  let accent = C.brand, bg = C.brandSoft;
+  if(el.classList.contains('warn')){ accent = C.warn; bg = C.warnSoft; }
+  else if(el.classList.contains('danger')){ accent = C.bad; bg = C.badSoft; }
+  else if(el.classList.contains('ok')){ accent = C.ok; bg = C.okSoft; }
+  else if(el.classList.contains('violet')){ accent = C.violet; bg = C.violetSoft; }
+
+  const pad = 0.13;
+  const innerW = w - pad - 0.20;
+  const txt = clean(el.textContent);
+  if(!txt) return 0;
+
+  const fs = 11.5;
+  const lines = estLines(txt, fs, innerW);
+  const h = lines * fs * 1.34 / 72 + pad * 2;
+
+  if(!dry){
+    slide.addShape('rect', {x:x, y:y, w:w, h:h, fill:{color:bg}, line:{color:bg, width:0.25}});
+    slide.addShape('rect', {x:x, y:y, w:0.05, h:h, fill:{color:accent}, line:{color:accent, width:0.25}});
+    const runs = inlineRuns(el, {fontSize:fs, color:C.ink, fontFace:FONT});
+    slide.addText(runs.length ? runs : txt,
+      {x:x + pad + 0.06, y:y + pad, w:innerW, h:h - pad * 2,
+       valign:'top', fontFace:FONT, fontSize:fs, color:C.ink});
+  }
+  return h;
+}
+
+function renderTable(slide, tbl, x, y, w, dry){
+  if(!tbl) return 0;
+  const trs = [...tbl.querySelectorAll('tr')];
+  if(!trs.length) return 0;
+
+  const nCols = Math.max.apply(null, trs.map(tr => tr.children.length));
+  const colW = w / nCols;
+
+  const rows = [];
+  let totalH = 0;
+
+  trs.forEach((tr, ri) => {
+    const cells = [...tr.children];
+    const isHead = cells[0] && cells[0].tagName === 'TH';
+    let maxLines = 1;
+
+    const rowData = cells.map(td => {
+      const txt = clean(td.textContent);
+      const fs = isHead ? 9 : 10.5;
+      maxLines = Math.max(maxLines, estLines(txt, fs, colW - 0.18));
+      return {
+        text: isHead ? txt.toUpperCase() : txt,
+        options: {
+          fontSize: fs,
+          bold: isHead,
+          color: isHead ? 'FFFFFF' : C.ink2,
+          fill: {color: isHead ? C.brand : (ri % 2 ? C.surface2 : C.surface)},
+          valign: 'middle',
+          fontFace: FONT,
+          margin: 0.05
+        }
+      };
+    });
+
+    const rowH = maxLines * 10.5 * 1.30 / 72 + 0.13;
+    rows.push({cells: rowData, h: rowH});
+    totalH += rowH;
+  });
+
+  if(!dry){
+    slide.addTable(rows.map(r => r.cells), {
+      x: x, y: y, w: w,
+      colW: new Array(nCols).fill(colW),
+      rowH: rows.map(r => r.h),
+      border: {type:'solid', color:C.line, pt:0.5},
+      fontFace: FONT,
+      autoPage: false
+    });
+  }
+  return totalH;
+}
+
+function renderStat(slide, el, x, y, w, dry){
+  const b = el.querySelector('b');
+  const s = el.querySelector('span');
+  const bt = b ? clean(b.textContent) : '';
+  const st = s ? clean(s.textContent).toUpperCase() : '';
+  const h = 0.72;
+
+  if(!dry){
+    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.09,
+      fill:{color:C.surface}, line:{color:C.line, width:0.75}});
+    slide.addText(bt, {x:x + 0.05, y:y + 0.07, w:w - 0.10, h:0.34,
+      fontSize:18, bold:true, color:C.brand, align:'center', valign:'middle', fontFace:FONT});
+    slide.addText(st, {x:x + 0.05, y:y + 0.41, w:w - 0.10, h:0.23,
+      fontSize:7, bold:true, color:C.ink3, align:'center', valign:'middle',
+      charSpacing:0.8, fontFace:FONT});
+  }
+  return h;
+}
+
+function renderVCard(slide, el, x, y, w, dry){
+  const h = 0.64;
+  const titleEl = el.querySelector('b');
+  const subEl = el.querySelector('span:not(.go)');
+  const title = titleEl ? clean(titleEl.textContent) : '';
+  const sub = subEl ? clean(subEl.textContent) : '';
+
+  if(!dry){
+    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.08,
+      fill:{color:C.surface}, line:{color:C.line, width:0.75}});
+    slide.addShape('roundRect', {x:x + 0.12, y:y + 0.13, w:0.38, h:0.38, rectRadius:0.10,
+      fill:{color:C.brand}, line:{color:C.brand, width:0.5}});
+    slide.addText('▶', {x:x + 0.12, y:y + 0.13, w:0.38, h:0.38, fontSize:11,
+      color:'FFFFFF', align:'center', valign:'middle'});
+    slide.addText(title, {x:x + 0.62, y:y + 0.10, w:w - 1.15, h:0.24,
+      fontSize:10.5, bold:true, color:C.ink, valign:'middle', fontFace:FONT});
+    slide.addText(sub, {x:x + 0.62, y:y + 0.34, w:w - 1.15, h:0.22,
+      fontSize:8.5, color:C.ink3, valign:'middle', fontFace:FONT});
+    slide.addText('→', {x:x + w - 0.45, y:y, w:0.34, h:h, fontSize:13, bold:true,
+      color:C.brand, align:'center', valign:'middle'});
+  }
+  return h;
+}
+
+function renderPills(slide, el, x, y, w, dry){
+  const pills = [...el.children].filter(c => c.nodeType === 1);
+  if(!pills.length) return 0;
+
+  const H = 0.27, gapX = 0.08, gapY = 0.09;
+  let cx = x, cy = y;
+
+  pills.forEach(p => {
+    const t = clean(p.textContent);
+    const pw = Math.min(w, t.length * 0.062 + 0.26);
+    if(cx + pw > x + w + 0.001){ cx = x; cy += H + gapY; }
+    if(!dry){
+      const col = pillColor(p), bg = pillBg(p);
+      slide.addShape('roundRect', {x:cx, y:cy, w:pw, h:H, rectRadius:0.14,
+        fill:{color:bg}, line:{color:bg, width:0.5}});
+      slide.addText(t, {x:cx, y:cy, w:pw, h:H, fontSize:9, bold:true, color:col,
+        align:'center', valign:'middle', fontFace:FONT});
+    }
+    cx += pw + gapX;
+  });
+
+  return (cy + H) - y;
+}
+
+function renderRefPill(slide, el, x, y, w, dry){
+  const t = clean(el.textContent);
+  if(!t) return 0;
+  const h = 0.27;
+  const pw = Math.min(w, t.length * 0.062 + 0.28);
+  if(!dry){
+    slide.addShape('roundRect', {x:x, y:y, w:pw, h:h, rectRadius:0.07,
+      fill:{color:C.brandSoft}, line:{color:C.brand, width:0.75, dashType:'dash'}});
+    slide.addText(t, {x:x + 0.06, y:y, w:pw - 0.12, h:h, fontSize:8.5, bold:true,
+      color:C.brand, valign:'middle', fontFace:FONT});
+  }
+  return h;
+}
+
+function renderActivity(slide, el, x, y, w, dry){
+  const pad = 0.17;
+  const innerW = w - pad * 2;
+
+  const h3 = el.querySelector('h3');
+  const meta = el.querySelector('.meta');
+  const list = el.querySelector('ol, ul');
+
+  let listH = 0;
+  if(list){
+    [...list.children].forEach(li => {
+      listH += textH(clean(li.textContent), 11.5, innerW - 0.28) + 0.06;
+    });
+    if(listH > 0) listH -= 0.06;
+  }
+
+  let contentH = 0;
+  if(h3) contentH += 0.34;
+  if(meta) contentH += 0.32;
+  contentH += listH;
+
+  const h = contentH + pad * 2;
+
+  if(!dry){
+    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.09,
+      fill:{color:C.violetSoft}, line:{color:C.violet, width:1.25, dashType:'dash'}});
+
+    let cy = y + pad;
+
+    if(h3){
+      slide.addText(clean(h3.textContent), {x:x + pad, y:cy, w:innerW, h:0.32,
+        fontSize:14, bold:true, color:C.violet, valign:'middle', fontFace:FONT});
+      cy += 0.34;
+    }
+
+    if(meta){
+      const spans = [...meta.children].filter(s => s.nodeType === 1);
+      const runs = spans.map(s => ({text: clean(s.textContent) + '    ',
+        options:{fontSize:8.5, bold:true, color:C.violet, fontFace:FONT}}));
+      slide.addShape('rect', {x:x + pad, y:cy, w:innerW, h:0.26,
+        fill:{color:C.surface}, line:{color:C.surface, width:0.25}});
+      slide.addText(runs, {x:x + pad + 0.06, y:cy, w:innerW - 0.12, h:0.26,
+        valign:'middle', fontFace:FONT, fontSize:8.5});
+      cy += 0.32;
+    }
+
+    if(list && listH > 0){
+      const isOl = list.tagName === 'OL';
+      const paras = [];
+      [...list.children].forEach(li => {
+        const runs = inlineRuns(li, {fontSize:11.5, color:C.ink2, fontFace:FONT});
+        if(!runs.length) return;
+        runs[0].options.bullet = isOl ? {type:'number'} : {code:'2022'};
+        runs.forEach(r => { r.options.fontSize = 11.5; r.options.color = r.options.color || C.ink2; });
+        runs[runs.length - 1].options.breakLine = true;
+        paras.push(...runs);
+      });
+      if(paras.length){
+        slide.addText(paras, {x:x + pad, y:cy, w:innerW, h:listH + 0.1,
+          valign:'top', fontFace:FONT, fontSize:11.5, color:C.ink2});
+      }
+    }
+  }
+  return h;
+}
+
+function renderQuiz(slide, el, x, y, w, dry){
+  const qs = [...el.querySelectorAll('.q')];
+  const score = el.querySelector('.qscore');
+  let cy = y;
+  let first = true;
+
+  qs.forEach(q => {
+    if(!first) cy += 0.13;
+    const h = renderQuestion(slide, q, x, cy, w, dry);
+    cy += h;
+    first = false;
+  });
+
+  if(score){
+    cy += 0.13;
+    const h = renderQScore(slide, score, x, cy, w, dry);
+    cy += h;
+  }
+  return cy - y;
+}
+
+function renderQuestion(slide, q, x, y, w, dry){
+  const pad = 0.14;
+  const innerW = w - pad * 2;
+
+  const qt = q.querySelector('.qtext');
+  const qtext = qt ? clean(qt.textContent) : '';
+  const qH = textH(qtext, 12, innerW);
+
+  const opts = [...q.querySelectorAll('.opt')];
+  const correct = q.dataset.a || '';
+  const optHeights = opts.map(o => textH(clean(o.textContent), 11, innerW - 0.28) + 0.16);
+
+  const explain = q.querySelector('.explain');
+  const expText = explain ? clean(explain.textContent) : '';
+  const expH = expText ? textH(expText, 10.5, innerW - 0.22) + 0.20 : 0;
+
+  let contentH = qH + 0.10;
+  optHeights.forEach(oh => { contentH += oh + 0.06; });
+  if(expText) contentH += expH + 0.10;
+  const h = contentH + pad * 2;
+
+  if(!dry){
+    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.08,
+      fill:{color:C.surface}, line:{color:C.line, width:0.75}});
+
+    let cy = y + pad;
+    slide.addText(qtext, {x:x + pad, y:cy, w:innerW, h:qH,
+      fontSize:12, bold:true, color:C.ink, valign:'top', fontFace:FONT});
+    cy += qH + 0.10;
+
+    opts.forEach((o, i) => {
+      const oh = optHeights[i];
+      const t = clean(o.textContent);
+      const isC = o.dataset.k === correct;
+      slide.addShape('roundRect', {x:x + pad, y:cy, w:innerW, h:oh, rectRadius:0.05,
+        fill:{color: isC ? C.okSoft : C.surface2},
+        line:{color: isC ? C.ok : C.line, width:0.75}});
+      slide.addText(t, {x:x + pad + 0.12, y:cy, w:innerW - 0.24, h:oh,
+        fontSize:11, color: isC ? C.ok : C.ink2, bold: isC,
+        valign:'middle', fontFace:FONT});
+      cy += oh + 0.06;
+    });
+
+    if(expText){
+      cy += 0.04;
+      slide.addShape('rect', {x:x + pad, y:cy, w:innerW, h:expH,
+        fill:{color:C.brandSoft}, line:{color:C.brandSoft, width:0.25}});
+      slide.addShape('rect', {x:x + pad, y:cy, w:0.04, h:expH,
+        fill:{color:C.brand}, line:{color:C.brand, width:0.25}});
+      slide.addText(expText, {x:x + pad + 0.12, y:cy + 0.06, w:innerW - 0.22, h:expH - 0.12,
+        fontSize:10.5, color:C.ink2, valign:'top', fontFace:FONT});
+    }
+  }
+  return h;
+}
+
+function renderQScore(slide, el, x, y, w, dry){
+  const h = 0.50;
+  const b = el.querySelector('b');
+  const txt = b ? clean(b.textContent) : 'Score';
+  const barEl = el.querySelector('.bar i');
+  const pct = barEl ? (parseFloat(barEl.style.width) || 0) : 0;
+
+  if(!dry){
+    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.08,
+      fill:{color:C.surface}, line:{color:C.line, width:0.75}});
+    slide.addText(txt, {x:x + 0.16, y:y, w:2.2, h:h, fontSize:11, bold:true,
+      color:C.brand, valign:'middle', fontFace:FONT});
+    slide.addShape('roundRect', {x:x + 2.5, y:y + 0.19, w:w - 2.80, h:0.12, rectRadius:0.06,
+      fill:{color:C.line}, line:{color:C.line, width:0.25}});
+    if(pct > 0){
+      slide.addShape('roundRect', {x:x + 2.5, y:y + 0.19, w:(w - 2.80) * pct / 100, h:0.12,
+        rectRadius:0.06, fill:{color:C.brand}, line:{color:C.brand, width:0.25}});
+    }
+  }
+  return h;
+}
+
+function renderImg(slide, el, x, y, w, dry){
+  const src = el.getAttribute('src');
+  const data = src ? IMG_MAP.get(src) : null;
+  const requested = parseFloat(el.dataset.pptW) || 2.10;
+  const size = Math.min(w, requested);
+  const h = size;
+
+  if(!dry){
+    if(data){
+      slide.addImage({data:data, x:x + (w - size) / 2, y:y, w:size, h:size});
+    } else {
+      slide.addShape('rect', {x:x, y:y, w:size, h:size,
+        fill:{color:C.surface2}, line:{color:C.line, width:0.75, dashType:'dash'}});
+      slide.addText('QR CODE', {x:x, y:y, w:size, h:size, fontSize:12, bold:true,
+        color:C.ink3, align:'center', valign:'middle', fontFace:FONT});
+    }
+  }
+  return h;
+}
+
+/* =========================================================
+   SLIDE FRAME BUILDERS
+   ========================================================= */
+function drawHeader(slide, kickerEl, titleEl, modText, cont){
+  slide.background = {color:C.surface};
+
+  slide.addShape('rect', {x:0, y:0, w:SW, h:0.88,
+    fill:{color:C.surface2}, line:{color:C.surface2, width:0.25}});
+  slide.addShape('rect', {x:0, y:0.88, w:SW, h:0.05,
+    fill:{color:C.brand}, line:{color:C.brand, width:0.25}});
+
+  const kickerTxt = kickerEl ? clean(kickerEl.textContent).toUpperCase() : '';
+  if(kickerTxt){
+    slide.addText(kickerTxt, {x:MX, y:0.09, w:6.4, h:0.24,
+      fontSize:8.5, bold:true, color:C.brand, charSpacing:1.3,
+      valign:'middle', fontFace:FONT});
+  }
+  const titleTxt = (titleEl ? clean(titleEl.textContent) : '') + (cont ? '  (cont.)' : '');
+  slide.addText(titleTxt, {x:MX, y:0.31, w:7.6, h:0.50,
+    fontSize:18, bold:true, color:C.ink, valign:'middle', fontFace:FONT});
+
+  if(modText){
+    slide.addText(modText.toUpperCase(), {x:6.9, y:0.12, w:2.65, h:0.24,
+      fontSize:7.5, bold:true, color:C.ink3, align:'right', valign:'middle',
+      charSpacing:1, fontFace:FONT});
+  }
+
+  slide.addShape('rect', {x:0, y:SH - 0.30, w:SW, h:0.30,
+    fill:{color:C.surface2}, line:{color:C.surface2, width:0.25}});
+  slide.addText('Basic Microbiology — QC Yearly Training Plan 2026  |  Prepared by Muhammad Firdaus Abdullah',
+    {x:MX, y:SH - 0.30, w:7.4, h:0.30, fontSize:7.5, color:C.ink3,
+     valign:'middle', fontFace:FONT});
+  slide.addText(String(SLIDE_NO) + ' / ' + SLIDES.length,
+    {x:SW - 1.35, y:SH - 0.30, w:0.9, h:0.30, fontSize:7.5, color:C.ink3,
+     align:'right', valign:'middle', fontFace:FONT});
+}
+
+function renderDividerSlide(pptx, sec, data){
+  const slide = pptx.addSlide();
+  SLIDE_NO++;
+  slide.background = {color:C.surface};
+
+  slide.addShape('rect', {x:0, y:0, w:0.16, h:SH,
+    fill:{color:C.brand}, line:{color:C.brand, width:0.25}});
+  slide.addShape('rect', {x:0, y:0, w:SW, h:0.10,
+    fill:{color:C.brandSoft}, line:{color:C.brandSoft, width:0.25}});
+
+  const divider = sec.querySelector('.divider') || sec;
+  const kids = [...divider.children].filter(c => c.nodeType === 1);
+
+  const W = 8.5;
+  const X = 0.85;
+  const gap = 0.14;
+
+  let total = 0;
+  kids.forEach((k, i) => {
+    total += renderBlock(slide, k, 0, 0, W, true);
+    if(i < kids.length - 1) total += gap;
+  });
+
+  let cy = Math.max(0.55, (SH - total) / 2);
+  kids.forEach((k, i) => {
+    const h = renderBlock(slide, k, X, cy, W, false);
+    cy += h + (i < kids.length - 1 ? gap : 0);
+  });
+
+  slide.addText('QC Yearly Training Plan 2026  ·  Basic Microbiology',
+    {x:0.85, y:SH - 0.42, w:8.5, h:0.26, fontSize:8, color:C.ink3,
+     valign:'middle', fontFace:FONT});
+
+  return slide;
+}
+
+function renderContentSlide(pptx, sec, data){
+  const kids = [...sec.children].filter(c => c.nodeType === 1);
+  const kicker = kids.find(c => c.classList && c.classList.contains('kicker'));
+  const h2 = kids.find(c => c.tagName === 'H2');
+  const rule = kids.find(c => c.classList && c.classList.contains('rule'));
+  const blocks = kids.filter(c => c !== kicker && c !== h2 && c !== rule);
+
+  let slide = null;
+  let cy = 0;
+  let page = 0;
+
+  const startPage = () => {
+    slide = pptx.addSlide();
+    SLIDE_NO++;
+    drawHeader(slide, kicker, h2, data.mod, page > 0);
+    cy = CTOP;
+    page++;
+  };
+
+  startPage();
+
+  blocks.forEach(b => {
+    const h = renderBlock(slide, b, MX, cy, CW, true);
+    if(h <= 0) return;
+
+    if(cy + h > CBOT && cy > CTOP + 0.10){
+      startPage();
+    }
+    renderBlock(slide, b, MX, cy, CW, false);
+    cy += h + 0.14;
+  });
+}
+
+/* =========================================================
+   IMAGE PRE-FETCH (QR codes → data URLs, so they embed)
+   ========================================================= */
+function toDataURL(url){
+  return new Promise(resolve => {
+    fetch(url, {mode:'cors'})
+      .then(r => r.blob())
+      .then(b => {
+        const fr = new FileReader();
+        fr.onload = () => resolve(fr.result);
+        fr.onerror = () => resolve(null);
+        fr.readAsDataURL(b);
+      })
+      .catch(() => resolve(null));
+  });
+}
+
+async function preloadImages(){
+  const map = new Map();
+  const imgs = [...document.querySelectorAll('.slide img')];
+  await Promise.all(imgs.map(async img => {
+    const src = img.getAttribute('src');
+    if(!src || map.has(src)) return;
+    const d = await toDataURL(src);
+    if(d) map.set(src, d);
+  }));
+  return map;
+}
+
+/* =========================================================
+   EXPORT HANDLER
+   ========================================================= */
 dlBtn.addEventListener('click', async e => {
   e.stopPropagation();
-  if (typeof PptxGenJS === 'undefined') {
+
+  if(typeof PptxGenJS === 'undefined'){
     showToast('⚠ PowerPoint library not loaded. Check internet connection.');
     return;
   }
+
   dlbar.classList.add('show');
-  try {
+
+  try{
+    SLIDE_NO = 0;
+    IMG_MAP = await preloadImages();
+
     const pptx = new PptxGenJS();
     pptx.layout = 'LAYOUT_16x9';
     pptx.author = 'Muhammad Firdaus Abdullah';
+    pptx.company = 'QC Yearly Training Plan 2026';
     pptx.title = 'Basic Microbiology — QC Yearly Training Plan 2026';
     pptx.subject = 'Basic Microbiology Training';
 
-    const BRAND = '0D6E6E';
-    const VIOLET = '6D28D9';
-    const INK = '0E2233';
-    const INK2 = '41607A';
-    const LIGHT = 'F6F9FB';
+    SLIDES.forEach((s, i) => {
+      const clone = sections[i].cloneNode(true);
+      const first = clone.firstElementChild;
+      const isDivider = first && first.classList && first.classList.contains('divider');
 
-    /* --- TITLE SLIDE --- */
-    const ts = pptx.addSlide();
-    ts.background = { color: BRAND };
-    ts.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 10, h: 5.63, fill: { color: BRAND } });
-    ts.addShape(pptx.ShapeType.rect, { x: 0.6, y: 2.55, w: 1.2, h: 0.08, fill: { color: '5EEAD4' } });
-    ts.addText('QC Yearly Training Plan 2026', { x: 0.6, y: 1.6, w: 8.8, h: 0.4, fontSize: 14, color: '5EEAD4', bold: true, charSpacing: 2 });
-    ts.addText('Basic Microbiology', { x: 0.6, y: 1.95, w: 8.8, h: 0.7, fontSize: 40, color: 'FFFFFF', bold: true });
-    ts.addText('Prepared by Muhammad Firdaus Abdullah', { x: 0.6, y: 2.85, w: 8.8, h: 0.4, fontSize: 16, color: 'E2F4F3' });
-    ts.addText('USP <51> · <61> · <62> · <71> · <85> · <1111>   |   EU GMP Annex 1   |   EMA Guidelines', { x: 0.6, y: 5.0, w: 8.8, h: 0.3, fontSize: 10, color: 'A7D9D6' });
-
-    /* --- CONTENT SLIDES --- */
-    SLIDES.forEach((s, idx) => {
-      if (idx === 0) return; // skip title slide (already added)
-      const slide = pptx.addSlide();
-      slide.background = { color: 'FFFFFF' };
-
-      /* Header bar */
-      slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 10, h: 0.9, fill: { color: LIGHT } });
-      slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0.9, w: 10, h: 0.06, fill: { color: BRAND } });
-
-      /* Module label */
-      const isActivity = s.title.includes('Activity');
-      slide.addText(s.mod.toUpperCase(), {
-        x: 0.4, y: 0.08, w: 9.2, h: 0.28,
-        fontSize: 10, color: isActivity ? VIOLET : BRAND, bold: true, charSpacing: 1.5
-      });
-      slide.addText(s.title, {
-        x: 0.4, y: 0.34, w: 9.2, h: 0.5,
-        fontSize: 20, color: INK, bold: true
-      });
-
-      /* Body content */
-      const parsed = stripHTML(s.html);
-      const nodes = extractTextNodes(parsed);
-
-      const titleLower = s.title.toLowerCase();
-      const lines = [];
-      const seen = new Set();
-      nodes.forEach(n => {
-        const t = n.text;
-        const key = t.toLowerCase();
-        if (key === titleLower) return;
-        if (seen.has(key)) return;
-        seen.add(key);
-        if (t.length > 180) return;
-        lines.push(t);
-      });
-
-      const maxLines = 16;
-      const display = lines.slice(0, maxLines);
-
-      if (display.length > 0) {
-        const bulletObjs = display.map((t, i) => ({
-          text: t,
-          options: {
-            bullet: t.length > 3 ? true : false,
-            fontSize: i === 0 ? 13 : 11,
-            color: i === 0 ? INK : INK2,
-            bold: i === 0,
-            breakLine: true,
-            paraSpaceAfter: 4
-          }
-        }));
-        slide.addText(bulletObjs, {
-          x: 0.5, y: 1.15, w: 9.0, h: 4.15,
-          valign: 'top', fontFace: 'Segoe UI'
-        });
+      if(isDivider){
+        renderDividerSlide(pptx, clone, s);
+      } else {
+        renderContentSlide(pptx, clone, s);
       }
-
-      /* Special cases for QR code slides */
-      if (s.title === "Attendance") {
-        slide.addText('[ATTENDANCE QR CODE PLACEHOLDER - Insert your QR code here]', {
-          x: 0.5, y: 4.2, w: 9.0, h: 0.4,
-          fontSize: 12, color: 'C2410C', bold: true, align: 'center'
-        });
-      }
-      if (s.title === "Pre-Assessment") {
-        slide.addText('[PRE-ASSESSMENT QR CODE PLACEHOLDER - Insert your QR code here]', {
-          x: 0.5, y: 4.2, w: 9.0, h: 0.4,
-          fontSize: 12, color: 'C2410C', bold: true, align: 'center'
-        });
-      }
-      if (s.title === "Post-Assessment") {
-        slide.addText('[POST-ASSESSMENT QR CODE PLACEHOLDER - Insert your QR code here]', {
-          x: 0.5, y: 4.2, w: 9.0, h: 0.4,
-          fontSize: 12, color: '15803D', bold: true, align: 'center'
-        });
-      }
-      if (s.title === "Training Evaluation") {
-        slide.addText('[TRAINING EVALUATION QR CODE PLACEHOLDER - Insert your QR code here]', {
-          x: 0.5, y: 4.2, w: 9.0, h: 0.4,
-          fontSize: 12, color: 'A16207', bold: true, align: 'center'
-        });
-      }
-
-      /* Footer */
-      slide.addShape(pptx.ShapeType.rect, { x: 0, y: 5.35, w: 10, h: 0.28, fill: { color: LIGHT } });
-      slide.addText('Basic Microbiology — QC Yearly Training Plan 2026  |  Prepared by Muhammad Firdaus Abdullah', {
-        x: 0.4, y: 5.38, w: 7, h: 0.22, fontSize: 8, color: '7593AA'
-      });
-      slide.addText(String(idx + 1) + ' / ' + SLIDES.length, {
-        x: 8.6, y: 5.38, w: 1, h: 0.22, fontSize: 8, color: '7593AA', align: 'right'
-      });
     });
 
-    /* --- THANK YOU SLIDE --- */
-    const th = pptx.addSlide();
-    th.background = { color: BRAND };
-    th.addText('Thank You', { x: 0.6, y: 1.8, w: 8.8, h: 0.9, fontSize: 44, color: 'FFFFFF', bold: true });
-    th.addShape(pptx.ShapeType.rect, { x: 0.6, y: 2.8, w: 1.2, h: 0.08, fill: { color: '5EEAD4' } });
-    th.addText('Prepared by Muhammad Firdaus Abdullah', { x: 0.6, y: 3.1, w: 8.8, h: 0.4, fontSize: 16, color: 'E2F4F3' });
-    th.addText('QC Yearly Training Plan 2026', { x: 0.6, y: 3.5, w: 8.8, h: 0.35, fontSize: 13, color: 'A7D9D6' });
-    th.addText('Patient Safety First  ·  The Analyst is the Variable  ·  Media is the Foundation', {
-      x: 0.6, y: 4.5, w: 8.8, h: 0.3, fontSize: 11, color: '5EEAD4', bold: true
-    });
-
-    await pptx.writeFile({ fileName: 'Basic-Microbiology-QC-Training-2026.pptx' });
+    await pptx.writeFile({fileName: 'Basic-Microbiology-QC-Training-2026.pptx'});
     showToast('✅ PowerPoint downloaded successfully!');
-  } catch (err) {
+  }catch(err){
     console.error(err);
     showToast('⚠ Failed to generate PowerPoint: ' + err.message);
-  } finally {
+  }finally{
     dlbar.classList.remove('show');
   }
 });
