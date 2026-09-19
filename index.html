@@ -225,6 +225,37 @@ table.data td strong{color:var(--ink)}
 .dlbox h3{font-size:16px;margin-bottom:6px}
 .dlbox p{font-size:13px;color:var(--ink-3)}
 
+/* =========================================================
+   NEW: Fullscreen presentation mode
+   ========================================================= */
+html:fullscreen,
+html:-webkit-full-screen,
+html:-moz-full-screen,
+html:-ms-fullscreen{
+  background:var(--bg);
+}
+html:fullscreen .app,
+html:-webkit-full-screen .app,
+html:-moz-full-screen .app,
+html:-ms-fullscreen .app{
+  height:100vh;
+  height:100dvh;
+}
+html:fullscreen .topbar,
+html:-webkit-full-screen .topbar{
+  padding:8px 16px;
+}
+html:fullscreen .nav,
+html:-webkit-full-screen .nav{
+  padding:7px 16px;
+}
+/* Keep readable line-length on very wide monitors */
+html:fullscreen .slide,
+html:-webkit-full-screen .slide{
+  padding-left:max(46px, calc((100vw - 1700px) / 2));
+  padding-right:max(46px, calc((100vw - 1700px) / 2));
+}
+
 @media(max-width:760px){
   .slide{padding:22px 18px 18px}
   .brand small{display:none}
@@ -251,6 +282,8 @@ table.data td strong{color:var(--ink)}
       <button class="tbtn dl" id="dlBtn">⬇ <span>PowerPoint</span></button>
       <button class="tbtn" id="menuBtn">☰ <span>Overview</span></button>
       <button class="tbtn" id="themeBtn">🌙 <span>Theme</span></button>
+      <!-- NEW: Full Screen button -->
+      <button class="tbtn" id="fsBtn">⛶ <span>Full Screen</span></button>
     </div>
   </header>
   <div class="progress"><i id="bar"></i></div>
@@ -318,7 +351,8 @@ html:`
   </div>
   <div class="callout" style="margin-top:22px;max-width:760px">
     <b>How to use this deck:</b> <b>Click anywhere</b> to advance to the next slide.
-    Use <b>← / →</b> arrow keys or the navigation buttons. Open <b>☰ Overview</b> to jump
+    Use <b>← / →</b> arrow keys or the navigation buttons. Press <b>F</b> (or click
+    <b>⛶ Full Screen</b>) for presentation mode. Open <b>☰ Overview</b> to jump
     to any slide. Each module includes a <b>group activity</b> and an interactive quiz.
   </div>
 </div>`
@@ -2281,7 +2315,7 @@ nextBtn.addEventListener('click', e => { e.stopPropagation(); show(cur + 1); });
 /* CLICK ANYWHERE TO ADVANCE */
 stage.addEventListener('click', e => {
   if (clickLock) return;
-  if (e.target.closest('button, a, input, select, textarea, .quiz, .vcard, .opt, .drawer, .topbar, .nav, img')) return;
+  if (e.target.closest('button, a, input, select, textarea, .quiz, .vcard, .opt, .drawer, .topbar, .nav, img, video')) return;
   show(cur + 1);
 });
 
@@ -2293,6 +2327,8 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Home') show(0);
   if (e.key === 'End') show(SLIDES.length - 1);
   if (e.key === 'Escape') closeDrawer();
+  /* NEW: F toggles fullscreen */
+  if (e.key === 'f' || e.key === 'F') { toggleFullscreen(); e.preventDefault(); }
 });
 
 /* Touch swipe */
@@ -2346,6 +2382,46 @@ themeBtn.addEventListener('click', e => {
   html.dataset.theme = next;
   themeBtn.innerHTML = (next === 'dark' ? '☀' : '🌙') + ' <span>Theme</span>';
 });
+
+/* =========================================================
+   NEW: FULLSCREEN PRESENTATION MODE
+   ========================================================= */
+const fsBtn = document.getElementById('fsBtn');
+
+function fsElement(){
+  return document.fullscreenElement ||
+         document.webkitFullscreenElement ||
+         document.mozFullScreenElement ||
+         document.msFullscreenElement || null;
+}
+
+function toggleFullscreen(){
+  if(!fsElement()){
+    const el = document.documentElement; // html — so drawer/toast/dlbar remain reachable
+    const req = el.requestFullscreen || el.webkitRequestFullscreen ||
+                el.mozRequestFullScreen || el.msRequestFullscreen;
+    if(req){
+      const p = req.call(el);
+      if(p && p.catch) p.catch(() => showToast('⚠ Fullscreen blocked by browser.'));
+    } else {
+      showToast('⚠ Fullscreen not supported on this browser.');
+    }
+  } else {
+    const exit = document.exitFullscreen || document.webkitExitFullscreen ||
+                 document.mozCancelFullScreen || document.msExitFullscreen;
+    if(exit) exit.call(document);
+  }
+}
+
+fsBtn.addEventListener('click', e => { e.stopPropagation(); toggleFullscreen(); });
+
+/* Keep the button label in sync (also catches Esc / F11 / F key) */
+['fullscreenchange','webkitfullscreenchange','mozfullscreenchange','MSFullscreenChange']
+  .forEach(evt => document.addEventListener(evt, () => {
+    const on = !!fsElement();
+    fsBtn.innerHTML = '⛶ <span>' + (on ? 'Exit Full Screen' : 'Full Screen') + '</span>';
+    fsBtn.classList.toggle('dl', on);
+  }));
 
 /* =========================================================
    QUIZ ENGINE
