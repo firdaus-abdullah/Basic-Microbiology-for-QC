@@ -7,15 +7,15 @@
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 <style>
 :root{
-  --bg:#eef2f6;--surface:#ffffff;--surface-2:#f6f9fb;--ink:#0e2233;--ink-2:#41607a;
-  --ink-3:#7593aa;--line:#d8e3ec;--brand:#0d6e6e;--brand-2:#0f8b8b;--brand-soft:#e2f4f3;
+  --bg:#eef2f6;--surface:#ffffff;--surface-2:#f6f9fb;--ink:#000000;--ink-2:#000000;
+  --ink-3:#000000;--line:#d8e3ec;--brand:#0d6e6e;--brand-2:#0f8b8b;--brand-soft:#e2f4f3;
   --accent:#c2410c;--accent-soft:#fdece3;--ok:#15803d;--ok-soft:#e6f6ec;--bad:#b91c1c;
   --bad-soft:#fdeaea;--warn:#a16207;--warn-soft:#fdf4e3;--violet:#6d28d9;--violet-soft:#f3e8ff;
   --shadow:0 10px 30px rgba(13,50,80,.10);--radius:16px;
 }
 html[data-theme="dark"]{
-  --bg:#070d14;--surface:#0f1a26;--surface-2:#132230;--ink:#e8f1f8;--ink-2:#9fb6c9;
-  --ink-3:#6b869c;--line:#20364a;--brand:#2dd4bf;--brand-2:#5eead4;--brand-soft:#10302e;
+  --bg:#070d14;--surface:#0f1a26;--surface-2:#132230;--ink:#ffffff;--ink-2:#ffffff;
+  --ink-3:#f0f4f8;--line:#20364a;--brand:#2dd4bf;--brand-2:#5eead4;--brand-soft:#10302e;
   --accent:#fb923c;--accent-soft:#2e1c0e;--ok:#4ade80;--ok-soft:#0e2a19;--bad:#f87171;
   --bad-soft:#2c1212;--warn:#fbbf24;--warn-soft:#2b2109;--violet:#a78bfa;--violet-soft:#231435;
   --shadow:0 10px 30px rgba(0,0,0,.5);
@@ -225,6 +225,36 @@ table.data td strong{color:var(--ink)}
 .dlbox h3{font-size:16px;margin-bottom:6px}
 .dlbox p{font-size:13px;color:var(--ink-3)}
 
+/* =========================================================
+   Fullscreen presentation mode
+   ========================================================= */
+html:fullscreen,
+html:-webkit-full-screen,
+html:-moz-full-screen,
+html:-ms-fullscreen{
+  background:var(--bg);
+}
+html:fullscreen .app,
+html:-webkit-full-screen .app,
+html:-moz-full-screen .app,
+html:-ms-fullscreen .app{
+  height:100vh;
+  height:100dvh;
+}
+html:fullscreen .topbar,
+html:-webkit-full-screen .topbar{
+  padding:8px 16px;
+}
+html:fullscreen .nav,
+html:-webkit-full-screen .nav{
+  padding:7px 16px;
+}
+html:fullscreen .slide,
+html:-webkit-full-screen .slide{
+  padding-left:max(46px, calc((100vw - 1700px) / 2));
+  padding-right:max(46px, calc((100vw - 1700px) / 2));
+}
+
 @media(max-width:760px){
   .slide{padding:22px 18px 18px}
   .brand small{display:none}
@@ -251,6 +281,7 @@ table.data td strong{color:var(--ink)}
       <button class="tbtn dl" id="dlBtn">⬇ <span>PowerPoint</span></button>
       <button class="tbtn" id="menuBtn">☰ <span>Overview</span></button>
       <button class="tbtn" id="themeBtn">🌙 <span>Theme</span></button>
+      <button class="tbtn" id="fsBtn">⛶ <span>Full Screen</span></button>
     </div>
   </header>
   <div class="progress"><i id="bar"></i></div>
@@ -292,10 +323,13 @@ table.data td strong{color:var(--ink)}
 <script>
 /* =========================================================
    SLIDE DATA
+   NOTE: Original slide 2 (Attendance & Pre-Assessment),
+         slide 52 (Post-Assessment) and slide 53 (Training
+         Evaluation) have been removed.
    ========================================================= */
 const SLIDES = [
 
-/* ---------- 0 : TITLE ---------- */
+/* ---------- 0 : TITLE (was slide 1) ---------- */
 {
 mod:"Start", title:"Title",
 html:`
@@ -318,67 +352,14 @@ html:`
   </div>
   <div class="callout" style="margin-top:22px;max-width:760px">
     <b>How to use this deck:</b> <b>Click anywhere</b> to advance to the next slide.
-    Use <b>← / →</b> arrow keys or the navigation buttons. Open <b>☰ Overview</b> to jump
+    Use <b>← / →</b> arrow keys or the navigation buttons. Press <b>F</b> (or click
+    <b>⛶ Full Screen</b>) for presentation mode. Open <b>☰ Overview</b> to jump
     to any slide. Each module includes a <b>group activity</b> and an interactive quiz.
   </div>
 </div>`
 },
 
-/* ---------- 1 : ATTENDANCE ---------- */
-{
-mod:"Start", title:"Attendance",
-html:`
-<span class="kicker">📋 Attendance</span>
-<h2>QC Yearly Training Plan 2026</h2>
-<div class="rule"></div>
-<div class="grid g2">
-  <div class="card">
-    <h3><span class="ic">📷</span> Scan to Mark Attendance</h3>
-    <p>Please scan the QR code to record your attendance for this training session.</p>
-    <p style="margin-top:10px; font-size:12px; color:var(--ink-3);">
-      
-    </p>
-    <div class="callout ok" style="margin-top:16px;">
-      <b>Note:</b> Please ensure your full name and department are correctly registered.
-    </div>
-  </div>
-  <div class="card" style="display:flex; justify-content:center; align-items:center; padding:20px; background:var(--surface-2);">
-    <!-- REPLACE THE SRC BELOW WITH YOUR ATTENDANCE QR CODE IMAGE -->
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://docs.google.com/forms/d/e/1FAIpQLScJMTXDklpKAXvOnXqCRvu7xK-KKeAPAqIdniUOgiRsjDlFpQ/viewform?usp=dialog" 
-         alt="Attendance QR Code" 
-         style="width:100%; max-width:250px; height:auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-  </div>
-</div>`
-},
-
-/* ---------- 2 : PRE-ASSESSMENT ---------- */
-{
-mod:"Start", title:"Pre-Assessment",
-html:`
-<span class="kicker">📝 Pre-Assessment</span>
-<h2>QC Yearly Training Plan 2026</h2>
-<div class="rule"></div>
-<div class="grid g2">
-  <div class="card">
-    <h3><span class="ic">📝</span> Baseline Knowledge Check</h3>
-    <p>Please scan the QR code to complete the short pre-assessment before we begin.</p>
-    <p style="margin-top:10px; font-size:12px; color:var(--ink-3);">
-      
-    </p>
-    <div class="callout" style="margin-top:16px;">
-      <b>Note:</b> This helps us gauge the current understanding of the group and tailor the session accordingly.
-    </div>
-  </div>
-  <div class="card" style="display:flex; justify-content:center; align-items:center; padding:20px; background:var(--surface-2);">
-    <!-- REPLACE THE SRC BELOW WITH YOUR PRE-ASSESSMENT QR CODE IMAGE -->
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://forms.gle/5KWz2qMbRrc7rhMp9" 
-         alt="Pre-Assessment QR Code" 
-         style="width:100%; max-width:250px; height:auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-  </div>
-</div>`
-},
-
-/* ---------- 3 : AGENDA ---------- */
+/* ---------- 1 : AGENDA (was slide 3) ---------- */
 {
 mod:"Start", title:"Agenda",
 html:`
@@ -397,7 +378,7 @@ html:`
 </div>`
 },
 
-/* ---------- 4 : OBJECTIVES ---------- */
+/* ---------- 2 : OBJECTIVES (was slide 4) ---------- */
 {
 mod:"Start", title:"Learning Objectives",
 html:`
@@ -618,6 +599,22 @@ html:`
     <li>Suggest <b>one corrective action</b> to prevent recurrence.</li>
     <li><b>Present your findings</b> to the class — 2 minutes per group.</li>
   </ol>
+
+  <!-- ▼ QR CODE BLOCK ▼ -->
+  <div class="qrbox" style="margin-top:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;border:1px dashed #cfd8e3;border-radius:12px;padding:12px 16px;background:#f8fafc">
+    <img
+      src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&amp;margin=0&amp;data=https%3A%2F%2Ffirdaus-abdullah.github.io%2FScenario-1%2F"
+      alt="QR code linking to the scenario cards"
+      width="130" height="130"
+      style="border-radius:8px;background:#fff;padding:6px;box-shadow:0 1px 4px rgba(0,0,0,.08)">
+    <div style="flex:1;min-width:200px">
+      <h3 style="margin:0 0 4px"><span class="ic">📱</span> Scan for Scenario Cards</h3>
+      <p style="margin:0">Point your phone camera at the QR code to open the digital scenario cards 
+      </p>
+    </div>
+  </div>
+  <!-- ▲ QR CODE BLOCK ▲ -->
+
 </div>
 <div class="grid g2" style="margin-top:16px">
   <div class="card"><h3><span class="ic">💡</span> Example Scenario</h3><p>"A patient develops a fever 30 minutes after receiving an IV injection. The product passed sterility testing. What type of contamination is most likely, and which test was likely missed?"</p></div>
@@ -761,9 +758,16 @@ html:`
     </div>
     <h3 style="margin-top:15px"><span class="ic">🎥</span> Airflow Visualisation</h3>
     <ul>
-      <li>Conduct under <b>dynamic conditions</b></li>
-      <li>Demonstrate unidirectional airflow and sweeping action <b>over and away from</b> the product</li>
-    </ul>
+      <!-- Video added below -->
+<figure style="margin-top:12px;">
+  <video width="800" controls preload="metadata" style="max-width:100%;">
+    <source src="Air%20flow%20visualization.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <figcaption style="font-size:0.9em; color:#555; margin-top:6px;">
+    Smoke study demonstrating unidirectional airflow and first-air protection.
+  </figcaption>
+</figure>
     <div class="callout warn" style="margin-top:12px">
       <b>Remember:</b> First air is the cleanest air. Protect it.
     </div>
@@ -798,10 +802,16 @@ html:`
       <li>Personnel hygiene and health status should be <b>closely monitored</b></li>
     </ul>
     <h3 style="margin-top:14px"><span class="ic">📹</span> Watch</h3>
-    <a class="vcard" href="https://www.sps.nhs.uk/articles/gowning-in-aseptic-services/" target="_blank" rel="noopener">
-      <div class="vplay">▶</div>
-      <div><b>Gowning in Aseptic Services</b><span>NHS Specialist Pharmacy Service · 23 min</span></div>
-      <span class="go">→</span>
+<!-- Video added below -->
+<figure style="margin-top:12px;">
+  <video width="800" controls preload="metadata" style="max-width:100%;">
+    <source src="Aseptic%20Gowning%20for%20the%20Cleanroom.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <figcaption style="font-size:0.9em; color:#555; margin-top:6px;">
+    Aseptic Gowning for the Cleanroom
+  </figcaption>
+</figure>
     </a>
   </div>
 </div>`
@@ -829,6 +839,22 @@ html:`
     <li>Explain <b>why each error matters</b> — link to EU GMP Annex 1 requirements.</li>
     <li>Present your sequence and findings to the class — 2 minutes per group.</li>
   </ol>
+
+  <!-- ▼ QR CODE BLOCK ▼ -->
+  <div class="qrbox" style="margin-top:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;border:1px dashed #cfd8e3;border-radius:12px;padding:12px 16px;background:#f8fafc">
+    <img
+      src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&amp;margin=0&amp;data=https%3A%2F%2Ffirdaus-abdullah.github.io%2FScenario-2%2F"
+      alt="QR code linking to the scenario cards"
+      width="130" height="130"
+      style="border-radius:8px;background:#fff;padding:6px;box-shadow:0 1px 4px rgba(0,0,0,.08)">
+    <div style="flex:1;min-width:200px">
+      <h3 style="margin:0 0 4px"><span class="ic">📱</span> Scan for Activity 2</h3>
+      <p style="margin:0">Point your phone camera at the QR code to open the digital activity cards.
+      </p>
+    </div>
+  </div>
+  <!-- ▲ QR CODE BLOCK ▲ -->
+
 </div>
 <div class="grid g2" style="margin-top:16px">
   <div class="card"><h3><span class="ic">💡</span> Hint</h3><p>Remember: gowning is <b>top-down</b>. Hands are the last to be covered. Never touch the outside of sterile garments with bare hands.</p></div>
@@ -983,7 +1009,7 @@ html:`
     <tr><th>Test</th><th>Medium</th><th>Temperature</th><th>Duration</th></tr>
     <tr><td><strong>TAMC</strong> (USP &lt;61&gt;)</td><td>TSA</td><td><strong>30–35 °C</strong></td><td>3–5 days</td></tr>
     <tr><td><strong>TYMC</strong> (USP &lt;61&gt;)</td><td>SDA</td><td><strong>20–25 °C</strong></td><td>5–7 days</td></tr>
-    <tr><td><strong>Sterility</strong> (USP &lt;71&gt;)</td><td>TSB / SCDM</td><td><strong>20–25 °C AND 30–35 °C</strong></td><td>14 days</td></tr>
+    <tr><td><strong>Sterility</strong> (USP &lt;71&gt;)</td><td>TSB & FTM</td><td><strong>20–25 °C AND 30–35 °C</strong></td><td>14 days</td></tr>
     <tr><td><strong>Growth Promotion</strong> (USP &lt;62&gt;)</td><td>Various</td><td>30–35 °C</td><td>≤ 18 h (worst case)</td></tr>
   </table>
 </div>
@@ -1029,13 +1055,27 @@ html:`
       – What acceptance criteria?</li>
     <li>Present your protocol — 2 minutes per group. Other groups can challenge your rationale.</li>
   </ol>
+
+  <!-- ▼ QR CODE BLOCK ▼ -->
+  <div class="qrbox" style="margin-top:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;border:1px dashed #cfd8e3;border-radius:12px;padding:12px 16px;background:#f8fafc">
+    <img
+      src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&amp;margin=0&amp;data=https%3A%2F%2Ffirdaus-abdullah.github.io%2FActivity-3%2F"
+      alt="QR code linking to the activity cards"
+      width="130" height="130"
+      style="border-radius:8px;background:#fff;padding:6px;box-shadow:0 1px 4px rgba(0,0,0,.08)">
+    <div style="flex:1;min-width:200px">
+      <h3 style="margin:0 0 4px"><span class="ic">📱</span> Scan for Activity Cards</h3>
+      <p style="margin:0">Point your phone camera at the QR code to open the digital activity cards</p>
+    </div>
+  </div>
+  <!-- ▲ QR CODE BLOCK ▲ -->
+
 </div>
 <div class="grid g2" style="margin-top:16px">
   <div class="card"><h3><span class="ic">💡</span> Hint</h3><p>GPT per USP &lt;62&gt; uses <b>≤ 100 CFU</b> inoculum. Growth is compared against a control. Incubate for the <b>shortest</b> time that still shows growth.</p></div>
   <div class="card"><h3><span class="ic">🏆</span> Scoring</h3><p>Correct matches (4 pts) · Complete GPT protocol (4 pts) · Reference citation (2 pts). Total = 10 points.</p></div>
 </div>`
 },
-
 /* --- MODULE 3 QUIZ --- */
 {
 mod:"Module 3 · Growth Media", title:"Module 3 Quiz",
@@ -1209,11 +1249,16 @@ html:`
   Strategy — including gown sampling after critical interventions.
 </div>
 <div class="grid g2" style="margin-top:14px">
-  <a class="vcard" href="https://www.ncbionetwork.org" target="_blank" rel="noopener">
-    <div class="vplay">▶</div>
-    <div><b>Environmental Monitoring</b><span>NCBioNetwork · Interactive Lesson</span></div>
-    <span class="go">→</span>
-  </a>
+ <!-- Video added below -->
+<figure style="margin-top:12px;">
+  <video width="800" controls preload="metadata" style="max-width:100%;">
+    <source src="Environmental%20Surface%20Sampling%20with%20Agar%20Plates.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <figcaption style="font-size:0.9em; color:#555; margin-top:6px;">
+    Are you sampling it right ?
+  </figcaption>
+</figure>
   <a class="vcard" href="https://www.pharmaceuticalonline.com" target="_blank" rel="noopener">
     <div class="vplay">▶</div>
     <div><b>Annex 1 Data &amp; Reporting</b><span>Pharmaceutical Online · Tech Expo Video</span></div>
@@ -1286,13 +1331,27 @@ html:`
     <li>Decide whether the affected batch should be <b>released, quarantined or rejected</b> — justify your decision.</li>
     <li>Present to the class as if reporting to the QA Head — 3 minutes per group.</li>
   </ol>
+
+  <!-- ▼ QR CODE BLOCK ▼ -->
+  <div class="qrbox" style="margin-top:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;border:1px dashed #cfd8e3;border-radius:12px;padding:12px 16px;background:#f8fafc">
+    <img
+      src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&amp;margin=0&amp;data=https%3A%2F%2Ffirdaus-abdullah.github.io%2FActivity-4%2F"
+      alt="QR code linking to the activity cards"
+      width="130" height="130"
+      style="border-radius:8px;background:#fff;padding:6px;box-shadow:0 1px 4px rgba(0,0,0,.08)">
+    <div style="flex:1;min-width:200px">
+      <h3 style="margin:0 0 4px"><span class="ic">📱</span> Scan for Activity Cards</h3>
+      <p style="margin:0">Point your phone camera at the QR code to open the digital activity cards, </p>
+    </div>
+  </div>
+  <!-- ▲ QR CODE BLOCK ▲ -->
+
 </div>
 <div class="grid g2" style="margin-top:16px">
   <div class="card"><h3><span class="ic">💡</span> Consider</h3><p>Personnel behaviour · HVAC status · Recent maintenance · Cleaning logs · Adjacent grade results · Batch history · Operator qualification status.</p></div>
   <div class="card"><h3><span class="ic">🏆</span> Scoring</h3><p>Thorough investigation (4 pts) · Realistic CAPA (3 pts) · Correct batch decision with justification (3 pts). Total = 10 points.</p></div>
 </div>`
 },
-
 /* --- MODULE 4 QUIZ --- */
 {
 mod:"Module 4 · Environmental Monitoring", title:"Module 4 Quiz",
@@ -1338,7 +1397,7 @@ html:`
   <div class="q" data-a="B">
     <div class="qtext"><span class="num">4</span> If environmental monitoring counts are too high, what is the most appropriate first action?</div>
     <div class="opts">
-      <button class="opt" data-k="A"><span class="k">A</span> Ignore if below 300 CFU</button>
+      <button class="opt" data-k="A"><span class="k">A</span> Ignore if below 250 CFU</button>
       <button class="opt" data-k="B"><span class="k">B</span> Investigate as a deviation/OOS and initiate CAPA</button>
       <button class="opt" data-k="C"><span class="k">C</span> Repeat sampling until a passing result is obtained</button>
       <button class="opt" data-k="D"><span class="k">D</span> Discard the plate</button>
@@ -1383,7 +1442,7 @@ html:`
     <h3 style="margin-top:15px"><span class="ic">📝</span> Worked Example</h3>
     <ul>
       <li>50 colonies recovered from a 100 mL sample</li>
-      <li>CFU/mL = 50 ÷ 100 = <b>0.5 CFU/mL</b></li>
+      <li>CFU/mL = 50 ÷ 100 = <b>0.5 CFU/mL </b></li>
     </ul>
     <h3 style="margin-top:15px"><span class="ic">✔</span> Method Suitability</h3>
     <p>USP &lt;61&gt; requires at least <b>50 % recovery</b> of specified challenge organisms in the presence of the test article.</p>
@@ -1403,7 +1462,7 @@ html:`
       <table class="data">
         <tr><th>Water Type</th><th>Alert</th><th>Action</th></tr>
         <tr><td>Purified Water</td><td>50 CFU/mL</td><td><strong>100 CFU/mL</strong></td></tr>
-        <tr><td>Water for Injection</td><td>10 CFU/100 mL</td><td><strong>20 CFU/100 mL</strong></td></tr>
+        <tr><td>Water for Injection</td><td>5 CFU/100 mL</td><td><strong>10 CFU/100 mL</strong></td></tr>
       </table>
     </div>
     <span class="ref">USP &lt;61&gt; · USP &lt;1111&gt;</span>
@@ -1483,6 +1542,16 @@ html:`
     <p style="margin-top:10px">Both temperature ranges are required to detect fungal and bacterial contaminants.</p>
     <span class="ref">USP &lt;71&gt;</span>
   </div>
+  <!-- Video added below -->
+<figure style="margin-top:12px;">
+  <video width="800" controls preload="metadata" style="max-width:100%;">
+    <source src="Sterility%20Testing.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <figcaption style="font-size:0.9em; color:#555; margin-top:6px;">
+    Example of Sterility Testing.
+  </figcaption>
+</figure>
   <div class="card">
     <h3><span class="ic">🧴</span> USP &lt;51&gt; — Antimicrobial Effectiveness</h3>
     <ul>
@@ -1512,8 +1581,7 @@ html:`
     <ul>
       <li>Gel-clot</li>
       <li>Photometric</li>
-      <li>Kinetic</li>
-    </ul>
+          </ul>
     <span class="ref">USP &lt;85&gt; · USP &lt;86&gt;</span>
   </div>
   <div class="card">
@@ -1534,11 +1602,16 @@ html:`
   </div>
 </div>
 <div class="grid g2" style="margin-top:14px">
-  <a class="vcard" href="https://www.jove.com" target="_blank" rel="noopener">
-    <div class="vplay">▶</div>
-    <div><b>Gel-Clot LAL Assay</b><span>JoVE · Scientific Video Protocol</span></div>
-    <span class="go">→</span>
-  </a>
+<!-- Video added below -->
+<figure style="margin-top:12px;">
+  <video width="800" controls preload="metadata" style="max-width:100%;">
+    <source src="Gel%20Clot%20LAL%20Assay.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <figcaption style="font-size:0.9em; color:#555; margin-top:6px;">
+    Example of Gel Glot Method.
+  </figcaption>
+</figure>
   <a class="vcard" href="https://www.steris-ast.com" target="_blank" rel="noopener">
     <div class="vplay">▶</div>
     <div><b>Fundamentals of Bioburden Testing</b><span>STERIS AST · 48-min Webinar</span></div>
@@ -1573,6 +1646,21 @@ html:`
     <li><b>Calculation drill:</b> 25 colonies recovered from a 50 mL sample — what is the CFU/mL? What if the sample was 10 g of powder?</li>
     <li>Present your test matrix — 2 minutes per group.</li>
   </ol>
+
+  <!-- ▼ QR CODE BLOCK ▼ -->
+  <div class="qrbox" style="margin-top:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;border:1px dashed #cfd8e3;border-radius:12px;padding:12px 16px;background:#f8fafc">
+    <img
+      src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&amp;margin=0&amp;data=https%3A%2F%2Ffirdaus-abdullah.github.io%2FActivity-5%2F"
+      alt="QR code linking to the activity cards"
+      width="130" height="130"
+      style="border-radius:8px;background:#fff;padding:6px;box-shadow:0 1px 4px rgba(0,0,0,.08)">
+    <div style="flex:1;min-width:200px">
+      <h3 style="margin:0 0 4px"><span class="ic">📱</span> Scan for Activity Cards</h3>
+      <p style="margin:0">Point your phone camera at the QR code to open the digital activity cards </p>
+    </div>
+  </div>
+  <!-- ▲ QR CODE BLOCK ▲ -->
+
 </div>
 <div class="grid g2" style="margin-top:16px">
   <div class="card"><h3><span class="ic">💡</span> Hint</h3><p>Oral solids: TAMC/TYMC + specified organisms. Parenterals: sterility + endotoxin. Preserved multi-dose: add USP &lt;51&gt;. Cell therapies: mycoplasma per USP &lt;63&gt;.</p></div>
@@ -1676,7 +1764,7 @@ html:`
     <h3><span class="ic">❓</span> Definition</h3>
     <ul>
       <li>Colony counts that exceed the upper limit of the countable range</li>
-      <li>Typically <b>&gt; 300 colonies per plate</b></li>
+      <li>Typically <b>&gt; 250 colonies per plate</b></li>
     </ul>
     <div class="callout warn" style="margin-top:12px">
       TNTC does <b>not</b> mean the CFUs cannot be enumerated — it means the number exceeds the
@@ -1703,10 +1791,10 @@ html:`
 },
 
 {
-mod:"Module 6 · Documentation", title:"Rounding Rules",
+mod:"Module 6 · Documentation", title:"TNTC Rules",
 html:`
 <span class="kicker">6.2 · Data Integrity</span>
-<h2>Rounding Rules — USP &lt;1111&gt;</h2>
+<h2>TNTC Rules — USP &lt;61&gt;</h2>
 <div class="rule"></div>
 <div class="tblwrap">
   <table class="data">
@@ -1720,9 +1808,9 @@ html:`
   <div class="card">
     <h3><span class="ic">🔢</span> Key Rules</h3>
     <ul>
-      <li>Round to <b>two significant figures</b></li>
+      <li>TAMC <b>not more than 250 CFU</b> (applicable in 90 mm petri dish)</li><li>TYMC <b>not more than 50 CFU </b>(applicable in 90 mm petri dish)</li>
       <li>Apply consistently across all enumeration results</li>
-      <li>Do not round in a way that changes the pass/fail outcome</li>
+      <li>Membrane filtration and RODAC plate will have different limit for TNTC rule</li>
     </ul>
   </div>
   <div class="card">
@@ -1766,18 +1854,32 @@ html:`
   </div>
   <ol>
     <li>Your facilitator will provide a <b>data sheet</b> from a bioburden test on an oral solid product showing plate counts across dilutions — some plates are TNTC, some are countable, some are TFTC.</li>
-    <li>Determine the <b>valid countable plates</b> (30–300 CFU) and calculate CFU/g.</li>
+    <li>Determine the <b>valid countable plates</b> (25–250 CFU) and calculate CFU/g.</li>
     <li><b>Apply USP &lt;1111&gt; rounding rules</b> to your result — do you meet the acceptance criteria of ≤ 1,000 CFU/g?</li>
     <li>If TNTC appears at the lowest dilution, what does that tell you? What would you do next?</li>
     <li>Present your calculations and decision — 2 minutes per group.</li>
   </ol>
+
+  <!-- ▼ QR CODE BLOCK ▼ -->
+  <div class="qrbox" style="margin-top:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;border:1px dashed #cfd8e3;border-radius:12px;padding:12px 16px;background:#f8fafc">
+    <img
+      src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&amp;margin=0&amp;data=https%3A%2F%2Ffirdaus-abdullah.github.io%2FActivity-6%2F"
+      alt="QR code linking to the activity cards"
+      width="130" height="130"
+      style="border-radius:8px;background:#fff;padding:6px;box-shadow:0 1px 4px rgba(0,0,0,.08)">
+    <div style="flex:1;min-width:200px">
+      <h3 style="margin:0 0 4px"><span class="ic">📱</span> Scan for Activity Cards</h3>
+      <p style="margin:0">Point your phone camera at the QR code to open the digital activity cards</p>
+    </div>
+  </div>
+  <!-- ▲ QR CODE BLOCK ▲ -->
+
 </div>
 <div class="grid g2" style="margin-top:16px">
-  <div class="card"><h3><span class="ic">💡</span> Hint</h3><p>Only count plates with <b>30–300 colonies</b>. Apply dilution factor. Round to <b>two significant figures</b>. Then compare against USP &lt;1111&gt; limits.</p></div>
+  <div class="card"><h3><span class="ic">💡</span> Hint</h3><p>Only count plates with <b>25–250 colonies</b>. Apply dilution factor. Round to <b>two significant figures</b>. Then compare against USP &lt;1111&gt; limits.</p></div>
   <div class="card"><h3><span class="ic">🏆</span> Scoring</h3><p>Correct plate selection (3 pts) · Correct CFU/g calculation (3 pts) · Correct rounding (2 pts) · Investigation path (2 pts). Total = 10 points.</p></div>
 </div>`
 },
-
 /* --- MODULE 6 QUIZ --- */
 {
 mod:"Module 6 · Documentation", title:"Module 6 Quiz",
@@ -1790,12 +1892,12 @@ html:`
   <div class="q" data-a="A">
     <div class="qtext"><span class="num">1</span> In microbiological enumeration, "TNTC" generally means:</div>
     <div class="opts">
-      <button class="opt" data-k="A"><span class="k">A</span> More than 300 colonies per plate</button>
+      <button class="opt" data-k="A"><span class="k">A</span> More than 250 colonies per plate</button>
       <button class="opt" data-k="B"><span class="k">B</span> Fewer than 30 colonies per plate</button>
       <button class="opt" data-k="C"><span class="k">C</span> Exactly 100 colonies per plate</button>
       <button class="opt" data-k="D"><span class="k">D</span> No growth</button>
     </div>
-    <div class="explain"><b>Correct: A.</b> TNTC = Too Numerous To Count, generally indicating &gt; 300 colonies per plate.</div>
+    <div class="explain"><b>Correct: A.</b> TNTC = Too Numerous To Count, generally indicating &gt; 250 colonies per plate.</div>
   </div>
 
   <div class="q" data-a="D">
@@ -1855,13 +1957,7 @@ html:`
       <li><b>Infections</b></li>
       <li><b>Product degradation</b></li>
     </ul>
-    <h3 style="margin-top:14px"><span class="ic">📏</span> Endotoxin Limits</h3>
-    <div class="tblwrap">
-      <table class="data">
-        <tr><th>Route</th><th>Limit</th></tr>
-        <tr><td>Intravenous (IV)</td><td><strong>5 EU/kg/hr</strong></td></tr>
-        <tr><td>Intrathecal</td><td><strong>0.2 EU/kg/hr</strong></td></tr>
-      </table>
+   
     </div>
   </div>
   <div class="card">
@@ -2145,61 +2241,7 @@ html:`
 </div>`
 },
 
-/* ---------- POST-ASSESSMENT ---------- */
-{
-mod:"Resources", title:"Post-Assessment",
-html:`
-<span class="kicker ok">📝 Post-Assessment</span>
-<h2>QC Yearly Training Plan 2026</h2>
-<div class="rule"></div>
-<div class="grid g2">
-  <div class="card">
-    <h3><span class="ic">✅</span> End-of-Session Knowledge Check</h3>
-    <p>Please scan the QR code to complete the post-assessment. Your feedback helps us measure the effectiveness of this training session.</p>
-    <p style="margin-top:10px; font-size:12px; color:var(--ink-3);">
-      
-    </p>
-    <div class="callout ok" style="margin-top:16px;">
-      <b>Thank you!</b> Your responses will help us continuously improve the QC Yearly Training Plan.
-    </div>
-  </div>
-  <div class="card" style="display:flex; justify-content:center; align-items:center; padding:20px; background:var(--surface-2);">
-    <!-- REPLACE THE SRC BELOW WITH YOUR POST-ASSESSMENT QR CODE IMAGE -->
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://forms.gle/TWAiG3MuUvvTGJJ88" 
-         alt="Post-Assessment QR Code" 
-         style="width:100%; max-width:250px; height:auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-  </div>
-</div>`
-},
-
-/* ---------- TRAINING EVALUATION (NEW - ADDED AFTER POST-ASSESSMENT) ---------- */
-{
-mod:"Resources", title:"Training Evaluation",
-html:`
-<span class="kicker w">⭐ Training Evaluation</span>
-<h2>QC Yearly Training Plan 2026</h2>
-<div class="rule"></div>
-<div class="grid g2">
-  <div class="card">
-    <h3><span class="ic">⭐</span> Share Your Feedback</h3>
-    <p>Please scan the QR code to complete the training evaluation form. Your honest feedback is valuable for improving future sessions.</p>
-    <p style="margin-top:10px; font-size:12px; color:var(--ink-3);">
-      
-    </p>
-    <div class="callout warn" style="margin-top:16px;">
-      <b>Your input matters!</b> Evaluation responses are anonymous and help shape the next training cycle.
-    </div>
-  </div>
-  <div class="card" style="display:flex; justify-content:center; align-items:center; padding:20px; background:var(--surface-2);">
-    <!-- REPLACE THE SRC BELOW WITH YOUR TRAINING EVALUATION QR CODE IMAGE -->
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://docs.google.com/forms/d/e/1FAIpQLSfavje0n22WShQGjCR9NlOqjAI96USWe6wBXyBPhYNZjXUDww/viewform?usp=dialog" 
-         alt="Training Evaluation QR Code" 
-         style="width:100%; max-width:250px; height:auto; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-  </div>
-</div>`
-},
-
-/* ---------- THANK YOU ---------- */
+/* ---------- THANK YOU (was slide 54) ---------- */
 {
 mod:"Resources", title:"Thank You",
 html:`
@@ -2217,7 +2259,7 @@ html:`
     <div class="card"><h3><span class="ic">🌱</span> Media is the Foundation</h3><p>No growth promotion, no trust in results.</p></div>
   </div>
   <div class="callout" style="margin-top:24px;max-width:760px">
-    <b>Questions?</b> Contact your Quality Assurance or Microbiology department for further guidance.
+    <b>Questions?</b> Contact Quality Assurance or Qualty Control (Microbiology) department for further guidance.
     Use the <b>⬇ PowerPoint</b> button to download this deck as a .pptx file.
   </div>
 </div>`
@@ -2289,7 +2331,7 @@ nextBtn.addEventListener('click', e => { e.stopPropagation(); show(cur + 1); });
 /* CLICK ANYWHERE TO ADVANCE */
 stage.addEventListener('click', e => {
   if (clickLock) return;
-  if (e.target.closest('button, a, input, select, textarea, .quiz, .vcard, .opt, .drawer, .topbar, .nav, img')) return;
+  if (e.target.closest('button, a, input, select, textarea, .quiz, .vcard, .opt, .drawer, .topbar, .nav, img, video')) return;
   show(cur + 1);
 });
 
@@ -2301,6 +2343,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Home') show(0);
   if (e.key === 'End') show(SLIDES.length - 1);
   if (e.key === 'Escape') closeDrawer();
+  if (e.key === 'f' || e.key === 'F') { toggleFullscreen(); e.preventDefault(); }
 });
 
 /* Touch swipe */
@@ -2356,6 +2399,45 @@ themeBtn.addEventListener('click', e => {
 });
 
 /* =========================================================
+   FULLSCREEN PRESENTATION MODE
+   ========================================================= */
+const fsBtn = document.getElementById('fsBtn');
+
+function fsElement(){
+  return document.fullscreenElement ||
+         document.webkitFullscreenElement ||
+         document.mozFullScreenElement ||
+         document.msFullscreenElement || null;
+}
+
+function toggleFullscreen(){
+  if(!fsElement()){
+    const el = document.documentElement;
+    const req = el.requestFullscreen || el.webkitRequestFullscreen ||
+                el.mozRequestFullScreen || el.msRequestFullscreen;
+    if(req){
+      const p = req.call(el);
+      if(p && p.catch) p.catch(() => showToast('⚠ Fullscreen blocked by browser.'));
+    } else {
+      showToast('⚠ Fullscreen not supported on this browser.');
+    }
+  } else {
+    const exit = document.exitFullscreen || document.webkitExitFullscreen ||
+                 document.mozCancelFullScreen || document.msExitFullscreen;
+    if(exit) exit.call(document);
+  }
+}
+
+fsBtn.addEventListener('click', e => { e.stopPropagation(); toggleFullscreen(); });
+
+['fullscreenchange','webkitfullscreenchange','mozfullscreenchange','MSFullscreenChange']
+  .forEach(evt => document.addEventListener(evt, () => {
+    const on = !!fsElement();
+    fsBtn.innerHTML = '⛶ <span>' + (on ? 'Exit Full Screen' : 'Full Screen') + '</span>';
+    fsBtn.classList.toggle('dl', on);
+  }));
+
+/* =========================================================
    QUIZ ENGINE
    ========================================================= */
 stage.addEventListener('click', e => {
@@ -2406,30 +2488,23 @@ function showToast(msg) {
 }
 
 /* =========================================================
-   POWERPOINT EXPORT — FAITHFUL DECK REPRODUCTION
-   ---------------------------------------------------------
-   The exporter walks the *live DOM* of every slide and
-   rebuilds each element (header, cards, grids, tables,
-   callouts, activities, quizzes, video cards, pills, QR
-   images …) as real PowerPoint objects, using the same
-   palette, typography and geometry as the web deck.
-   Content that overflows a 16:9 page automatically
-   continues on a follow-up slide so nothing is ever lost.
+   POWERPOINT EXPORT — A4 LANDSCAPE (11.69" × 8.27")
+   Faithful reproduction of on-screen slide content.
    ========================================================= */
 const dlBtn = document.getElementById('dlBtn');
 const dlbar = document.getElementById('dlbar');
 
-/* ---------- geometry (inches) ---------- */
-const SW = 10, SH = 5.63;            // 16:9
-const MX = 0.45;                      // side margin
-const CW = SW - MX * 2;               // 9.10 content width
-const CTOP = 1.12;                    // first content y
-const CBOT = 5.20;                    // last content y
+/* ---------- A4 landscape geometry (inches) ---------- */
+const SW = 11.69, SH = 8.27;
+const MX = 0.55;
+const CW = SW - MX * 2;   // 10.59
+const CTOP = 1.35;
+const CBOT = 7.78;
 
 /* ---------- palette ---------- */
 const C = {
   brand:'0D6E6E', brand2:'0F8B8B', brandSoft:'E2F4F3',
-  ink:'0E2233', ink2:'41607A', ink3:'7593AA',
+  ink:'000000', ink2:'000000', ink3:'000000',
   line:'D8E3EC', surface:'FFFFFF', surface2:'F6F9FB',
   accent:'C2410C', accentSoft:'FDECE3',
   ok:'15803D', okSoft:'E6F6EC',
@@ -2446,7 +2521,7 @@ let IMG_MAP = new Map();
 /* ---------- text metrics ---------- */
 function estLines(text, fontSize, widthIn){
   if(!text) return 0;
-  const charW = fontSize * 0.50 / 72;                 // avg glyph width
+  const charW = fontSize * 0.50 / 72;
   const per = Math.max(6, Math.floor(widthIn / charW));
   return Math.max(1, Math.ceil(text.length / per));
 }
@@ -2499,8 +2574,6 @@ function inlineRuns(el, base){
 
 /* =========================================================
    BLOCK RENDERERS
-   Each returns the height (inches) it consumed.
-   `dry === true` performs measurement only.
    ========================================================= */
 function renderBlock(slide, el, x, y, w, dry){
   if(!el || el.nodeType !== 1) return 0;
@@ -2534,7 +2607,6 @@ function renderBlock(slide, el, x, y, w, dry){
   }
 }
 
-/* ---- generic vertical stack ---- */
 function renderStack(slide, kids, x, y, w, dry, gap){
   gap = gap == null ? 0.12 : gap;
   let cy = y;
@@ -2554,15 +2626,14 @@ function stackHeight(slide, kids, w, gap){
   return h;
 }
 
-/* ---- simple text element ---- */
 function renderTextEl(slide, el, x, y, w, dry){
   const tag = el.tagName.toLowerCase();
   let fs = 12.5, bold = false, color = C.ink2, italic = false;
-  if(tag === 'h1'){ fs = 32; bold = true; color = C.ink; }
-  else if(tag === 'h2'){ fs = 21; bold = true; color = C.ink; }
-  else if(tag === 'h3'){ fs = 13.5; bold = true; color = C.ink; }
-  else if(tag === 'h4'){ fs = 10.5; bold = true; color = C.ink3; }
-  if(el.classList.contains('sub')){ fs = 13.5; color = C.ink2; }
+  if(tag === 'h1'){ fs = 36; bold = true; color = C.ink; }
+  else if(tag === 'h2'){ fs = 24; bold = true; color = C.ink; }
+  else if(tag === 'h3'){ fs = 14.5; bold = true; color = C.ink; }
+  else if(tag === 'h4'){ fs = 11; bold = true; color = C.ink3; }
+  if(el.classList.contains('sub')){ fs = 14.5; color = C.ink2; }
   if(el.classList.contains('num')){ return 0; }
 
   const txt = clean(el.textContent);
@@ -2580,25 +2651,20 @@ function renderTextEl(slide, el, x, y, w, dry){
   return h;
 }
 
-/* ---- list ---- */
 function renderList(slide, el, x, y, w, dry){
   const items = [...el.children].filter(c => c.tagName === 'LI');
   if(!items.length) return 0;
   const isOl = el.tagName === 'OL';
-  const fs = 12;
+  const fs = 13;
   const inner = w - 0.22;
 
   let h = 0;
-  const heights = items.map(li => {
-    const lh = textH(clean(li.textContent), fs, inner);
-    h += lh + 0.05;
-    return lh;
-  });
+  items.forEach(li => { h += textH(clean(li.textContent), fs, inner) + 0.05; });
   h -= 0.05;
 
   if(!dry){
     const paras = [];
-    items.forEach((li, i) => {
+    items.forEach(li => {
       const runs = inlineRuns(li, {fontSize:fs, color:C.ink2, fontFace:FONT});
       if(!runs.length) return;
       runs[0].options.bullet = isOl ? {type:'number'} : {code:'2022'};
@@ -2613,7 +2679,6 @@ function renderList(slide, el, x, y, w, dry){
   return h;
 }
 
-/* ---- kicker pill ---- */
 function renderKicker(slide, el, x, y, w, dry){
   const txt = clean(el.textContent).toUpperCase();
   if(!txt) return 0;
@@ -2622,37 +2687,34 @@ function renderKicker(slide, el, x, y, w, dry){
   else if(el.classList.contains('ok')){ color = C.ok; bg = C.okSoft; }
   else if(el.classList.contains('w')){ color = C.warn; bg = C.warnSoft; }
 
-  const h = 0.28;
-  const pw = Math.min(w, txt.length * 0.072 + 0.30);
+  const h = 0.30;
+  const pw = Math.min(w, txt.length * 0.078 + 0.34);
   if(!dry){
-    slide.addShape('roundRect', {x:x, y:y, w:pw, h:h, rectRadius:0.14,
+    slide.addShape('roundRect', {x:x, y:y, w:pw, h:h, rectRadius:0.15,
       fill:{color:bg}, line:{color:bg, width:0.5}});
-    slide.addText(txt, {x:x, y:y, w:pw, h:h, fontSize:9, bold:true, color:color,
+    slide.addText(txt, {x:x, y:y, w:pw, h:h, fontSize:9.5, bold:true, color:color,
       align:'center', valign:'middle', charSpacing:1.2, fontFace:FONT});
   }
   return h;
 }
 
-/* ---- rule ---- */
 function renderRule(slide, el, x, y, w, dry){
-  const h = 0.09;
+  const h = 0.10;
   if(!dry){
-    slide.addShape('roundRect', {x:x, y:y + 0.02, w:0.78, h:0.05, rectRadius:0.03,
+    slide.addShape('roundRect', {x:x, y:y + 0.02, w:0.85, h:0.055, rectRadius:0.03,
       fill:{color:C.brand}, line:{color:C.brand, width:0.5}});
   }
   return h;
 }
 
-/* ---- big divider number ---- */
 function renderBig(slide, el, x, y, w, dry){
   const txt = clean(el.textContent);
-  const h = 1.15;
-  if(!dry) slide.addText(txt, {x:x, y:y, w:w, h:h, fontSize:76, bold:true,
+  const h = 1.30;
+  if(!dry) slide.addText(txt, {x:x, y:y, w:w, h:h, fontSize:86, bold:true,
     color:C.brand, fontFace:FONT, valign:'middle'});
   return h;
 }
 
-/* ---- grid of cards / stats / vcards ---- */
 function renderGrid(slide, el, x, y, w, dry){
   const cl = el.classList;
   let cols = 2;
@@ -2663,14 +2725,14 @@ function renderGrid(slide, el, x, y, w, dry){
   if(!items.length) return 0;
   cols = Math.min(cols, items.length);
 
-  const gap = 0.13;
+  const gap = 0.15;
   const colW = (w - gap * (cols - 1)) / cols;
   let cy = y;
 
   for(let i = 0; i < items.length; i += cols){
     const row = items.slice(i, i + cols);
     const hs = row.map(it => renderBlock(slide, it, 0, 0, colW, true));
-    const rowH = Math.max.apply(null, hs.concat([0.30]));
+    const rowH = Math.max.apply(null, hs.concat([0.34]));
 
     if(!dry){
       row.forEach((it, j) => {
@@ -2682,30 +2744,28 @@ function renderGrid(slide, el, x, y, w, dry){
   return cy - y - gap;
 }
 
-/* ---- card ---- */
 function renderCard(slide, el, x, y, w, dry){
-  const pad = 0.14;
+  const pad = 0.16;
   const innerW = w - pad * 2;
   const kids = [...el.children].filter(c => c.nodeType === 1);
   const tint = el.classList.contains('tint');
 
-  const contentH = kids.length ? stackHeight(slide, kids, innerW, 0.07) : 0.1;
+  const contentH = kids.length ? stackHeight(slide, kids, innerW, 0.08) : 0.1;
   const h = contentH + pad * 2;
 
   if(!dry){
-    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.07,
+    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.08,
       fill:{color: tint ? C.surface2 : C.surface},
       line:{color:C.line, width:0.75}});
     let cy = y + pad;
     kids.forEach((k, i) => {
       const kh = renderBlock(slide, k, x + pad, cy, innerW, false);
-      cy += kh + (i < kids.length - 1 ? 0.07 : 0);
+      cy += kh + (i < kids.length - 1 ? 0.08 : 0);
     });
   }
   return h;
 }
 
-/* ---- callout ---- */
 function renderCallout(slide, el, x, y, w, dry){
   let accent = C.brand, bg = C.brandSoft;
   if(el.classList.contains('warn')){ accent = C.warn; bg = C.warnSoft; }
@@ -2713,18 +2773,18 @@ function renderCallout(slide, el, x, y, w, dry){
   else if(el.classList.contains('ok')){ accent = C.ok; bg = C.okSoft; }
   else if(el.classList.contains('violet')){ accent = C.violet; bg = C.violetSoft; }
 
-  const pad = 0.13;
-  const innerW = w - pad - 0.20;
+  const pad = 0.14;
+  const innerW = w - pad - 0.22;
   const txt = clean(el.textContent);
   if(!txt) return 0;
 
-  const fs = 11.5;
+  const fs = 12.5;
   const lines = estLines(txt, fs, innerW);
   const h = lines * fs * 1.34 / 72 + pad * 2;
 
   if(!dry){
     slide.addShape('rect', {x:x, y:y, w:w, h:h, fill:{color:bg}, line:{color:bg, width:0.25}});
-    slide.addShape('rect', {x:x, y:y, w:0.05, h:h, fill:{color:accent}, line:{color:accent, width:0.25}});
+    slide.addShape('rect', {x:x, y:y, w:0.055, h:h, fill:{color:accent}, line:{color:accent, width:0.25}});
     const runs = inlineRuns(el, {fontSize:fs, color:C.ink, fontFace:FONT});
     slide.addText(runs.length ? runs : txt,
       {x:x + pad + 0.06, y:y + pad, w:innerW, h:h - pad * 2,
@@ -2733,7 +2793,6 @@ function renderCallout(slide, el, x, y, w, dry){
   return h;
 }
 
-/* ---- table ---- */
 function renderTable(slide, tbl, x, y, w, dry){
   if(!tbl) return 0;
   const trs = [...tbl.querySelectorAll('tr')];
@@ -2752,8 +2811,8 @@ function renderTable(slide, tbl, x, y, w, dry){
 
     const rowData = cells.map(td => {
       const txt = clean(td.textContent);
-      const fs = isHead ? 9 : 10.5;
-      maxLines = Math.max(maxLines, estLines(txt, fs, colW - 0.18));
+      const fs = isHead ? 10 : 11.5;
+      maxLines = Math.max(maxLines, estLines(txt, fs, colW - 0.20));
       return {
         text: isHead ? txt.toUpperCase() : txt,
         options: {
@@ -2763,12 +2822,12 @@ function renderTable(slide, tbl, x, y, w, dry){
           fill: {color: isHead ? C.brand : (ri % 2 ? C.surface2 : C.surface)},
           valign: 'middle',
           fontFace: FONT,
-          margin: 0.05
+          margin: 0.06
         }
       };
     });
 
-    const rowH = maxLines * 10.5 * 1.30 / 72 + 0.13;
+    const rowH = maxLines * 11.5 * 1.30 / 72 + 0.15;
     rows.push({cells: rowData, h: rowH});
     totalH += rowH;
   });
@@ -2786,68 +2845,65 @@ function renderTable(slide, tbl, x, y, w, dry){
   return totalH;
 }
 
-/* ---- stat box ---- */
 function renderStat(slide, el, x, y, w, dry){
   const b = el.querySelector('b');
   const s = el.querySelector('span');
   const bt = b ? clean(b.textContent) : '';
   const st = s ? clean(s.textContent).toUpperCase() : '';
-  const h = 0.72;
+  const h = 0.80;
 
   if(!dry){
-    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.09,
+    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.10,
       fill:{color:C.surface}, line:{color:C.line, width:0.75}});
-    slide.addText(bt, {x:x + 0.05, y:y + 0.07, w:w - 0.10, h:0.34,
-      fontSize:18, bold:true, color:C.brand, align:'center', valign:'middle', fontFace:FONT});
-    slide.addText(st, {x:x + 0.05, y:y + 0.41, w:w - 0.10, h:0.23,
-      fontSize:7, bold:true, color:C.ink3, align:'center', valign:'middle',
+    slide.addText(bt, {x:x + 0.05, y:y + 0.08, w:w - 0.10, h:0.38,
+      fontSize:20, bold:true, color:C.brand, align:'center', valign:'middle', fontFace:FONT});
+    slide.addText(st, {x:x + 0.05, y:y + 0.46, w:w - 0.10, h:0.26,
+      fontSize:7.5, bold:true, color:C.ink3, align:'center', valign:'middle',
       charSpacing:0.8, fontFace:FONT});
   }
   return h;
 }
 
-/* ---- video card ---- */
 function renderVCard(slide, el, x, y, w, dry){
-  const h = 0.64;
+  const h = 0.72;
   const titleEl = el.querySelector('b');
   const subEl = el.querySelector('span:not(.go)');
   const title = titleEl ? clean(titleEl.textContent) : '';
   const sub = subEl ? clean(subEl.textContent) : '';
 
   if(!dry){
-    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.08,
+    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.09,
       fill:{color:C.surface}, line:{color:C.line, width:0.75}});
-    slide.addShape('roundRect', {x:x + 0.12, y:y + 0.13, w:0.38, h:0.38, rectRadius:0.10,
+    slide.addShape('roundRect', {x:x + 0.14, y:y + 0.15, w:0.42, h:0.42, rectRadius:0.11,
       fill:{color:C.brand}, line:{color:C.brand, width:0.5}});
-    slide.addText('▶', {x:x + 0.12, y:y + 0.13, w:0.38, h:0.38, fontSize:11,
+    slide.addText('▶', {x:x + 0.14, y:y + 0.15, w:0.42, h:0.42, fontSize:12,
       color:'FFFFFF', align:'center', valign:'middle'});
-    slide.addText(title, {x:x + 0.62, y:y + 0.10, w:w - 1.15, h:0.24,
-      fontSize:10.5, bold:true, color:C.ink, valign:'middle', fontFace:FONT});
-    slide.addText(sub, {x:x + 0.62, y:y + 0.34, w:w - 1.15, h:0.22,
-      fontSize:8.5, color:C.ink3, valign:'middle', fontFace:FONT});
-    slide.addText('→', {x:x + w - 0.45, y:y, w:0.34, h:h, fontSize:13, bold:true,
+    slide.addText(title, {x:x + 0.70, y:y + 0.12, w:w - 1.30, h:0.27,
+      fontSize:11.5, bold:true, color:C.ink, valign:'middle', fontFace:FONT});
+    slide.addText(sub, {x:x + 0.70, y:y + 0.39, w:w - 1.30, h:0.24,
+      fontSize:9, color:C.ink3, valign:'middle', fontFace:FONT});
+    slide.addText('→', {x:x + w - 0.50, y:y, w:0.38, h:h, fontSize:14, bold:true,
       color:C.brand, align:'center', valign:'middle'});
   }
   return h;
 }
 
-/* ---- pill row ---- */
 function renderPills(slide, el, x, y, w, dry){
   const pills = [...el.children].filter(c => c.nodeType === 1);
   if(!pills.length) return 0;
 
-  const H = 0.27, gapX = 0.08, gapY = 0.09;
+  const H = 0.30, gapX = 0.09, gapY = 0.10;
   let cx = x, cy = y;
 
   pills.forEach(p => {
     const t = clean(p.textContent);
-    const pw = Math.min(w, t.length * 0.062 + 0.26);
+    const pw = Math.min(w, t.length * 0.068 + 0.30);
     if(cx + pw > x + w + 0.001){ cx = x; cy += H + gapY; }
     if(!dry){
       const col = pillColor(p), bg = pillBg(p);
-      slide.addShape('roundRect', {x:cx, y:cy, w:pw, h:H, rectRadius:0.14,
+      slide.addShape('roundRect', {x:cx, y:cy, w:pw, h:H, rectRadius:0.15,
         fill:{color:bg}, line:{color:bg, width:0.5}});
-      slide.addText(t, {x:cx, y:cy, w:pw, h:H, fontSize:9, bold:true, color:col,
+      slide.addText(t, {x:cx, y:cy, w:pw, h:H, fontSize:10, bold:true, color:col,
         align:'center', valign:'middle', fontFace:FONT});
     }
     cx += pw + gapX;
@@ -2856,24 +2912,22 @@ function renderPills(slide, el, x, y, w, dry){
   return (cy + H) - y;
 }
 
-/* ---- reference pill ---- */
 function renderRefPill(slide, el, x, y, w, dry){
   const t = clean(el.textContent);
   if(!t) return 0;
-  const h = 0.27;
-  const pw = Math.min(w, t.length * 0.062 + 0.28);
+  const h = 0.30;
+  const pw = Math.min(w, t.length * 0.068 + 0.32);
   if(!dry){
-    slide.addShape('roundRect', {x:x, y:y, w:pw, h:h, rectRadius:0.07,
+    slide.addShape('roundRect', {x:x, y:y, w:pw, h:h, rectRadius:0.08,
       fill:{color:C.brandSoft}, line:{color:C.brand, width:0.75, dashType:'dash'}});
-    slide.addText(t, {x:x + 0.06, y:y, w:pw - 0.12, h:h, fontSize:8.5, bold:true,
+    slide.addText(t, {x:x + 0.07, y:y, w:pw - 0.14, h:h, fontSize:9.5, bold:true,
       color:C.brand, valign:'middle', fontFace:FONT});
   }
   return h;
 }
 
-/* ---- activity block ---- */
 function renderActivity(slide, el, x, y, w, dry){
-  const pad = 0.17;
+  const pad = 0.20;
   const innerW = w - pad * 2;
 
   const h3 = el.querySelector('h3');
@@ -2883,62 +2937,61 @@ function renderActivity(slide, el, x, y, w, dry){
   let listH = 0;
   if(list){
     [...list.children].forEach(li => {
-      listH += textH(clean(li.textContent), 11.5, innerW - 0.28) + 0.06;
+      listH += textH(clean(li.textContent), 12.5, innerW - 0.28) + 0.07;
     });
-    if(listH > 0) listH -= 0.06;
+    if(listH > 0) listH -= 0.07;
   }
 
   let contentH = 0;
-  if(h3) contentH += 0.34;
-  if(meta) contentH += 0.32;
+  if(h3) contentH += 0.38;
+  if(meta) contentH += 0.36;
   contentH += listH;
 
   const h = contentH + pad * 2;
 
   if(!dry){
-    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.09,
+    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.10,
       fill:{color:C.violetSoft}, line:{color:C.violet, width:1.25, dashType:'dash'}});
 
     let cy = y + pad;
 
     if(h3){
-      slide.addText(clean(h3.textContent), {x:x + pad, y:cy, w:innerW, h:0.32,
-        fontSize:14, bold:true, color:C.violet, valign:'middle', fontFace:FONT});
-      cy += 0.34;
+      slide.addText(clean(h3.textContent), {x:x + pad, y:cy, w:innerW, h:0.36,
+        fontSize:15.5, bold:true, color:C.violet, valign:'middle', fontFace:FONT});
+      cy += 0.38;
     }
 
     if(meta){
       const spans = [...meta.children].filter(s => s.nodeType === 1);
       const runs = spans.map(s => ({text: clean(s.textContent) + '    ',
-        options:{fontSize:8.5, bold:true, color:C.violet, fontFace:FONT}}));
-      slide.addShape('rect', {x:x + pad, y:cy, w:innerW, h:0.26,
+        options:{fontSize:9.5, bold:true, color:C.violet, fontFace:FONT}}));
+      slide.addShape('rect', {x:x + pad, y:cy, w:innerW, h:0.30,
         fill:{color:C.surface}, line:{color:C.surface, width:0.25}});
-      slide.addText(runs, {x:x + pad + 0.06, y:cy, w:innerW - 0.12, h:0.26,
-        valign:'middle', fontFace:FONT, fontSize:8.5});
-      cy += 0.32;
+      slide.addText(runs, {x:x + pad + 0.07, y:cy, w:innerW - 0.14, h:0.30,
+        valign:'middle', fontFace:FONT, fontSize:9.5});
+      cy += 0.36;
     }
 
     if(list && listH > 0){
       const isOl = list.tagName === 'OL';
       const paras = [];
       [...list.children].forEach(li => {
-        const runs = inlineRuns(li, {fontSize:11.5, color:C.ink2, fontFace:FONT});
+        const runs = inlineRuns(li, {fontSize:12.5, color:C.ink2, fontFace:FONT});
         if(!runs.length) return;
         runs[0].options.bullet = isOl ? {type:'number'} : {code:'2022'};
-        runs.forEach(r => { r.options.fontSize = 11.5; r.options.color = r.options.color || C.ink2; });
+        runs.forEach(r => { r.options.fontSize = 12.5; r.options.color = r.options.color || C.ink2; });
         runs[runs.length - 1].options.breakLine = true;
         paras.push(...runs);
       });
       if(paras.length){
         slide.addText(paras, {x:x + pad, y:cy, w:innerW, h:listH + 0.1,
-          valign:'top', fontFace:FONT, fontSize:11.5, color:C.ink2});
+          valign:'top', fontFace:FONT, fontSize:12.5, color:C.ink2});
       }
     }
   }
   return h;
 }
 
-/* ---- quiz ---- */
 function renderQuiz(slide, el, x, y, w, dry){
   const qs = [...el.querySelectorAll('.q')];
   const score = el.querySelector('.qscore');
@@ -2946,14 +2999,14 @@ function renderQuiz(slide, el, x, y, w, dry){
   let first = true;
 
   qs.forEach(q => {
-    if(!first) cy += 0.13;
+    if(!first) cy += 0.15;
     const h = renderQuestion(slide, q, x, cy, w, dry);
     cy += h;
     first = false;
   });
 
   if(score){
-    cy += 0.13;
+    cy += 0.15;
     const h = renderQScore(slide, score, x, cy, w, dry);
     cy += h;
   }
@@ -2961,97 +3014,97 @@ function renderQuiz(slide, el, x, y, w, dry){
 }
 
 function renderQuestion(slide, q, x, y, w, dry){
-  const pad = 0.14;
+  const pad = 0.16;
   const innerW = w - pad * 2;
 
   const qt = q.querySelector('.qtext');
   const qtext = qt ? clean(qt.textContent) : '';
-  const qH = textH(qtext, 12, innerW);
+  const qH = textH(qtext, 13, innerW);
 
   const opts = [...q.querySelectorAll('.opt')];
   const correct = q.dataset.a || '';
-  const optHeights = opts.map(o => textH(clean(o.textContent), 11, innerW - 0.28) + 0.16);
+  const optHeights = opts.map(o => textH(clean(o.textContent), 12, innerW - 0.30) + 0.18);
 
   const explain = q.querySelector('.explain');
   const expText = explain ? clean(explain.textContent) : '';
-  const expH = expText ? textH(expText, 10.5, innerW - 0.22) + 0.20 : 0;
+  const expH = expText ? textH(expText, 11.5, innerW - 0.24) + 0.22 : 0;
 
-  let contentH = qH + 0.10;
-  optHeights.forEach(oh => { contentH += oh + 0.06; });
-  if(expText) contentH += expH + 0.10;
+  let contentH = qH + 0.12;
+  optHeights.forEach(oh => { contentH += oh + 0.07; });
+  if(expText) contentH += expH + 0.11;
   const h = contentH + pad * 2;
 
   if(!dry){
-    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.08,
+    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.09,
       fill:{color:C.surface}, line:{color:C.line, width:0.75}});
 
     let cy = y + pad;
     slide.addText(qtext, {x:x + pad, y:cy, w:innerW, h:qH,
-      fontSize:12, bold:true, color:C.ink, valign:'top', fontFace:FONT});
-    cy += qH + 0.10;
+      fontSize:13, bold:true, color:C.ink, valign:'top', fontFace:FONT});
+    cy += qH + 0.12;
 
     opts.forEach((o, i) => {
       const oh = optHeights[i];
       const t = clean(o.textContent);
       const isC = o.dataset.k === correct;
-      slide.addShape('roundRect', {x:x + pad, y:cy, w:innerW, h:oh, rectRadius:0.05,
+      slide.addShape('roundRect', {x:x + pad, y:cy, w:innerW, h:oh, rectRadius:0.06,
         fill:{color: isC ? C.okSoft : C.surface2},
         line:{color: isC ? C.ok : C.line, width:0.75}});
-      slide.addText(t, {x:x + pad + 0.12, y:cy, w:innerW - 0.24, h:oh,
-        fontSize:11, color: isC ? C.ok : C.ink2, bold: isC,
+      slide.addText(t, {x:x + pad + 0.14, y:cy, w:innerW - 0.28, h:oh,
+        fontSize:12, color: isC ? C.ok : C.ink2, bold: isC,
         valign:'middle', fontFace:FONT});
-      cy += oh + 0.06;
+      cy += oh + 0.07;
     });
 
     if(expText){
       cy += 0.04;
       slide.addShape('rect', {x:x + pad, y:cy, w:innerW, h:expH,
         fill:{color:C.brandSoft}, line:{color:C.brandSoft, width:0.25}});
-      slide.addShape('rect', {x:x + pad, y:cy, w:0.04, h:expH,
+      slide.addShape('rect', {x:x + pad, y:cy, w:0.045, h:expH,
         fill:{color:C.brand}, line:{color:C.brand, width:0.25}});
-      slide.addText(expText, {x:x + pad + 0.12, y:cy + 0.06, w:innerW - 0.22, h:expH - 0.12,
-        fontSize:10.5, color:C.ink2, valign:'top', fontFace:FONT});
+      slide.addText(expText, {x:x + pad + 0.14, y:cy + 0.07, w:innerW - 0.24, h:expH - 0.14,
+        fontSize:11.5, color:C.ink2, valign:'top', fontFace:FONT});
     }
   }
   return h;
 }
 
 function renderQScore(slide, el, x, y, w, dry){
-  const h = 0.50;
+  const h = 0.56;
   const b = el.querySelector('b');
   const txt = b ? clean(b.textContent) : 'Score';
   const barEl = el.querySelector('.bar i');
   const pct = barEl ? (parseFloat(barEl.style.width) || 0) : 0;
 
   if(!dry){
-    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.08,
+    slide.addShape('roundRect', {x:x, y:y, w:w, h:h, rectRadius:0.09,
       fill:{color:C.surface}, line:{color:C.line, width:0.75}});
-    slide.addText(txt, {x:x + 0.16, y:y, w:2.2, h:h, fontSize:11, bold:true,
+    slide.addText(txt, {x:x + 0.18, y:y, w:2.4, h:h, fontSize:12, bold:true,
       color:C.brand, valign:'middle', fontFace:FONT});
-    slide.addShape('roundRect', {x:x + 2.5, y:y + 0.19, w:w - 2.80, h:0.12, rectRadius:0.06,
+    slide.addShape('roundRect', {x:x + 2.75, y:y + 0.22, w:w - 3.10, h:0.13, rectRadius:0.065,
       fill:{color:C.line}, line:{color:C.line, width:0.25}});
     if(pct > 0){
-      slide.addShape('roundRect', {x:x + 2.5, y:y + 0.19, w:(w - 2.80) * pct / 100, h:0.12,
-        rectRadius:0.06, fill:{color:C.brand}, line:{color:C.brand, width:0.25}});
+      slide.addShape('roundRect', {x:x + 2.75, y:y + 0.22, w:(w - 3.10) * pct / 100, h:0.13,
+        rectRadius:0.065, fill:{color:C.brand}, line:{color:C.brand, width:0.25}});
     }
   }
   return h;
 }
 
-/* ---- image (QR codes) ---- */
 function renderImg(slide, el, x, y, w, dry){
   const src = el.getAttribute('src');
   const data = src ? IMG_MAP.get(src) : null;
-  const size = Math.min(w, 2.10);
-  const h = data ? size : 2.10;
+  const requested = parseFloat(el.dataset.pptW) || 2.10;
+  const size = Math.min(w, requested);
+  const h = size;
 
   if(!dry){
     if(data){
       slide.addImage({data:data, x:x + (w - size) / 2, y:y, w:size, h:size});
     } else {
-      slide.addShape('rect', {x:x, y:y, w:w, h:h,
+      slide.addShape('rect', {x:x, y:y, w:size, h:size,
         fill:{color:C.surface2}, line:{color:C.line, width:0.75, dashType:'dash'}});
-      slide.addText('QR CODE', {x:x, y:y, w:w, h:h, fontSize:12, bold:true,
+      slide.addText('QR CODE', {x:x, y:y, w:size, h:size, fontSize:12, bold:true,
         color:C.ink3, align:'center', valign:'middle', fontFace:FONT});
     }
   }
@@ -3064,56 +3117,53 @@ function renderImg(slide, el, x, y, w, dry){
 function drawHeader(slide, kickerEl, titleEl, modText, cont){
   slide.background = {color:C.surface};
 
-  /* header band */
-  slide.addShape('rect', {x:0, y:0, w:SW, h:0.88,
+  slide.addShape('rect', {x:0, y:0, w:SW, h:1.02,
     fill:{color:C.surface2}, line:{color:C.surface2, width:0.25}});
-  slide.addShape('rect', {x:0, y:0.88, w:SW, h:0.05,
+  slide.addShape('rect', {x:0, y:1.02, w:SW, h:0.05,
     fill:{color:C.brand}, line:{color:C.brand, width:0.25}});
 
   const kickerTxt = kickerEl ? clean(kickerEl.textContent).toUpperCase() : '';
   if(kickerTxt){
-    slide.addText(kickerTxt, {x:MX, y:0.09, w:6.4, h:0.24,
-      fontSize:8.5, bold:true, color:C.brand, charSpacing:1.3,
+    slide.addText(kickerTxt, {x:MX, y:0.10, w:7.4, h:0.26,
+      fontSize:9.5, bold:true, color:C.brand, charSpacing:1.3,
       valign:'middle', fontFace:FONT});
   }
   const titleTxt = (titleEl ? clean(titleEl.textContent) : '') + (cont ? '  (cont.)' : '');
-  slide.addText(titleTxt, {x:MX, y:0.31, w:7.6, h:0.50,
-    fontSize:18, bold:true, color:C.ink, valign:'middle', fontFace:FONT});
+  slide.addText(titleTxt, {x:MX, y:0.36, w:8.8, h:0.58,
+    fontSize:20, bold:true, color:C.ink, valign:'middle', fontFace:FONT});
 
   if(modText){
-    slide.addText(modText.toUpperCase(), {x:6.9, y:0.12, w:2.65, h:0.24,
-      fontSize:7.5, bold:true, color:C.ink3, align:'right', valign:'middle',
+    slide.addText(modText.toUpperCase(), {x:8.0, y:0.14, w:3.14, h:0.26,
+      fontSize:8, bold:true, color:C.ink3, align:'right', valign:'middle',
       charSpacing:1, fontFace:FONT});
   }
 
-  /* footer */
-  slide.addShape('rect', {x:0, y:SH - 0.30, w:SW, h:0.30,
+  slide.addShape('rect', {x:0, y:SH - 0.34, w:SW, h:0.34,
     fill:{color:C.surface2}, line:{color:C.surface2, width:0.25}});
   slide.addText('Basic Microbiology — QC Yearly Training Plan 2026  |  Prepared by Muhammad Firdaus Abdullah',
-    {x:MX, y:SH - 0.30, w:7.4, h:0.30, fontSize:7.5, color:C.ink3,
+    {x:MX, y:SH - 0.34, w:8.7, h:0.34, fontSize:8, color:C.ink3,
      valign:'middle', fontFace:FONT});
   slide.addText(String(SLIDE_NO) + ' / ' + SLIDES.length,
-    {x:SW - 1.35, y:SH - 0.30, w:0.9, h:0.30, fontSize:7.5, color:C.ink3,
+    {x:SW - 1.55, y:SH - 0.34, w:1.0, h:0.34, fontSize:8, color:C.ink3,
      align:'right', valign:'middle', fontFace:FONT});
 }
 
-/* ---- divider slide (title / module opener / thank-you) ---- */
 function renderDividerSlide(pptx, sec, data){
   const slide = pptx.addSlide();
   SLIDE_NO++;
   slide.background = {color:C.surface};
 
-  slide.addShape('rect', {x:0, y:0, w:0.16, h:SH,
+  slide.addShape('rect', {x:0, y:0, w:0.18, h:SH,
     fill:{color:C.brand}, line:{color:C.brand, width:0.25}});
-  slide.addShape('rect', {x:0, y:0, w:SW, h:0.10,
+  slide.addShape('rect', {x:0, y:0, w:SW, h:0.12,
     fill:{color:C.brandSoft}, line:{color:C.brandSoft, width:0.25}});
 
   const divider = sec.querySelector('.divider') || sec;
   const kids = [...divider.children].filter(c => c.nodeType === 1);
 
-  const W = 8.5;
-  const X = 0.85;
-  const gap = 0.14;
+  const W = 9.6;
+  const X = 1.10;
+  const gap = 0.16;
 
   let total = 0;
   kids.forEach((k, i) => {
@@ -3121,20 +3171,19 @@ function renderDividerSlide(pptx, sec, data){
     if(i < kids.length - 1) total += gap;
   });
 
-  let cy = Math.max(0.55, (SH - total) / 2);
+  let cy = Math.max(0.70, (SH - total) / 2);
   kids.forEach((k, i) => {
     const h = renderBlock(slide, k, X, cy, W, false);
     cy += h + (i < kids.length - 1 ? gap : 0);
   });
 
   slide.addText('QC Yearly Training Plan 2026  ·  Basic Microbiology',
-    {x:0.85, y:SH - 0.42, w:8.5, h:0.26, fontSize:8, color:C.ink3,
+    {x:1.10, y:SH - 0.48, w:9.6, h:0.30, fontSize:9, color:C.ink3,
      valign:'middle', fontFace:FONT});
 
   return slide;
 }
 
-/* ---- normal content slide (with overflow continuation) ---- */
 function renderContentSlide(pptx, sec, data){
   const kids = [...sec.children].filter(c => c.nodeType === 1);
   const kicker = kids.find(c => c.classList && c.classList.contains('kicker'));
@@ -3164,7 +3213,7 @@ function renderContentSlide(pptx, sec, data){
       startPage();
     }
     renderBlock(slide, b, MX, cy, CW, false);
-    cy += h + 0.14;
+    cy += h + 0.16;
   });
 }
 
@@ -3198,7 +3247,7 @@ async function preloadImages(){
 }
 
 /* =========================================================
-   EXPORT HANDLER
+   EXPORT HANDLER — A4 LANDSCAPE
    ========================================================= */
 dlBtn.addEventListener('click', async e => {
   e.stopPropagation();
@@ -3215,7 +3264,11 @@ dlBtn.addEventListener('click', async e => {
     IMG_MAP = await preloadImages();
 
     const pptx = new PptxGenJS();
-    pptx.layout = 'LAYOUT_16x9';
+
+    /* A4 landscape: 297 mm × 210 mm = 11.69" × 8.27" */
+    pptx.defineLayout({name:'A4_LANDSCAPE', width:11.69, height:8.27});
+    pptx.layout = 'A4_LANDSCAPE';
+
     pptx.author = 'Muhammad Firdaus Abdullah';
     pptx.company = 'QC Yearly Training Plan 2026';
     pptx.title = 'Basic Microbiology — QC Yearly Training Plan 2026';
@@ -3233,8 +3286,8 @@ dlBtn.addEventListener('click', async e => {
       }
     });
 
-    await pptx.writeFile({fileName: 'Basic-Microbiology-QC-Training-2026.pptx'});
-    showToast('✅ PowerPoint downloaded successfully!');
+    await pptx.writeFile({fileName: 'Basic-Microbiology-QC-Training-2026-A4.pptx'});
+    showToast('✅ PowerPoint (A4 landscape) downloaded!');
   }catch(err){
     console.error(err);
     showToast('⚠ Failed to generate PowerPoint: ' + err.message);
